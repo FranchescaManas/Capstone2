@@ -1,0 +1,28 @@
+:root {
+    --red: #BC2605; 
+    --gray:  #CACACA;
+    --button-red: #CA0000;
+    --text-gray: #797979;
+    
+}
+
+body{
+    width: 100%;
+    height: 100vh;
+}
+
+.navbar{
+    background-color: var(--red);
+    
+}
+
+.navbar-brand{
+    color: white !important;
+}
+
+button{
+    background-color: var(--button-red);
+    color: white;
+    
+}
+
