@@ -1,22 +1,39 @@
+<nav class="sidebar background-shade">
+    <div class="row">
+        <div class="col-2" >
+            <img src="../assets/images/logo.png" alt="SBCA logo" width="45px">
+        </div>
+        <div class="col-10">
+            <h4 style="padding-left: 5px;">San Beda College Alabang</h4>
+        </div>
+    </div>
 
-<nav class="navmenubar">
+    <ul>
+        <li class="sidebar-item">
+            <a href="./faculty-home.php?page=dashboard">Dashboard</a>
+        </li>
+        <li class="sidebar-item">
+            <a href="./faculty-home.php?page=classroom">Classroom Observation</a>
+        </li>
+        <li class="sidebar-item">
+            <a href="./faculty-home.php?page=performance">Performance Appraisal</a>
+        </li>
+        <li class="sidebar-item">
+            <a href="./faculty-home.php?page=feedback">Student Feedback</a>
+        </li>
+        <li class="sidebar-item">
+            <a href="./faculty-home.php?page=certification">Certificates</a>
+        </li>
+        <li class="sidebar-item">
+            <a href="./faculty-home.php?page=forms">Forms</a>
+        </li>
+    </ul>
 
-<div class="d-flex p-2 bd-highlight">
-    <img src="../assets/images/logo.png" alt="" width=55 height=55>
-    <h4 style='margin-left: 15px'>San Beda College Alabang</h4>
-</div>   
-<div class="d-flex flex-column p-2 bd-highlight">
-    <a href="./faculty-home.php?page=dashboard">Dashboard</a>
-    <a href="./faculty-home.php?page=classroom">Classroom Observation</a>
-    <a href="">Performance Appraisal</a>
-    <a href="">Student Feedback</a>
-    <a href="">Certificates</a>
-    <a href="">Forms</a>
-</div>
-<div class="user-container d-flex justify-content-center align-items-center flex-column mt-auto p-2 bd-highlight">
-    <img src="../assets/images/user.jpg" alt="" width=50 height=50>
-    <p>{{John Smith}}</p>
-    <p>{{Faculty}}</p>
-    <button class="button">Log out</button>
-</div>
+    <div class="account-details d-flex flex-column justify-content-center align-items-center">
+        <img class="user-profile my-2" src="../assets/images/user.jpg" 
+            alt="user-profile" width="40px">
+        <h6>{{John Doe}}</h6>
+        <small>{{Faculty}}</small>
+        <button type="submit" class="rounded-pill py-1">Log out</button>
+    </div>
 </nav>
