@@ -1,6 +1,6 @@
 <main class="d-flex" style="width: 100%;">
     <div class="page-container">
-        <div class="d-flex justify-content-start page-title">
+        <div class="page-title d-flex justify-content-start">
             <h2>Classroom Observation</h2>
             <select name="observation-role" id="observation-role" class="my-2">
                 <option value="Dean">Dean</option>
@@ -8,19 +8,19 @@
             </select>
         </div>
         <div class="d-flex flex-wrap justify-content-between">
-            <div class="score-container">
+            <div class="score-card">
                 <h1>4</h1>
                 <p>Quality</p>
             </div>
-            <div class="score-container">
+            <div class="score-card">
                 <h1>4</h1>
                 <p>Quality</p>
             </div>
-            <div class="score-container">
+            <div class="score-card">
                 <h1>4</h1>
                 <p>Quality</p>
             </div>
-            <div class="score-container">
+            <div class="score-card">
                 <h1>4</h1>
                 <p>Quality</p>
             </div>

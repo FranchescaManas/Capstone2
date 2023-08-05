@@ -25,7 +25,7 @@
 </head>
 <body class='d-flex flex-row'>
     <aside>
-        <?php include './faculty-navmenubar.php';?>
+        <?php include './admin-navmenubar.php';?>
     </aside>
     <?php 
     // logic to switch pages
@@ -35,7 +35,7 @@
         $page = $_GET['page'];
     }
     
-    include './faculty-'.$page.'.php';
+    include './admin-'.$page.'.php';
     ?>
     
     
