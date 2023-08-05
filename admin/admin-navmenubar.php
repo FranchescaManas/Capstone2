@@ -10,17 +10,17 @@
 
     <ul>
         <li class="sidebar-item">
-            <a href="./admin-home.php?page=dashboard">Dashboard</a>
+            <a href="./index.php?page=dashboard">Dashboard</a>
         </li>
         <li class="sidebar-item">
-            <a href="./admin-home.php?page=faculty">Faculty Members</a>
+            <a href="./index.php?page=faculty">Faculty Members</a>
         </li>
         <li class="sidebar-item">
-            <a href="./admin-home.php?page=students">Students</a>
+            <a href="./index.php?page=students">Students</a>
         </li>
         </li>
         <li class="sidebar-item">
-            <a href="./admin-home.php?page=forms">Forms</a>
+            <a href="./index.php?page=forms">Forms</a>
         </li>
     </ul>
 

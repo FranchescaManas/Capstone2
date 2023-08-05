@@ -17,7 +17,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(190, 190, 190, 0.45); /* Gray color with 0.6 opacity */
+            background-color: rgba(223, 222, 222, 0.73); /* Gray color with 0.6 opacity */
             z-index: -1;
         }
 

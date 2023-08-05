@@ -1,6 +1,6 @@
 <main class="d-flex" style="width: 100%;">
     <div class="page-container">
-        <div class="page-title d-flex justify-content-start">
+        <div class="page-title flex-start">
             <h2>Classroom Observation</h2>
             <select name="observation-role" id="observation-role" class="my-2">
                 <option value="Dean">Dean</option>

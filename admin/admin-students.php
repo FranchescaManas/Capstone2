@@ -1,7 +1,7 @@
 <main class="d-flex w-100">
     <section class="page-container w-100">
         <header class="page-title flex-start">
-            <h2>Faculty Members</h2>
+            <h2>Students</h2>
         </header>
 
         <section class="flex-center flex-wrap w-100">
