@@ -1,0 +1,33 @@
+:root{
+    --container-bg: #F2F2F2;
+    --container-w: 80%;
+}
+
+#form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10vh;
+}
+
+
+.form-title{
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.form-title input[type="text"]{
+    background-color: transparent;
+    border-bottom: 1px solid black;
+    width: 80%;
+    margin: 15px !important;
+}
+
+.field-group{
+    background-color: var(--container-bg);
+    width: var(--container-w);
+    border: 1px solid rgb(177, 177, 177);
+    border-radius: 10px;
+}
