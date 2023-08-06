@@ -1,4 +1,5 @@
 <!-- LOGIN PAGE FOR ALL USERS -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,21 +16,27 @@
     include './shared/navbar.php';
     ?>
     <!-- LOGIN FORM -->
-    <div class="container" id="login-container">
+    <div class="container text-center" id="login-container">
+
         <div class="d-flex justify-content-center mb-3">
+
             <img src="assets\images\logo.png" alt="SBCA logo" width="30px" height="35px" class="mx-2">
             <h4>San Beda College Alabang</h4>
+
         </div>
 
-        
-        <form action="" method="post" class="d-flex flex-column" id="login-form">
+        <form action="" method="post" class="d-flex flex-column text-start" id="login-form">
+
             <label for="username">Username</label>
             <input type="text" name="username" id="" class="rounded-pill border border-secondary">
             <label for="password">Password</label>
             <input type="password" name="password" id="" class="rounded-pill border border-secondary">
 
-            <button type="submit" class="rounded-pill">Log In</button>
+            <button type="submit" class="rounded-pill" name="btn_login">Log In</button>
+
         </form>
+        
+        <?php include './login.php'; ?>
        
     </div>
 
