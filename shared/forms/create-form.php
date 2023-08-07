@@ -31,9 +31,34 @@
     <main >
 
         <form action="" id="form">
-            <div class="field-group form-title">
-                <label for="form-title">Form Title:</label>
-                <input type="text" name="form-title" id="">
+
+            <header class="field-group form-title">
+                    <label for="form-title">Form Title:</label>
+                    <input type="text" name="form-title" id="">  
+            </header>
+
+            <div class="field-group ">
+                <section class="w-100 ">
+                    <input type="text" class="field-question rounded" placeholder="Question">
+                    <select name="field-option" class="field-option rounded">
+                        <option value="short-paragraph">Short Paragraph</option>
+                        <option value="linear">Linear Scale</option>
+                        <option value="dropdown">Dropdown</option>
+                        <option value="section">Section</option>
+                        <option value="table">Table</option>
+                        <option value="date">Date</option>
+                        <option value="time">Time</option>
+                    </select>
+                </section>
+                <section class="form-options w-100 my-1">
+                    <a href="#">
+                        <small>
+                             Add option or <u>import from excel</u>
+                        </small>
+                    </a>
+
+                </section>
+                
             </div>
         </form>
 

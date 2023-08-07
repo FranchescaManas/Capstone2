@@ -1,6 +1,6 @@
 :root{
     --container-bg: #F2F2F2;
-    --container-w: 80%;
+    --container-w: 70%;
 }
 
 #form{
@@ -12,14 +12,18 @@
 
 
 .form-title{
-    padding: 15px;
+    padding: 10px !important;
     text-align: center;
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight:500;
+    justify-content: center !important;
+    margin-bottom: 15vh;
+    flex-direction: row !important;
 }
 
 .form-title input[type="text"]{
     background-color: transparent;
+    border: none;
     border-bottom: 1px solid black;
     width: 80%;
     margin: 15px !important;
@@ -30,4 +34,24 @@
     width: var(--container-w);
     border: 1px solid rgb(177, 177, 177);
     border-radius: 10px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 15px 30px;
+    flex-direction: column;
 }
+
+.field-question{
+    width: 70%;
+    min-height: 25px;
+    height: fit-content;
+    /* margin: auto 25px !important; */
+}
+
+select.field-option{
+    width: 25% !important;
+    height: 35px !important;
+    padding: 5px 15px !important;
+    border: 1px solid rgb(177, 177, 177);
+}
+
