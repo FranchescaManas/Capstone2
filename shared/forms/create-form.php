@@ -6,6 +6,9 @@
     <title>Create Form</title>
     <link rel="stylesheet" href="../css/forms.css">
     <link rel="stylesheet" href="../css/components.css">
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <!-- fontawesome cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
      <!-- Bootstrap css cdn -->
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -30,47 +33,81 @@
 
     <main >
 
-        <form action="" id="form">
+        <form action="javascript:void(0);" id="form">
 
             <header class="field-group form-title">
-                    <label for="form-title">Form Title:</label>
-                    <input type="text" name="form-title" id="">  
+                <label for="form-title">Form Title:</label>
+                <input type="text" name="form-title" id="">  
             </header>
-            <aside class="form-group-add">
-                <a href="">
-                    <i class="fa-solid fa-plus fa-2xl"></i>
-                </a>
-            
+
+            <aside class="w-100">
+                <div class="form-group-add">
+                    <button id="add-btn">
+                        <i class="fa-solid fa-plus fa-lg"></i>
+                    </button>
+                    <button id="choice-btn">
+                    <i class="fa-regular fa-circle-dot fa-lg"></i>
+                    </button>
+                    <button id="text-btn">
+                        <i class="fa-solid fa-font fa-lg"></i>
+                    </button>
+                    <button id="date-btn">
+                        <i class="fa-regular fa-calendar-days"></i>
+                    </button>
+                    <button id="time-btn">
+                        <i class="fa-regular fa-clock fa-lg"></i>
+                    </button>
+                    <button id="page-btn">
+                        <i class="fa-regular fa-file fa-lg"></i>
+                    </button>
+                    <button id="section-btn">
+                        <i class="fa-solid fa-section fa-lg"></i>
+                    </button>
+                    
+                </div>
             </aside>
 
-            <div class="field-group ">
-                <section class="w-100 ">
-                    <input type="text" class="field-question rounded" placeholder="Question">
-                    <select name="field-option" class="field-option rounded">
-                        <option value="short-paragraph">Short Paragraph</option>
-                        <option value="linear">Linear Scale</option>
-                        <option value="dropdown">Dropdown</option>
-                        <option value="section">Section</option>
-                        <option value="table">Table</option>
-                        <option value="date">Date</option>
-                        <option value="time">Time</option>
-                    </select>
-                </section>
+            <div class="field-group">
                 <section class="form-options w-100 my-1">
-                    <a href="#" class="form-add-option">
-                        <small>
-                             Add option or <u>import from excel</u>
-                        </small>
-                    </a>
-
+                    <div class="d-flex w-100">
+                        <aside class="scale-range d-flex flex-row me-5">
+                            <select name="startselect" class="rounded" id="startselect">
+                                <option value="1">1</option>
+                                
+                            </select>
+                            <p> to </p>
+                            <select name="startselect" id="startselect">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </aside>
+                        <aside class="d-flex flex-column w-100 ml-3">
+                            <p>Scale Labels:</p>
+                            <div class="scale-options d-flex flex-column flex-wrap">
+                                <input type="text" class="scale-input w-25 mb-2" name="" id="" placeholder="placeholder">
+                            
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="statements mt-5">
+                        <p><u>Statements:</u></p>
+                        <input type="text" class="scale-input w-75 mb-1" placeholder="Enter scale statement">
+                    </div>
                 </section>
-                
             </div>
+
         </form>
+        
+
+    
 
     </main>
 
     <!-- bootstrap js cdn -->
+    <script src="../js/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 </body>
 </html>
