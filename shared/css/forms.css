@@ -55,3 +55,16 @@ select.field-option{
     border: 1px solid rgb(177, 177, 177);
 }
 
+.form-add-option{
+    color: #757575;
+    text-decoration: none;
+}
+.form-add-option:hover{
+    color: black;
+    text-decoration: none;
+}
+
+.form-group-add > a{
+    text-decoration: none;
+    color: black;
+}

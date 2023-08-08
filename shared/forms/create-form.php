@@ -36,6 +36,12 @@
                     <label for="form-title">Form Title:</label>
                     <input type="text" name="form-title" id="">  
             </header>
+            <aside class="form-group-add">
+                <a href="">
+                    <i class="fa-solid fa-plus fa-2xl"></i>
+                </a>
+            
+            </aside>
 
             <div class="field-group ">
                 <section class="w-100 ">
@@ -51,7 +57,7 @@
                     </select>
                 </section>
                 <section class="form-options w-100 my-1">
-                    <a href="#">
+                    <a href="#" class="form-add-option">
                         <small>
                              Add option or <u>import from excel</u>
                         </small>
