@@ -58,6 +58,7 @@ $(document).ready(function() {
 
    
     var fieldcounter = 1;
+    
     // Generates default formgroup/question box when the page first loads
     $('#form').append(generateFormFieldGroup());
 
@@ -78,10 +79,14 @@ $(document).ready(function() {
         // content change depending on the selected value of the question type dropdown
         if(selectedValue == 'choice'){
             // if multiple choice: create a section consisting a button for the user to add and customize the choices
-            var commentCode = '<section class="form-options w-100 my-1">';
+            var commentCode = '<section class="form-options w-100 my-1" id="form-options' + fieldGroupId +'">';
+            commentCode += '<div class="form-option-container" id="form-option-container';
+            commentCode += fieldGroupId + '"></div>';
             commentCode += '<a href="#" class="form-add-option">';
             commentCode += '<small> Add option or <u>import from excel</u></small>';
             commentCode += '</a></section>';
+            
+            var option_count = 0;
             
         }
         else if (selectedValue == 'date') {
@@ -149,7 +154,7 @@ $(document).ready(function() {
             commentCode += '</a>';
             commentCode += '</section>';
 
-            var statement_count = 1;
+            var statement_count = 0;
             
         }
         
@@ -168,7 +173,18 @@ $(document).ready(function() {
             $(this).closest('.field-group').find('#' + fieldGroupId + '.statements').append(added_statement);
 
         });
-
+        // creates scale statement inputs every time they click the 'add option' text
+        $('#form').on('click', '.form-add-option', function() {
+            // alert('lkfjslkd');
+            var added_option = '<input type="text" class="form-option-input w-75 mb-1" name="';
+            added_option += 'form_option_input_' + option_count++;
+            added_option += '" placeholder="Enter option ' + option_count + '">';
+            // var selector = '.form-options > #form-option-container' + $(this).closest('.field-group').attr('id');
+            $(this).closest('.field-group').find('#form-options' + fieldGroupId +' > .form-option-container').append(added_option);
+           
+           
+        });
+        
         
         // generates scale label text boxes depending on the number chosen from the end_scale
         $('#form').on('change', '.end_select', function() {

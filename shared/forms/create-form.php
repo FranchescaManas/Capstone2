@@ -66,40 +66,8 @@
                     
                 </div>
             </aside>
-
-            <div class="field-group">
-                <section class="form-options w-100 my-1">
-                    <div class="d-flex w-100">
-                        <aside class="scale-range d-flex flex-row me-5">
-                            <select name="startselect" class="rounded" id="startselect">
-                                <option value="1">1</option>
-                                
-                            </select>
-                            <p> to </p>
-                            <select name="startselect" id="startselect">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        </aside>
-                        <aside class="d-flex flex-column w-100 ml-3">
-                            <p>Scale Labels:</p>
-                            <div class="scale-options d-flex flex-column flex-wrap">
-                                <input type="text" class="scale-input w-25 mb-2" name="" id="" placeholder="placeholder">
-                            
-                            </div>
-                        </aside>
-                    </div>
-                    <div class="statements mt-5">
-                        <p><u>Statements:</u></p>
-                        <input type="text" class="scale-input w-75 mb-1" placeholder="Enter scale statement">
-                    </div>
-                </section>
-            </div>
-
         </form>
+        
         
 
     
