@@ -56,22 +56,28 @@ $(document).ready(function() {
         );
     }
 
-    
    
+    var fieldcounter = 1;
+    // Generates default formgroup/question box when the page first loads
+    $('#form').append(generateFormFieldGroup());
 
+    // generatese new form-group/question box when add button is clicked on the side bar
     $('#add-btn').click(function(){
         $('#form').append(generateFormFieldGroup());
     });
 
-    var fieldcounter = 1;
 
-    $('#form').append(generateFormFieldGroup());
-
+    // changes or add content in the form-group/question box each time the user changes the question type
     $('#form').on('change', '.field-option', function() {
+
+        // finds the id of the clicked field-group
         var fieldGroupId = $(this).closest('.field-group').attr('id');
+        // gets the value of the question type dropdown
         var selectedValue = $(this).val();
-            
+        
+        // content change depending on the selected value of the question type dropdown
         if(selectedValue == 'choice'){
+            // if multiple choice: create a section consisting a button for the user to add and customize the choices
             var commentCode = '<section class="form-options w-100 my-1">';
             commentCode += '<a href="#" class="form-add-option">';
             commentCode += '<small> Add option or <u>import from excel</u></small>';
@@ -79,7 +85,7 @@ $(document).ready(function() {
             
         }
         else if (selectedValue == 'date') {
-            
+            // if date: create a date type input
             var fieldname = "field-date" + fieldGroupId;
             var commentCode = '<section class="form-options w-100 my-1">';
             commentCode += '<input type="date" class="w-25 rounded" name="';
@@ -89,6 +95,7 @@ $(document).ready(function() {
             
         }
         else if (selectedValue == 'time') {
+            // if date: create a time type input
             var fieldname = "field-time" + fieldGroupId;
             var commentCode = '<section class="form-options w-100 my-1">';
             commentCode += '<input type="time" class="w-25 rounded" name="';
@@ -96,9 +103,21 @@ $(document).ready(function() {
             commentCode += '" id="">';
             commentCode += '</section>';
         }
+        else if (selectedValue == 'section') {
+            // if section: add 'field-section' in the class and 'field-section_GROUPID' to make the name unique for all generated sections
+            var replaceCode = '<input type="text" class="field-question field-section rounded" name="';
+            replaceCode += 'field-section_' + fieldGroupId + '" placeholder="Section Name">'
+            $($(this).closest('section')).find('.field-question').replaceWith(replaceCode);
+        }
+        else if (selectedValue == 'page') {
+            // if section: add 'field-page' in the class and 'field-page_GROUPID' to make the name unique for all generated pages
+            var replaceCode = '<input type="text" class="field-question field-page rounded" name="';
+            replaceCode += 'field-page_' + fieldGroupId + '" placeholder="Page" disabled>'
+            $($(this).closest('section')).find('.field-question').replaceWith(replaceCode);
+        }
         else if (selectedValue == 'scale') {
+            // if scale: creates a section that adds the needed input fields for customizing the scale
             var fieldname = "field-scale" + fieldGroupId;
-            
             var commentCode = '<section class="form-options w-100 my-1">';
             commentCode += '<div class="d-flex w-100">';
             commentCode += '<aside class="scale-range d-flex flex-row me-5">';
@@ -129,7 +148,8 @@ $(document).ready(function() {
             commentCode += '<small> Add option or <u>import from excel</u></small>';
             commentCode += '</a>';
             commentCode += '</section>';
-            
+
+            var statement_count = 1;
             
         }
         
@@ -139,13 +159,13 @@ $(document).ready(function() {
         
         // creates scale statement inputs every time they click the 'add statement' text
         $('#form').on('click', '.add-scale-statement', function() {
-
+            
+            // TODO: find the bug that sometimes duplicates generating scale statement input
             var added_statement = '<input type="text" class="scale-statement w-75 mb-1" id="';
-            added_statement += 'scale_statement';
+            added_statement += 'scale_statement_' + statement_count++;
             added_statement += '" placeholder="Enter scale statement">';
             
-            var statementsContainer = $(this).closest('.field-group').find('#' + fieldGroupId + '.statements').append(added_statement);
-            // statementsContainer.append(added_statement);
+            $(this).closest('.field-group').find('#' + fieldGroupId + '.statements').append(added_statement);
 
         });
 
