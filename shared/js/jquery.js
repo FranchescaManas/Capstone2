@@ -121,19 +121,36 @@ $(document).ready(function() {
             commentCode += '</div>';
             commentCode += '</aside>';
             commentCode += '</div>';
-            commentCode += '<div class="statements mt-5">';
+            commentCode += '<div class="statements mt-5" id="';
+            commentCode += fieldGroupId + '">';
             commentCode += '<p><u>Statements:</u></p>';
-            // commentCode += '<input type="text" class="scale-input w-75 mb-1" placeholder="Enter scale statement">';
-            commentCode += ' </div>';
+            commentCode += '</div>';
             commentCode += '<a href="javascript:void(0);" class="add-scale-statement">';
             commentCode += '<small> Add option or <u>import from excel</u></small>';
             commentCode += '</a>';
             commentCode += '</section>';
             
-            $($(this).closest('.field-group')).find('#' + fieldGroupId + '.form-options').replaceWith(commentCode);
             
         }
-           
+        
+        $($(this).closest('.field-group')).find('.form-options').remove();
+        $($(this).closest('.field-group')).append(commentCode);
+        // $($(this).closest('.field-group')).find('#' + fieldGroupId + '.form-options').replaceWith(commentCode);
+        
+        // creates scale statement inputs every time they click the 'add statement' text
+        $('#form').on('click', '.add-scale-statement', function() {
+
+            var added_statement = '<input type="text" class="scale-statement w-75 mb-1" id="';
+            added_statement += 'scale_statement';
+            added_statement += '" placeholder="Enter scale statement">';
+            
+            var statementsContainer = $(this).closest('.field-group').find('#' + fieldGroupId + '.statements').append(added_statement);
+            // statementsContainer.append(added_statement);
+
+        });
+
+        
+        // generates scale label text boxes depending on the number chosen from the end_scale
         $('#form').on('change', '.end_select', function() {
             var endSelectValue = parseInt($(this).val());
             var scaleOptions = '';
@@ -145,19 +162,9 @@ $(document).ready(function() {
             $(this).closest('.field-group').find('.scale-options').html(scaleOptions);
         });
 
-        $('#form').on('click', '.add-scale-statement', function() {
-            var statement_count = $(this).closest('.field-group').find('.scale-statement').length + 1;
     
-            var added_statement = '<input type="text" class="scale-statement w-75 mb-1" id="';
-            added_statement += 'scale_statement_' + statement_count;
-            added_statement += '" placeholder="Enter scale statement">';
-    
-            var statementsContainer = $(this).closest('.field-group').find('.statements');
-            statementsContainer.append(added_statement);
-        });
+
         
-        $($(this).closest('.field-group')).find('.form-options').remove();
-        $($(this).closest('.field-group')).append(commentCode);
        
     });
     
