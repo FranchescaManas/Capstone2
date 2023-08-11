@@ -1,9 +1,8 @@
 <?php
 
-echo "flakdjf";
 
 function logout(){
-    // session_destroy();
+    session_destroy();
     header('location: ../index.php');
 }
 
