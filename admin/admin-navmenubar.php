@@ -27,8 +27,8 @@
     <div class="account-details d-flex flex-column justify-content-center align-items-center">
         <img class="user-profile my-2" src="../assets/images/user.jpg" 
             alt="user-profile" width="40px">
-        <h6>{{John Doe}}</h6>
-        <small>{{Faculty}}</small>
+        <h6><?php echo getUsername(); ?></h6>
+        <small><?php echo getRole(); ?></small>
         <button type="submit" class="rounded-pill py-1">Log out</button>
     </div>
 </nav>

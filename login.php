@@ -1,5 +1,7 @@
 <?php
+session_start();
 require './shared/connection.php';
+
 
 function login($username, $password){
     $conn = connection();
@@ -13,10 +15,11 @@ function login($username, $password){
             if(password_verify($password, $user_row['password'])){
                 // TODO: ADD SESSION LATER
                 // session_start();
+                print_r($user_row);
 
-                $_SESSION['user_id'] = $user_row['id'];
+                $_SESSION['user_id'] = $user_row['user_id'];
                 $_SESSION['username'] = $user_row['username'];
-                $_SESSION['full_name'] = $user_row['first_name'] . " " . $user_row['last_name'];
+                $_SESSION['full_name'] = $user_row['firstname'] . " " . $user_row['lastname'];
                 $_SESSION['role'] = $user_row['role'];
 
                if($_SESSION['role'] == 'superadmin'){
@@ -29,7 +32,7 @@ function login($username, $password){
                     header('location: ./faculty');
                     exit;
                 }elseif($_SESSION['role'] == 'student'){
-                    header('location: student');
+                    header('location: ./student');
                     exit;
                 }else{
                     echo "<p class='text-danger'>An error has occured.</p>";

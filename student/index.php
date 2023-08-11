@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+include '../shared/shared-functions.php';
+// print_r($_SESSION);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

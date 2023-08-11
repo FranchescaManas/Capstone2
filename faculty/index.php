@@ -1,3 +1,12 @@
+<?php
+
+session_start();
+
+include '../shared/shared-functions.php';
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

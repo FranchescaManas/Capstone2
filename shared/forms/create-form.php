@@ -33,7 +33,7 @@
 
     <main >
 
-        <form action="javascript:void(0);" id="form">
+        <form action="javascript:void(0)" id="form" method="post">
 
             <header class="field-group form-title">
                 <label for="form-title">Form Title:</label>
@@ -42,30 +42,34 @@
 
             <aside class="w-100">
                 <div class="form-group-add">
-                    <button id="add-btn">
+                
+                    <button id="add-btn" type="button">
                         <i class="fa-solid fa-plus fa-lg"></i>
                     </button>
-                    <button id="choice-btn">
+                    <button id="choice-btn" type="button">
                     <i class="fa-regular fa-circle-dot fa-lg"></i>
                     </button>
-                    <button id="text-btn">
+                    <button id="text-btn" type="button">
                         <i class="fa-solid fa-font fa-lg"></i>
                     </button>
-                    <button id="date-btn">
+                    <button id="date-btn" type="button">
                         <i class="fa-regular fa-calendar-days"></i>
                     </button>
-                    <button id="time-btn">
+                    <button id="time-btn" type="button">
                         <i class="fa-regular fa-clock fa-lg"></i>
                     </button>
-                    <button id="page-btn">
+                    <button id="page-btn" type="button">
                         <i class="fa-regular fa-file fa-lg"></i>
                     </button>
-                    <button id="section-btn">
+                    <button id="section-btn" type="button">
                         <i class="fa-solid fa-section fa-lg"></i>
                     </button>
                     
                 </div>
             </aside>
+
+            <button id="form-submit" class="rounded">Submit</button>
+
         </form>
         
         
@@ -79,3 +83,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<!-- PARAGRAPH -->
+<!-- <div class="field-group" id="1">
+    <section class="w-100">
+        <input type="text" class="field-question field-paragraph rounded" 
+        name="field-paragraph_2" 
+        placeholder="Enter Question">
+
+        <select name="field-option" class="field-option rounded"></select>
+    </section>
+</div> -->
+

@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    function generateFormFieldGroup(selectedValue = 'short-paragraph') {
+    function generateFormFieldGroup(selectedValue = 'paragraph') {
         var formGroup = $('<div>', {
             class: 'field-group',
             id: fieldcounter++
@@ -28,7 +28,8 @@ $(document).ready(function () {
         );
 
         if (selectedValue === 'choice' || selectedValue === 'dropdown') {
-            appendChoiceOptions(formGroup);
+            appendChoiceOptions(formGroup, selectedValue);
+
         } else if (selectedValue === 'date' || selectedValue === 'time') {
             appendDateOrTimeInput(formGroup, selectedValue);
         } else if (selectedValue === 'section' || selectedValue === 'page' || selectedValue === 'paragraph') {
@@ -36,11 +37,24 @@ $(document).ready(function () {
         } else if (selectedValue === 'scale') {
             appendScaleOptions(formGroup);
         }
+        renameField(formGroup, selectedValue);
+
+
+        
 
         return formGroup;
     }
 
-    function appendChoiceOptions(formGroup) {
+    function renameField(formGroup, selectedValue){
+        var fieldID = formGroup.attr('id');
+        var fieldname = 'input-field-'+ selectedValue + '-'+ fieldID;
+        formGroup.find('.field-question').attr('name', fieldname);
+    }
+
+    function appendChoiceOptions(formGroup, selectedValue) {
+        renameField(formGroup, selectedValue);
+        formGroup.find('.field-question').attr('placeholder', 'Enter Question');
+
         var formOptions = $('<section>', {
             class: 'form-options w-100 my-1',
             id: 'form-options' + fieldcounter
@@ -58,19 +72,19 @@ $(document).ready(function () {
     }
 
     function appendDateOrTimeInput(formGroup, selectedValue) {
-        var fieldname = 'field-' + selectedValue + fieldcounter;
+        renameField(formGroup, selectedValue);
         var formOptions = $('<section>', { class: 'form-options w-100 my-1' });
         formOptions.append(
             $('<input>', {
                 type: selectedValue,
-                class: 'w-25 rounded',
-                name: fieldname
+                class: 'w-25 rounded'
             })
         );
         formGroup.append(formOptions);
     }
 
     function appendSectionOrPageInput(formGroup, selectedValue) {
+        renameField(formGroup, selectedValue);
         var inputElement;
         if (selectedValue === 'paragraph') {
             inputElement = $('<input>', {
@@ -94,7 +108,8 @@ $(document).ready(function () {
 
     function appendScaleOptions(formGroup) {
         var fieldGroupId = formGroup.attr('id'); // Get the fieldGroupId
-    
+        formGroup.find('.field-question').attr('placeholder', 'Enter Scale Category');
+        
         var formOptions = $('<section>', { class: 'form-options w-100 my-1' });
     
         var scaleContainer = $('<div>', { class: 'd-flex w-100' });
@@ -138,29 +153,39 @@ $(document).ready(function () {
     
         formGroup.append(formOptions);
     }
+
+    function adjustButton(){
+        var submit_btn = $('#form').find('#form-submit');
+        submit_btn.css('width', '70%');
+        $('#form').append(submit_btn);
+    }
     
 
     var fieldcounter = 1;
     var statement_count = 1;
     var option_count = 1;
+    var page_count = 1;
+    var section_count = 1;
 
     // Generates default formgroup/question box when the page first loads
     $('#form').append(generateFormFieldGroup('paragraph'));
+    adjustButton();
 
     $('#form').on('change', '.field-option', function () {
 
         $($(this).closest('.field-group')).find('.form-options').remove();
 
-        var fieldGroupId = $(this).closest('.field-group').attr('id');
+        // var fieldGroupId = $(this).closest('.field-group').attr('id');
         var selectedValue = $(this).val();
         var formGroup = $(this).closest('.field-group');
 
         if (selectedValue === 'choice' || selectedValue === 'dropdown') {
-            appendChoiceOptions(formGroup);
+            appendChoiceOptions(formGroup, selectedValue);
         } else if (selectedValue === 'date' || selectedValue === 'time') {
             appendDateOrTimeInput(formGroup, selectedValue);
         } else if (selectedValue === 'section' || selectedValue === 'page' || selectedValue === 'paragraph') {
             appendSectionOrPageInput(formGroup, selectedValue);
+            renameField(formGroup, selectedValue)
         } else if (selectedValue === 'scale') {
             appendScaleOptions(formGroup);
         }
@@ -168,29 +193,41 @@ $(document).ready(function () {
     });
 
 
-    // $('#form').append(creatform('default'));
-
     // generatese new form-group/question box when add button is clicked on the side bar
     $('#add-btn').click(function () {
         $('#form').append(generateFormFieldGroup('paragraph'));
+        adjustButton();
+
     });
     $('#choice-btn').click(function () {
         $('#form').append(generateFormFieldGroup('choice'));
+        adjustButton();
+
     });
     $('#date-btn').click(function () {
         $('#form').append(generateFormFieldGroup('date'));
+        adjustButton();
+
     });
     $('#time-btn').click(function () {
         $('#form').append(generateFormFieldGroup('time'));
+        adjustButton();
+
     });
     $('#page-btn').click(function () {
         $('#form').append(generateFormFieldGroup('page'));
+        adjustButton();
+
     });
     $('#section-btn').click(function () {
         $('#form').append(generateFormFieldGroup('section'));
+        adjustButton();
+
     });
     $('#text-btn').click(function () {
         $('#form').append(generateFormFieldGroup('paragraph'));
+        adjustButton();
+
     });
 
     // GENERATING OF INPUT FIELDS ON RESPECTIVE QUESTION TYPE FIELD-GROUP
@@ -230,9 +267,6 @@ $(document).ready(function () {
     //     // Find the statements container within the same field-group and append the input element
         $(this).closest('.form-options').find('.form-option-container').append(added_option);
     });
-    
-    
-
 
     // Uncommented code for adding form options
     $('#form').on('click', '.form-add-option', function () {
@@ -247,8 +281,6 @@ $(document).ready(function () {
     
         $('#' + fieldGroupId + ' .form-option-container').append(added_option);
     });
-    
-    
 
     // Uncommented code for generating scale label text boxes
     $('#form').on('change', '.end_select', function () {
@@ -262,9 +294,68 @@ $(document).ready(function () {
         $(this).closest('.field-group').find('.scale-options').html(scaleOptions);
     });
 
+    
+
+    // function submitFormData(formData) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: 'functions.php', // Change this to the correct path of your functions.php file
+    //         data: formData, // Serialized form data
+    //         success: function (response) {
+    //             // Process the response as needed
+    //             console.log(response);
+
+    //             // Redirect after successful form submission
+    //             // window.location.href = '../forms/functions.php'; // Change this to the desired location
+    //         },
+    //         error: function () {
+    //             console.log('An error occurred.');
+    //         }
+    //     });
+    // }
+
+    $('#form-submit').click(function (e) {
+        // e.preventDefault(); // Prevent the default form submission
+
+        // var formData = $('#form').serialize(); // Serialize the form data
+        // submitFormData(formData); // Call the function to submit form data via AJAX
 
 
+        $('.field-group').each(function() {
 
+            var selectedValue = $(this).find('.field-option').val();
+            var groupID = $(this).attr('id');
+            var fieldname = 'input-field-' + selectedValue + '-' + groupID;
+            // var question, type, options, order, page = null;
+            var option = null;
+            var section = null;
 
+            if(selectedValue == 'paragraph'){
+                var inputValue = $(this).find('.field-paragraph').val();
+            }
+            else if(selectedValue === 'section'){
+                var inputValue = $(this).find('.field-section').val()
+            }
+            else if(selectedValue === 'page'){
+                var inputValue = $(this).find('.field-page').val()
+            }else{
+                var inputValue = $(this).find('.field-question').val()
+            }
+            
+            var formData = {
+                sectionID : section,
+                question : inputValue,
+                type :selectedValue,
+                options : option,
+                order : groupID
+                // page :''
+                // insert page here
+            }
+            console.log(formData)
+        });
+    });
 
+    
 });
+
+    
