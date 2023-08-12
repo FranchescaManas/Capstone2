@@ -84,14 +84,4 @@
 </body>
 </html>
 
-<!-- PARAGRAPH -->
-<!-- <div class="field-group" id="1">
-    <section class="w-100">
-        <input type="text" class="field-question field-paragraph rounded" 
-        name="field-paragraph_2" 
-        placeholder="Enter Question">
-
-        <select name="field-option" class="field-option rounded"></select>
-    </section>
-</div> -->
 
