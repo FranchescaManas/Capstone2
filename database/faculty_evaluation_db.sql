@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2023 at 07:53 AM
+-- Generation Time: Aug 13, 2023 at 03:02 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -57,6 +57,13 @@ CREATE TABLE `form` (
   `form_type` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `form`
+--
+
+INSERT INTO `form` (`form_id`, `form_name`, `form_description`, `form_type`) VALUES
+(1, 'Faculty Evaluation Form', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur sint veniam fuga inventore tempora numquam omnis esse natus cupiditate, id rerum! Vel', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -68,6 +75,13 @@ CREATE TABLE `form_page` (
   `form_id` int(11) NOT NULL,
   `page_sequence` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `form_page`
+--
+
+INSERT INTO `form_page` (`page_id`, `form_id`, `page_sequence`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -91,12 +105,26 @@ CREATE TABLE `form_permission` (
 
 CREATE TABLE `form_question` (
   `question_id` int(11) NOT NULL,
-  `section_id` int(11) NOT NULL,
+  `section_id` int(11) DEFAULT NULL,
   `question_text` varchar(150) NOT NULL,
   `question_type` varchar(50) NOT NULL,
-  `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`options`)),
-  `question_order` int(11) NOT NULL
+  `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `question_order` int(11) NOT NULL,
+  `form_id` int(11) NOT NULL,
+  `page_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `form_question`
+--
+
+INSERT INTO `form_question` (`question_id`, `section_id`, `question_text`, `question_type`, `options`, `question_order`, `form_id`, `page_id`) VALUES
+(1, 1, 'sample paragraph question', 'paragraph', NULL, 3, 1, 1),
+(2, 1, 'Sample question choice', 'choice', '{\"option1\": \"Sample Choice 1\", \"option2\": \"Sample Choice 2\", \"option3\": \"Sample Choice 3\"}', 2, 1, 1),
+(3, 1, 'sample date', 'date', NULL, 1, 1, 1),
+(4, 2, 'time', 'time', NULL, 4, 1, 1),
+(5, 1, 'sample dropdown', 'dropdown', '{\"option1\": \"Sample dropdown 1\", \"option2\": \"Sample dropdown 2\", \"option3\": \"Sample dropdown 3\"}', 5, 1, 1),
+(6, 2, 'Sample scale ', 'scale', '{\r\n  \"scale-labels\": {\r\n    \"label1\": \"labeloption1\",\r\n    \"label2\": \"labeloption2\",\r\n    \"label3\": \"labeloption3\",\r\n    \"label4\": \"labeloption4\",\r\n    \"label5\": \"labeloption5\"\r\n  },\r\n  \"scale-statement\": {\r\n    \"statement1\": \"sample statement1\",\r\n    \"statement2\": \"sample statement2\",\r\n    \"sample3\": \"sample statement 3\"\r\n  }\r\n}\r\n', 6, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -110,6 +138,14 @@ CREATE TABLE `form_section` (
   `section_name` varchar(50) NOT NULL,
   `section_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `form_section`
+--
+
+INSERT INTO `form_section` (`section_id`, `form_id`, `section_name`, `section_order`) VALUES
+(1, 1, 'Sample Section 1', 1),
+(2, 1, 'Sample Section 2', 2);
 
 -- --------------------------------------------------------
 
@@ -224,13 +260,13 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `form`
 --
 ALTER TABLE `form`
-  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `form_page`
 --
 ALTER TABLE `form_page`
-  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `form_permission`
@@ -242,13 +278,13 @@ ALTER TABLE `form_permission`
 -- AUTO_INCREMENT for table `form_question`
 --
 ALTER TABLE `form_question`
-  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `form_section`
 --
 ALTER TABLE `form_section`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `superadmin`

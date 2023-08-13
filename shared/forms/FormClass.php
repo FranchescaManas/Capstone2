@@ -173,7 +173,7 @@ class Form{
                 <table class="scale-table">
                     <thead class="scale-thead">
                         <tr class="scale-tr">
-                            <th class="scale-th scale-statement">'.$formQuestion.'</th>';
+                            <th class="scale-th scale-statement fw-normal">'.strtoupper($formQuestion).'</th>';
         foreach ($data['scale-labels'] as $label) {
             echo '<th class="scale-th text-center">' . $label . '</th>';
         }
