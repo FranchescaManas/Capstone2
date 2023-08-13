@@ -9,15 +9,27 @@ class Form{
     public $formCount = 0;
 
     function getFormName(){
+        $this->conn = connection();
+
+        $sql = "SELECT form_name FROM form where form_id = 1";
+
+        if ($result = $this->conn->query($sql)) {
+            $row = $result->fetch_assoc();
+            $this->formName = $row['form_name'];
+        }
+        
+
         return $this->formName;
     }
+
+    
+
     function loadFormData()
     {
         $this->conn = connection();
     
         $sql = "SELECT
                 f.form_id,
-                f.form_name,
                 fq.question_id,
                 fq.question_text,
                 fq.question_type,
@@ -48,9 +60,9 @@ class Form{
     
     if ($result) {
         $currentSection = null;
+        $statementCount = 1; // Initialize the statement counter
 
         while ($row = $result->fetch_assoc()) {
-            $this->formName = $row['form_name'];
             $type = $row['question_type'];
 
             if ($row['section_id'] >= 1) {
@@ -67,6 +79,8 @@ class Form{
                     $this->dropdownFieldInput($row['question_text'], $row['options'], $row['question_id']);
                 } else if ($type == 'date' || $type == 'time') {
                     $this->dateTimeFieldInput($type, $row['question_text'], $row['question_id']);
+                }else if ($type === 'scale') {
+                    $this->scaleFieldInput($row['question_text'], $row['options'], $row['question_id'], $statementCount);
                 }
                 
 
@@ -99,7 +113,7 @@ class Form{
 
     function paragraphFieldInput($formQuestion, $questionID){
         echo '
-        <div class="form-response-group paragraph" id="'. $questionID.'">
+        <div class="form-response-group paragraph" id="'. $questionID.'" >
             <h6>'. $formQuestion. '</h6>
             <textarea name="field-response-paragraph-'. $questionID.'" class="response-paragraph w-100 mt-2" rows=8"></textarea>
         </div>
@@ -149,6 +163,40 @@ class Form{
         
         echo $html;
     }
+
+    function scaleFieldInput($formQuestion, $formOptions, $questionID, $statementCount){
+        $jsonData = $formOptions;
+        $data = json_decode($jsonData, true);
+    
+        echo '<div class="form-response-group" id="'.$questionID.'">
+            <div class="scale-container">
+                <table class="scale-table">
+                    <thead class="scale-thead">
+                        <tr class="scale-tr">
+                            <th class="scale-th scale-statement">'.$formQuestion.'</th>';
+        foreach ($data['scale-labels'] as $label) {
+            echo '<th class="scale-th text-center">' . $label . '</th>';
+        }
+        echo '</tr>
+                </thead>
+                <tbody class="scale-tbody">';
+        foreach ($data['scale-statement'] as $statement) {
+            echo '<tr class="scale-tr"> 
+                <td class="scale-td scale-statement">' . $statement . '</td>';
+            foreach ($data['scale-labels'] as $label) {
+                echo '<td class="scale-td">
+                        <input type="radio" name="field-response-scale-'.$statementCount.'" value="'.$label.'">
+                    </td>';
+            }
+            echo '</tr>';
+            $statementCount++;
+        }
+        echo '</tbody>
+            </table>
+        </div>
+        </div>';
+    }
+    
     
 
 }

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 ?>
 
@@ -11,13 +11,13 @@ session_start();
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/forms.css">
     <!-- jquery cdn -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>    <!-- bootstrap cdn -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>    bootstrap cdn
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
     <style>
         body::before {
             content: '';
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -38,8 +38,8 @@ session_start();
     $form = new Form;
     
     ?>
-    <header>
-        <h4 class="form-response-name" id="form-response-name">
+    <header class="form-response-body">
+        <h4 class="form-response-group text-center" id="form-response-name">
             <?php
             echo $form->getFormName();
             ?>
@@ -51,6 +51,8 @@ session_start();
             $form->loadFormData();
         ?>
 
+        
+
     </main>
 
 
@@ -59,5 +61,6 @@ session_start();
     <!-- bootstrap js cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="../js/response-form-jquery.js"></script>
+
 </body>
 </html>
