@@ -56,7 +56,7 @@ session_start();
 
         <div class="d-flex justify-content-center mb-3">
 
-            <h4>Evaluation Succesful</h4>
+            <h4>Evaluation Successful</h4>
             
         </div>
 
@@ -69,22 +69,15 @@ session_start();
             <button type="submit" class="rounded-pill" name="btn_login" style=
             "
                 font-weight: 500;
-                background-color: var(--button-red);
-                color: white;
-                border: none;
                 margin-top: 15px !important;
-                padding: 5px 0 !important;
-                width: 100%;
             ">Start Another</button>
              <button type="submit" class="rounded-pill" name="btn_login" style=
             "
                 font-weight: 500;
                 background-color: white;
                 color:  black;
-                border: none;
                 margin-top: 0 !important;
                 padding: 5px 0 !important;
-                width: 100%;
             ">Return to Dashboard</button>
 
         </div>
@@ -105,13 +98,3 @@ session_start();
 
 </body>
 </html>
-
-
-=======
-    <title>Document</title>
-</head>
-<body>
-    <h2>form done</h2>
-</body>
-</html>
->>>>>>> aa054d0125a322c50082cf8752dd5839cd8f281a
