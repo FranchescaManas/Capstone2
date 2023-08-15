@@ -1,4 +1,4 @@
-
+<?php include '../shared/forms/functions.php';?>
 <main class="d-flex w-100">
     <section class="page-container">
 
@@ -7,22 +7,9 @@
         </header>
 
         <section class="flex-center flex-column">
-            <div class="form-card">
-                <h4>{{form title}}</h4>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur sint veniam fuga inventore tempora numquam omnis esse natus cupiditate, id rerum! Vel dolore maiores quasi consequuntur. Rerum, aliquid praesentium itaque deserunt, deleniti temporibus libero corporis alias, beatae excepturi tenetur? Molestias.</p>
-
-                <div class="d-flex justify-content-end">
-                    <button class="red-btn small-btn rounded">View</button>
-                </div>
-            </div>
-            <div class="form-card">
-                <h4>{{form title}}</h4>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur sint veniam fuga inventore tempora numquam omnis esse natus cupiditate, id rerum! Vel dolore maiores quasi consequuntur. Rerum, aliquid praesentium itaque deserunt, deleniti temporibus libero corporis alias, beatae excepturi tenetur? Molestias.</p>
-
-                <div class="d-flex justify-content-end">
-                    <button class="red-btn small-btn rounded">View</button>
-                </div>
-            </div>
+            <?php
+                loadFormsGroup();
+            ?>
             
 
         </section>

@@ -41,15 +41,16 @@ session_start();
     <header class="form-response-body">
         <h4 class="form-response-group text-center" id="form-response-name">
             <?php
-            echo $form->getFormName();
+            echo $form->getFormName(1);
             ?>
         </h4>
     </header>
 
     <main class='form-response-body'>
         <?php
-            $form->loadFormData();
+            $form->loadFormData(1);
         ?>
+         <button id="response-submit" class="rounded">Submit</button>
 
         
 
@@ -59,8 +60,11 @@ session_start();
    
 
     <!-- bootstrap js cdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="../js/response-form-jquery.js"></script>
 
 </body>
 </html>
+
+

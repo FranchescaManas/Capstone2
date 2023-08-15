@@ -8,10 +8,20 @@ class Form{
 
     public $formCount = 0;
 
-    function getFormName(){
+    private $role; 
+
+    function setRole($role){
+        $this->role = $role;
+    }
+
+    function getRole(){
+        return $this->role;
+    }
+
+    function getFormName($formID){
         $this->conn = connection();
 
-        $sql = "SELECT form_name FROM form where form_id = 1";
+        $sql = "SELECT form_name FROM form where form_id = $formID";
 
         if ($result = $this->conn->query($sql)) {
             $row = $result->fetch_assoc();
@@ -24,7 +34,7 @@ class Form{
 
     
 
-    function loadFormData()
+    function loadFormData($formID)
     {
         $this->conn = connection();
     
@@ -49,7 +59,7 @@ class Form{
             LEFT JOIN
                 form_page fp ON fq.form_id = fp.form_id
             WHERE
-                fq.form_id = 1
+                fq.form_id = $formID
             ORDER BY
                 fp.page_sequence ASC,
                 fs.section_order ASC,
@@ -60,7 +70,7 @@ class Form{
     
     if ($result) {
         $currentSection = null;
-        $statementCount = 1; // Initialize the statement counter
+        $statementCount = 1;
 
         while ($row = $result->fetch_assoc()) {
             $type = $row['question_type'];
@@ -140,7 +150,7 @@ class Form{
 
     function dateTimeFieldInput($type, $formQuestion, $questionID){
         echo '
-        <div class="form-response-group" id="'. $questionID.'">
+        <div class="form-response-group '. $type .'" id="'. $questionID.'">
             <h6>' . $formQuestion .'</h6>
             <input type="'.$type.'" name="field-reponse-'.$type.'-'.$questionID.'" class="w-25">
         </div>
@@ -168,7 +178,7 @@ class Form{
         $jsonData = $formOptions;
         $data = json_decode($jsonData, true);
     
-        echo '<div class="form-response-group" id="'.$questionID.'">
+        echo '<div class="form-response-group scale" id="'.$questionID.'">
             <div class="scale-container">
                 <table class="scale-table">
                     <thead class="scale-thead">
