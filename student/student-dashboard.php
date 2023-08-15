@@ -10,11 +10,9 @@
 
             <div class="form-schedule-card">
 
-                <h3>Form Schedule</h3>
-                
                 <div class="form-schedule-row flex-row-between">
-                    <h6>{{Form Name}}</h6>
-                    <small>{{Date}}</small>
+                    <h6>Faculty</h6>
+                    <small>Status</small>
                 </div>
                 
             </div>
@@ -24,10 +22,10 @@
 
     </section>
     <summary class="summary-container d-flex flex-column">
-        <h1>SUMMARY</h1>
-        <div class="summary-score">
-            <h1>{{Score}}</h1>
-            <p>OVERALL RATING</p>
-        </div>
+        <h2>Evaluation Form</h2>
+            <p>Student Evaluation</p>
+            <p>The student-teacher evaluation form is an important tool that helps to improve the quality of education by providing students with a voice and enabling educators to make improvements based on feedback from their students.</p>
+            <form action="#" method="post" class="w-100">
+        </form>
     </summary>
 </main>
