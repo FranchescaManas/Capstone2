@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 <?php
 session_start();
 ?>
 
-=======
->>>>>>> aa054d0125a322c50082cf8752dd5839cd8f281a
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,13 +61,18 @@ session_start();
 
 
         <div>
-            <form action="" method="post" class="d-flex flex-column text-start" id="login-form">
+            <form action="form.php" method="post" class="d-flex flex-column text-start" id="login-form">
 
             <button type="submit" class="rounded-pill" name="btn_login" style=
             "
                 font-weight: 500;
                 margin-top: 15px !important;
             ">Start Another</button>
+            
+            </form>
+
+            <form action="student/index.php" method="post" class="d-flex flex-column text-start" id="login-form">
+
              <button type="submit" class="rounded-pill" name="btn_login" style=
             "
                 font-weight: 500;
@@ -80,13 +82,15 @@ session_start();
                 padding: 5px 0 !important;
             ">Return to Dashboard</button>
 
+            </form>
+
         </div>
 
 
 
 
 
-</form>
+
 
     </div>   
    
