@@ -1,12 +1,16 @@
+<<<<<<< HEAD
 <?php
 session_start();
 ?>
 
+=======
+>>>>>>> aa054d0125a322c50082cf8752dd5839cd8f281a
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Form</title>
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/forms.css">
@@ -103,3 +107,11 @@ session_start();
 </html>
 
 
+=======
+    <title>Document</title>
+</head>
+<body>
+    <h2>form done</h2>
+</body>
+</html>
+>>>>>>> aa054d0125a322c50082cf8752dd5839cd8f281a
