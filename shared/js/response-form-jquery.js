@@ -69,6 +69,25 @@ $(document).ready(function(){
         }
     
         console.log(JSON.stringify(formData));
+        $.ajax({
+            type: 'POST',
+            url: 'functions.php', // URL to your PHP script
+            data: { 
+                data: JSON.stringify(formData),
+                action: JSON.stringify({ 'action': 'insert', 'role': 'student' })
+            },
+            success: function(response) {
+                console.log(response);
+                // Handle the response from the server if needed
+                if(response === 'success'){
+                    window.location.href = '../forms/form-complete.php';
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                // Handle errors here
+            }
+        });
     });
     
     function getResponseValue(groupElement) {
@@ -102,51 +121,5 @@ $(document).ready(function(){
     
         return scaleResponses;
     }
-    
-    // function insertFormResponses($jsonData) {
-    //     $data = json_decode($jsonData, true);
-    
-    //     foreach ($data['sections'] as $section) {
-    //         $sectionId = $section['section_id'];
-            
-    //         foreach ($section['question'] as $question) {
-    //             $questionId = $question['question_id'];
-    //             $responseType = $question['question_type'];
-                
-    //             switch ($responseType) {
-    //                 case 'date':
-    //                     $responseValue = $question['response']['date_response'];
-    //                     break;
-    //                 case 'choice':
-    //                     $responseValue = $question['response']['selected_choice'];
-    //                     break;
-    //                 case 'paragraph':
-    //                     $responseValue = $question['response']['text_response'];
-    //                     break;
-    //                 case 'dropdown':
-    //                     $responseValue = $question['response']['selected_option'];
-    //                     break;
-    //                 case 'time':
-    //                     $responseValue = $question['response']['time_response'];
-    //                     break;
-    //                 case 'scale':
-    //                     $scaleResponses = $question['response']['scale_responses'];
-    //                     $responseValue = json_encode($scaleResponses);
-    //                     break;
-    //                 default:
-    //                     $responseValue = null;
-    //                     break;
-    //             }
-                
-    //             // Insert the response into the form_response table
-    //             // Replace this with your actual database insert code
-    //             // Example: mysqli_query($conn, "INSERT INTO form_response (form_id, section_id, question_id, response_value, response_type) VALUES ('$formId', '$sectionId', '$questionId', '$responseValue', '$responseType')");
-    //         }
-    //     }
-    // }
-    
-    // $jsonData = '{"form_id":1,"user_id":1,"submission_date":"2023-08-15 12:20:59","sections":[{"section_id":"1","question":[{"question_type":"date","question_id":"3","response":{"date_response":"2023-08-29"}},{"question_type":"choice","question_id":"2","response":{"selected_choice":"Sample Choice 1"}},{"question_type":"paragraph","question_id":"1","response":{"text_response":"sadada"}},{"question_type":"dropdown","question_id":"5","response":{"selected_option":"Sample dropdown 2"}}]},{"section_id":"2","question":[{"question_type":"time","question_id":"4","response":{"time_response":"00:24"}},{"question_type":"scale","question_id":"6","response":{"scale_responses":{"sample statement1":"labeloption2","sample statement2":"labeloption2","sample statement 3":"labeloption2"}}}]}]}';
-    
-    // insertFormResponses($jsonData);
     
 });
