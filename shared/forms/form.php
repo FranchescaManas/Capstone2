@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+$userID = $_SESSION['user_id'];
+$role= $_SESSION['role'];
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +40,7 @@ session_start();
 
     $form = new Form;
     
+    
     ?>
     <header class="form-response-body">
         <h4 class="form-response-group text-center" id="form-response-name">
@@ -48,11 +52,29 @@ session_start();
 
     <main class='form-response-body'>
         <?php
-            $form->loadFormData(1);
+        
+        $formId = $form->getFormID($userID, $role);
+        if(count($formId) === 1){
+            $access = $form->checkAccess($formId[0], $role);
+            echo $access;
+            if($access === 'can access'){
+                $form->loadFormData($formId[0]);
+            }else if($access === 'can modify'){
+                echo "user can modify";
+            }else if($access === 'full access'){
+                echo "user has full access";
+            }else{
+                echo "no permission to forms";
+            }
+        }else{
+            
+            header('location: ../../'.$role.'/index.php?page=forms');
+            
+        }
+           
         ?>
          <button id="response-submit" class="rounded">Submit</button>
 
-        
 
     </main>
 

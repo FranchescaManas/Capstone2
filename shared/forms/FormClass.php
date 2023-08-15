@@ -8,15 +8,6 @@ class Form{
 
     public $formCount = 0;
 
-    private $role; 
-
-    function setRole($role){
-        $this->role = $role;
-    }
-
-    function getRole(){
-        return $this->role;
-    }
 
     function getFormName($formID){
         $this->conn = connection();
@@ -31,6 +22,53 @@ class Form{
 
         return $this->formName;
     }
+
+
+    function getFormID($userID, $userRole){
+        $this->conn = connection();
+
+        $sql = "SELECT * FROM form_permission WHERE `role` = '$userRole'";
+
+        $result = ($this->conn)->query($sql);
+
+        $formIDs = array();
+        
+        if($result){
+            while($row = $result->fetch_assoc()){
+                $formIDs[] = $row['form_id'];
+            }
+            return $formIDs;
+        }
+    }
+
+    function checkAccess($formID, $role, $userID = null) {
+        $this->conn = connection();
+        
+        if ($userID === null) {
+            $sql = "SELECT * FROM form_permission WHERE `role` = '$role' AND `form_id` = $formID";
+        } else {
+            $sql = "SELECT * FROM form_permission WHERE `user_id` = '$userID' AND `form_id` = $formID";
+        }
+        
+        $result = ($this->conn)->query($sql);
+        
+        if ($result) {
+            $permission = $result->fetch_assoc();
+        
+            if ($permission['can_access'] == 1 && $permission['can_modify'] == 1) {
+                return 'full access';
+            } elseif ($permission['can_access'] == 1) {
+                return 'can access';
+            } elseif ($permission['can_modify'] == 1) {
+                return 'can modify';
+            } else {
+                return 'no access permitted';
+            }
+        } else {
+            return 'error accessing permission data';
+        }
+    }
+    
 
     
 
@@ -208,6 +246,14 @@ class Form{
     }
     
     
-
+    
+    
 }
+
+    
+
+
+
+
+
 ?>

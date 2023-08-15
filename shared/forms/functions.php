@@ -111,29 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    // // Now you can insert $formData into your database using mysqli or PDO
-
-    // // Example using mysqli
-    // $conn = new mysqli('localhost', 'username', 'password', 'database_name');
-    // if ($conn->connect_error) {
-    //     die('Connection failed: ' . $conn->connect_error);
-    // }
-
-    // $formId = $formData['form_id'];
-    // $userId = $formData['user_id'];
-    // $submissionDate = $formData['submission_date'];
-
-    // // Insert data into form_response table
-    // // Adjust the SQL query based on your table structure
-    // $sql = "INSERT INTO form_response (form_id, user_id, submission_date) VALUES ('$formId', '$userId', '$submissionDate')";
-    
-    // if ($conn->query($sql) === TRUE) {
-    //     echo 'Data inserted successfully';
-    // } else {
-    //     echo 'Error: ' . $conn->error;
-    // }
-
-    // $conn->close();
 }
 
 
