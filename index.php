@@ -1,5 +1,16 @@
+<!-- 
+this is the first page that loads. It calls the login() function from the login.php by including it in this file
+see line 49 
+
+Next page: login.php
+
+Prevous: none
+
+ -->
+
 <?
 session_start();
+include '../shared/connection.php';
 ?>
 
 <!DOCTYPE html>

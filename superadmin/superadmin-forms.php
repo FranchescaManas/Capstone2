@@ -1,4 +1,8 @@
-<?php include '../shared/forms/functions.php';?>
+<!-- 
+    Overall design of the forms page
+
+    Included in superadmin/index.php
+ -->
 <main class="d-flex w-100">
     <section class="page-container">
 

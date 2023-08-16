@@ -1,9 +1,6 @@
+
 <?php
-
-require '../connection.php';
-
-// require 'FormClass.php';
-
+include '../connection.php';
 function loadFormsGroup(){
     $conn = connection();
 
@@ -87,14 +84,6 @@ function insertResponse($role, $formData){
     }
 
     $conn->close();
-
-    // $sql = 'INSERT INTO form_response (`form_id`, `user_id`, `section_id`, `response_value`, `response_type`)
-    // VALUES ();
-
-    
-
-
-
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

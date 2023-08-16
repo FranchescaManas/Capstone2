@@ -68,7 +68,7 @@ $(document).ready(function(){
             formData.sections.push(currentSectionData);
         }
     
-        console.log(JSON.stringify(formData));
+        // console.log(JSON.stringify(formData));
         $.ajax({
             type: 'POST',
             url: 'functions.php', // URL to your PHP script
@@ -77,9 +77,10 @@ $(document).ready(function(){
                 action: JSON.stringify({ 'action': 'insert', 'role': 'student' })
             },
             success: function(response) {
-                console.log(response);
+                // console.log(response);
+                var cleanedResponse = response.replace(/\s/g, '');
                 // Handle the response from the server if needed
-                if(response === 'success'){
+                if(cleanedResponse === 'success'){
                     window.location.href = '../forms/form-complete.php';
                 }
             },

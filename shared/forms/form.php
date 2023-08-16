@@ -1,4 +1,6 @@
+
 <?php
+
 session_start();
 
 $userID = $_SESSION['user_id'];
@@ -34,52 +36,59 @@ $role= $_SESSION['role'];
    
 <body>
     <?php
+    // include '../connection.php';
     include '../navbar.php';
-    // include './functions.php';
+    include './functions.php';
     include './FormClass.php';
-
+    
+    // creating object to access methods from the FormClass.php
     $form = new Form;
-    
-    
-    ?>
-    <header class="form-response-body">
-        <h4 class="form-response-group text-center" id="form-response-name">
-            <?php
-            echo $form->getFormName(1);
+
+    // searches the forms accessible to the current role and id
+    $formId = $form->getFormID($userID, $role);
+
+    // counts how many forms the user has access to
+    if(count($formId) === 1){
+        // check the current access that the user has on the form
+        $access = $form->checkAccess($formId[0], $role);
+        echo $access;
+        // if user has access then load/generate the form
+        if($access === 'can access'){
+            $formName = $form->getFormName($formId[0]);
             ?>
-        </h4>
-    </header>
-
-    <main class='form-response-body'>
-        <?php
-        
-        $formId = $form->getFormID($userID, $role);
-        if(count($formId) === 1){
-            $access = $form->checkAccess($formId[0], $role);
-            echo $access;
-            if($access === 'can access'){
-                $form->loadFormData($formId[0]);
-            }else if($access === 'can modify'){
-                echo "user can modify";
-            }else if($access === 'full access'){
-                echo "user has full access";
-            }else{
-                echo "no permission to forms";
+            <header class="form-response-body">
+            <h4 class="form-response-group text-center" id="form-response-name">
+            <?php
+            if(isset($formName)){
+                echo $formName;
             }
+            ?>
+            </h4>
+            </header>
+            <main class='form-response-body'>
+            <?php $form->loadFormData($formId[0]); ?>
+            <button id="response-submit" class="rounded">Submit</button>
+            </main>
+        <?php
+        // if user has modification access, then display modify button
+        }else if($access === 'can modify'){
+            // no function yet
+            echo "user can modify";
+        }else if($access === 'full access'){
+            // no function yet
+            echo "user has full access";
         }else{
-            
-            header('location: ../../'.$role.'/index.php?page=forms');
-            
+            // design no permission message
+            echo "no permission to forms";
         }
-           
-        ?>
-         <button id="response-submit" class="rounded">Submit</button>
+    // if user has access to more than 1 forms then go the page where it will display the list of forms depending on their role
+    }else{
+        
+        header('location: ../../'.$role.'/index.php?page=forms');   
+    }
+        
+    ?>
 
-
-    </main>
-
-
-   
 
     <!-- bootstrap js cdn -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>

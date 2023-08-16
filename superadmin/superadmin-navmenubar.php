@@ -1,3 +1,16 @@
+<!-- 
+    this is where the urls are set to switch pages on the superadmin nav menu by
+    placing variables in the url 
+    example:
+    ./index.php?page=dashboard
+    page is the variable name, (?) is used to assignment symbol, and dashboard is the variable
+
+    NEXT: NONE
+
+    PREVIOUS/INCLUDED IN: superadmin/index.php
+
+ -->
+
 <nav class="sidebar background-shade">
     <div class="row">
         <div class="col-2" >
@@ -19,7 +32,7 @@
             <a href="./index.php?page=forms">Forms</a>
         </li>
         <li class="sidebar-item">
-            <a href="./index.php?page=forms">Reports</a>
+            <a href="./index.php?page=reports">Reports</a>
         </li>
     </ul>
 
@@ -28,7 +41,7 @@
             alt="user-profile" width="40px">
         <h6><?php echo getUsername(); ?></h6>
         <small><?php echo getRole(); ?></small>
-        <form action="#" method="post" class="w-100">
+        <form action="" method="post" class="w-100">
             <button type="submit" name="btn-logout" class="rounded-pill py-1">Log out</button>
         </form>
     </div>

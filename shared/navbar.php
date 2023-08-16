@@ -1,3 +1,6 @@
+<!-- 
+  This is the nav header that has the school logo and name
+ -->
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
     

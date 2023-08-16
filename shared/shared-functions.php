@@ -1,5 +1,7 @@
+<!-- 
+    This file contains functions that can be used by all types of roles
+ -->
 <?php
-
 
 function logout(){
     session_destroy();

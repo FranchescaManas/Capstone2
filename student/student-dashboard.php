@@ -1,3 +1,10 @@
+<!-- 
+
+    This is the default page set on the right
+
+    NEXT:NONE
+    PREVIOUS: student/index.php
+ -->
 <main class="d-flex w-100">
     <section class="page-container">
 

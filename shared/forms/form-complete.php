@@ -1,3 +1,14 @@
+<!--   
+    USE:
+        When the user is done ansering forms
+
+    PREVIOUS:
+        shared/js/response-form.js -> this is how the form.php redirects to this page. The jquery has the event listener 
+        for the submit button to redirect to this page.
+
+        See: $('#response-submit').click(function()
+ -->
+
 <?php
 session_start();
 ?>
@@ -7,12 +18,12 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>Form</title>
+
+    <title>Form Completed</title>
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/forms.css">
     <!-- jquery cdn -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>    bootstrap cdn
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
     <style>
@@ -30,22 +41,12 @@ session_start();
      </style>
 </head>
    
-<body>
+<body class="flex-center">
     <?php
     include '../navbar.php';
-    // include './functions.php';
-    include './FormClass.php';
 
-    $form = new Form;
-    
     ?>
-    <header class="form-response-body">
-        <h4 class="form-response-group text-center" id="form-response-name">
-            <?php
-            echo $form->getFormName(1);
-            ?>
-        </h4>
-    </header>
+    
 
     <div class="container text-center" id="login-container"
     style="padding-bottom: 30px"

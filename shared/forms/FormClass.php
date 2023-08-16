@@ -1,5 +1,19 @@
+<!-- 
+    THIS IS A CLASS 
+    USE:
+        accessing functions in this class are done by instatiating objects.
+        This makes it easier to assign which forms only need to generate rather than 
+        generating all forms at once (maybe idk).
+
+    INCLUDED IN :
+        this is currently only being used in:
+        form.php -> to generate the whole form through components
+
+
+ -->
+
 <?php
-require '../connection.php';
+// require '../connection.php';
 class Form{
     private $formName;
     private $formData;

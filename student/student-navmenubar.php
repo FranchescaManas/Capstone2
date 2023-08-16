@@ -1,3 +1,15 @@
+<!-- 
+    this is where the urls are set to switch pages on the student nav menu by
+    placing variables in the url 
+    example:
+    ./index.php?page=dashboard
+    page is the variable name, (?) is used to assignment symbol, and dashboard is the variable
+
+    NEXT: NONE
+
+    PREVIOUS: student/index.php
+
+ -->
 <nav class="sidebar background-shade">
     <div class="row">
         <div class="col-2" >
