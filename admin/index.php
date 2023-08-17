@@ -70,7 +70,7 @@ include '../shared/forms/FormClass.php';
         }
     }
     
-    include './admin-'.$page.'.php';
+    // include './admin-'.$page.'.php';
     ?>
     
     

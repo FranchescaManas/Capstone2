@@ -71,13 +71,13 @@ $(document).ready(function(){
         // console.log(JSON.stringify(formData));
         $.ajax({
             type: 'POST',
-            url: 'functions.php', // URL to your PHP script
+            url: './event-listener.php', // URL to your PHP script
             data: { 
                 data: JSON.stringify(formData),
                 action: JSON.stringify({ 'action': 'insert', 'role': 'student' })
             },
             success: function(response) {
-                // console.log(response);
+                console.log(response);
                 var cleanedResponse = response.replace(/\s/g, '');
                 console.log(cleanedResponse);
                 // Handle the response from the server if needed

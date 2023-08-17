@@ -5,7 +5,12 @@
  -->
  <?php
 //  session_start();
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/functions.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/shared-functions.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/FormClass.php';
+
+    $userID = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
+
  ?>
 <main class="d-flex w-100">
     <section class="page-container">
@@ -17,7 +22,7 @@
         <section class="flex-center flex-column">
             <?php
             // echo $_SESSION['role'];
-                loadFormsGroup($_SESSION['role']);
+                // $form->loadFormsGroup($_SESSION['role']);
                 $form = new Form;
 
                 // searches the forms accessible to the current role and id
@@ -58,7 +63,9 @@
         <button class="white-btn" data-bs-toggle="modal" data-bs-target="#scheduleform">SCHEDULE FORM</button>
         <button class="white-btn" data-bs-toggle="modal" data-bs-target="#assignForm">ASSIGN FORM</button>
         <!-- Button trigger modal -->
-        <?php include './form-modal.php'; ?>
+        <?php     
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/form-modal.php'; 
+        ?>
 
     </aside>
 

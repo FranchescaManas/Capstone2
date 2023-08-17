@@ -39,7 +39,7 @@ $role= $_SESSION['role'];
     // include '../connection.php';
     include '../navbar.php';
     // include_once '../connection.php';
-    include './functions.php';
+    include '../shared-functions.php';
     include './FormClass.php';
     
     // creating object to access methods from the FormClass.php
