@@ -26,8 +26,9 @@
 session_start();
 // Session start so that session variables from login will be accessible here
 
-include '../shared/connection.php';
+// include_once '../shared/forms/functions.php';
 include '../shared/shared-functions.php';
+include '../shared/forms/FormClass.php';
 
 ?>
 
@@ -67,9 +68,14 @@ include '../shared/shared-functions.php';
 
     if(isset($_GET['page'])){
         $page = $_GET['page'];
+        if($page !== 'forms'){
+            include './student-'.$page.'.php';
+        }else{
+            include '../shared/forms/form-view.php';
+        }
     }
     
-    include './student-'.$page.'.php';
+    // include './student-'.$page.'.php';
     ?>
   
     <!-- bootstrap js cdn -->

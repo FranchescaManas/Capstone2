@@ -38,6 +38,7 @@ $role= $_SESSION['role'];
     <?php
     // include '../connection.php';
     include '../navbar.php';
+    // include_once '../connection.php';
     include './functions.php';
     include './FormClass.php';
     

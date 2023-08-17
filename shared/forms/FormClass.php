@@ -14,6 +14,7 @@
 
 <?php
 // require '../connection.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/connection.php';
 class Form{
     private $formName;
     private $formData;
@@ -164,6 +165,38 @@ class Form{
         echo "Error: " . ($this->conn)->error;
     }
     
+    
+    }
+
+    function loadFormsGroup($form_id){
+        $this->conn = connection();
+    
+        $sql = "SELECT * FROM form WHERE `form_id` = '$form_id'";
+        $result = ($this->conn)->query($sql);
+    
+      
+        if ($result->num_rows > 0) 
+        {
+            while($row = $result->fetch_assoc())
+            {
+                echo '
+                    <div class="form-card" id="'.$row['form_id'].'">
+                        <h4>'.$row['form_name'].'</h4>
+                        <p>'.$row['form_description'].'</p>
+    
+                        <div class="d-flex justify-content-end">
+                            <button class="red-btn small-btn rounded">View</button>
+                        </div>
+                    </div>
+                ';
+    
+            }
+        } 
+        else {
+            echo "0 results";
+        }
+      
+        ($this->conn)->close();
     
     }
 

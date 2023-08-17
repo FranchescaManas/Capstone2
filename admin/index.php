@@ -22,8 +22,9 @@
 <?php
 
 session_start();
-include '../shared/connection.php';
+// include_once '../shared/connection.php';
 include '../shared/shared-functions.php';
+include '../shared/forms/FormClass.php';
 
 ?>
 
@@ -62,6 +63,11 @@ include '../shared/shared-functions.php';
 
     if(isset($_GET['page'])){
         $page = $_GET['page'];
+        if($page !== 'forms'){
+            include './admin-'.$page.'.php';
+        }else{
+            include '../shared/forms/form-view.php';
+        }
     }
     
     include './admin-'.$page.'.php';

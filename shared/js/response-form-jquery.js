@@ -79,6 +79,7 @@ $(document).ready(function(){
             success: function(response) {
                 // console.log(response);
                 var cleanedResponse = response.replace(/\s/g, '');
+                console.log(cleanedResponse);
                 // Handle the response from the server if needed
                 if(cleanedResponse === 'success'){
                     window.location.href = '../forms/form-complete.php';

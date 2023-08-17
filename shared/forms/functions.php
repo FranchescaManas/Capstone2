@@ -1,41 +1,7 @@
 
 <?php
-include '../connection.php';
-function loadFormsGroup(){
-    $conn = connection();
+include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/connection.php';
 
-    $sql = "SELECT * FROM form";
-    $result = $conn->query($sql);
-
-  
-    if ($result->num_rows > 0) 
-    {
-        while($row = $result->fetch_assoc())
-        {
-            echo '
-                <div class="form-card" id="'.$row['form_id'].'">
-                    <h4>'.$row['form_name'].'</h4>
-                    <p>'.$row['form_description'].'</p>
-
-                    <div class="d-flex justify-content-end">
-                        <button class="red-btn small-btn rounded">View</button>
-                    </div>
-                </div>
-            ';
-
-        }
-    } 
-    else {
-        echo "0 results";
-    }
-  
-   $conn->close();
-
-    
-
-
-
-}
 
 function insertResponse($role, $formData){
     $conn = connection();
@@ -86,6 +52,8 @@ function insertResponse($role, $formData){
     $conn->close();
 }
 
+
+// have a different file for this
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the JSON data from the AJAX request
     $formData = json_decode($_POST['data'], true);

@@ -30,7 +30,9 @@ session_start();
 
 include '../shared/shared-functions.php';
 include '../shared/forms/functions.php';
-include '../shared/connection.php';
+
+// include_once '../shared/connection.php';
+
 
 
 ?>
@@ -69,9 +71,13 @@ include '../shared/connection.php';
 
     if(isset($_GET['page'])){
         $page = $_GET['page'];
+        if($page !== 'forms'){
+            include './superadmin-'.$page.'.php';
+        }else{
+            include '../shared/forms/form-view.php';
+        }
     }
     
-    include './superadmin-'.$page.'.php';
     ?>
     
     

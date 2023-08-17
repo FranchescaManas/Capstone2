@@ -20,7 +20,7 @@
         </li>
         </li>
         <li class="sidebar-item">
-            <a href="./index.php?page=forms">Forms</a>
+            <a href="../shared/forms/form.php">Forms</a>
         </li>
     </ul>
 
