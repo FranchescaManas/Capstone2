@@ -49,19 +49,20 @@ function login($username, $password){
 
                if($_SESSION['role'] == 'superadmin'){
                     header('location: ./superadmin');
-                    exit;
+                    
                }elseif($_SESSION['role'] == 'admin'){
                     header('location: ./admin/');
-                    exit;
+                    
                }elseif($_SESSION['role'] == 'faculty'){
                     header('location: ./faculty');
-                    exit;
+                    
                 }elseif($_SESSION['role'] == 'student'){
                     header('location: ./student');
-                    exit;
+                
                 }else{
                     echo "<p class='text-danger'>An error has occured.</p>";
                 }
+                exit;
 
             }else{
                 echo "<p class='text-danger'>Incorrect password.</p>";

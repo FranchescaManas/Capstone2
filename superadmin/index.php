@@ -31,10 +31,6 @@ session_start();
 include '../shared/shared-functions.php';
 include '../shared/forms/FormClass.php';
 
-// include_once '../shared/connection.php';
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

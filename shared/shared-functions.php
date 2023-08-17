@@ -3,8 +3,17 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/connection.php';
 
 function logout(){
+    // session_start(); // Make sure you start the session first
+    
+    // Clear session variables
+    $_SESSION = array();
+    
+    // Destroy the session
     session_destroy();
-    header('location: ../index.php');
+    
+    // Redirect
+    header('Location: ../index.php');
+    exit; 
 }
 
 function getUsername(){
