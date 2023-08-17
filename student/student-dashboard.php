@@ -5,6 +5,8 @@
     NEXT:NONE
     PREVIOUS: student/index.php
  -->
+
+
 <main class="d-flex w-100">
     <section class="page-container">
 
@@ -18,8 +20,20 @@
             <div class="form-schedule-card">
 
                 <div class="form-schedule-row flex-row-between">
-                    <h6>Faculty</h6>
-                    <small>Status</small>
+                    <!-- <h6>Faculty</h6>
+                    <small>Status</small> -->
+
+                    <div class="row">
+                        <div class="col-8">
+                            Faculty
+                        </div>
+
+                        <div class="col-4">
+                            Status
+                        </div>
+                    </div>
+                
+
                 </div>
                 
             </div>

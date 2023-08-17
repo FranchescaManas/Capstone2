@@ -51,13 +51,13 @@ function login($username, $password){
                     header('location: ./superadmin');
                     
                }elseif($_SESSION['role'] == 'admin'){
-                    header('location: ./admin/');
+                    header('location: ./admin//index.php?page=dashboard');
                     
                }elseif($_SESSION['role'] == 'faculty'){
-                    header('location: ./faculty');
+                    header('location: ./faculty/index.php?page=dashboard');
                     
                 }elseif($_SESSION['role'] == 'student'){
-                    header('location: ./student');
+                    header('location: ./student/index.php?page=dashboard');
                 
                 }else{
                     echo "<p class='text-danger'>An error has occured.</p>";
