@@ -17,9 +17,15 @@
 
             <div class="form-schedule-card">
 
-                <div class="form-schedule-row flex-row-between">
-                    <h6>Faculty</h6>
-                    <small>Status</small>
+                <div class="d-flex flex-column form-schedule-row">
+                    <div class="row">
+                        <div class="col-10">
+                            Faculty
+                        </div>
+                        <div class="col-2">
+                            Status
+                        </div>
+                    </div>
                 </div>
                 
             </div>
