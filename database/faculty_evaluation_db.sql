@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2023 at 08:11 AM
+-- Generation Time: Aug 19, 2023 at 08:12 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -55,14 +55,26 @@ CREATE TABLE `departments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `evaluation`
+--
+
+CREATE TABLE `evaluation` (
+  `eval_id` int(11) NOT NULL,
+  `evaluator_id` int(11) DEFAULT NULL,
+  `target_id` int(11) DEFAULT NULL,
+  `form_id` int(11) DEFAULT NULL,
+  `eval_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `faculty`
 --
 
 CREATE TABLE `faculty` (
   `user_id` int(11) NOT NULL,
   `faculty_id` int(50) NOT NULL,
-  `firstname` varchar(150) NOT NULL,
-  `lastname` varchar(150) NOT NULL,
   `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`data`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -70,11 +82,11 @@ CREATE TABLE `faculty` (
 -- Dumping data for table `faculty`
 --
 
-INSERT INTO `faculty` (`user_id`, `faculty_id`, `firstname`, `lastname`, `data`) VALUES
-(0, 1, 'John', 'Doe', '{\"courses\": [\n    {\n      \"course_code\": \"MATH101\",\n      \"course_name\": \"Introduction to Mathematics\",\n\"program\": \"BSIT\",\n\"year_level\": \"4\",\n\"section\":\"BSIT4A\",\n      \"schedule\": [\n        {\n          \"day\": \"Monday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        },\n        {\n          \"day\": \"Wednesday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        }\n      ]\n    }\n  ]\n}'),
-(0, 5, 'Jane', 'Smith', '{\"courses\":[\r\n    {\r\n      \"course_code\": \"PHYS201\",\r\n      \"course_name\": \"Physics Fundamentals\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Tuesday\",\r\n          \"time\": \"9:00 AM - 10:30 AM\"\r\n        },\r\n        {\r\n          \"day\": \"Thursday\",\r\n          \"time\": \"9:00 AM - 10:30 AM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}'),
-(0, 6, 'David', 'Smith', '{\"courses\":[\r\n    {\r\n      \"course_code\": \"CS200\",\r\n      \"course_name\": \"Introduction to Programming\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Monday\",\r\n          \"time\": \"2:00 PM - 3:30 PM\"\r\n        },\r\n        {\r\n          \"day\": \"Wednesday\",\r\n          \"time\": \"2:00 PM - 3:30 PM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}'),
-(0, 7, 'Emily', 'White', '{\"courses\":[\r\n    {\r\n      \"course_code\": \"ART110\",\r\n      \"course_name\": \"Introduction to Art\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Tuesday\",\r\n          \"time\": \"3:00 PM - 4:30 PM\"\r\n        },\r\n        {\r\n          \"day\": \"Thursday\",\r\n          \"time\": \"3:00 PM - 4:30 PM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}');
+INSERT INTO `faculty` (`user_id`, `faculty_id`, `data`) VALUES
+(4, 1, '{\"courses\": [\n    {\n      \"course_code\": \"MATH101\",\n      \"course_name\": \"Introduction to Mathematics\",\n\"program\": \"BSIT\",\n\"year_level\": \"4\",\n\"section\":\"BSIT4A\",\n      \"schedule\": [\n        {\n          \"day\": \"Monday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        },\n        {\n          \"day\": \"Wednesday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        }\n      ]\n    }\n  ]\n}'),
+(5, 2, '{\"courses\":[\r\n    {\r\n      \"course_code\": \"PHYS201\",\r\n      \"course_name\": \"Physics Fundamentals\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Tuesday\",\r\n          \"time\": \"9:00 AM - 10:30 AM\"\r\n        },\r\n        {\r\n          \"day\": \"Thursday\",\r\n          \"time\": \"9:00 AM - 10:30 AM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}'),
+(6, 3, '{\"courses\":[\r\n    {\r\n      \"course_code\": \"CS200\",\r\n      \"course_name\": \"Introduction to Programming\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Monday\",\r\n          \"time\": \"2:00 PM - 3:30 PM\"\r\n        },\r\n        {\r\n          \"day\": \"Wednesday\",\r\n          \"time\": \"2:00 PM - 3:30 PM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}'),
+(7, 4, '{\"courses\":[\r\n    {\r\n      \"course_code\": \"ART110\",\r\n      \"course_name\": \"Introduction to Art\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Tuesday\",\r\n          \"time\": \"3:00 PM - 4:30 PM\"\r\n        },\r\n        {\r\n          \"day\": \"Thursday\",\r\n          \"time\": \"3:00 PM - 4:30 PM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}');
 
 -- --------------------------------------------------------
 
@@ -137,7 +149,7 @@ CREATE TABLE `form_permission` (
 
 INSERT INTO `form_permission` (`permission_id`, `user_id`, `role`, `form_id`, `can_access`, `can_modify`) VALUES
 (1, 0, 'student', 1, 1, 0),
-(2, 0, 'students', 2, 1, 0),
+(2, 0, 'stusdent', 2, 1, 0),
 (3, 0, 'faculty', 1, 1, 0),
 (4, 0, 'admin', 1, 1, 0),
 (5, 6, 'admin', 1, 1, 1);
@@ -228,8 +240,6 @@ INSERT INTO `form_section` (`section_id`, `form_id`, `section_name`, `section_or
 
 CREATE TABLE `student` (
   `student_id` int(50) NOT NULL,
-  `firstname` varchar(150) NOT NULL,
-  `lastname` varchar(150) NOT NULL,
   `year_level` int(11) NOT NULL,
   `course` varchar(150) NOT NULL,
   `section` varchar(50) NOT NULL,
@@ -241,8 +251,8 @@ CREATE TABLE `student` (
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`student_id`, `firstname`, `lastname`, `year_level`, `course`, `section`, `data`, `user_id`) VALUES
-(2018200836, 'Gabriel', 'Gepte', 4, 'BSIT', 'BSIT4A', '{\n  \"courses\": [\n    {\n      \"course_code\": \"MATH101\",\n      \"course_name\": \"Introduction to Mathematics\",\n      \"professor\": \"John Doe\",\n      \"schedule\": [\n        {\n          \"day\": \"Monday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        },\n        {\n          \"day\": \"Wednesday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        }\n      ]\n    },\n    {\n      \"course_code\": \"PHYS201\",\n      \"course_name\": \"Physics Fundamentals\",\n      \"professor\": \"Jane Smith\",\n      \"schedule\": [\n        {\n          \"day\": \"Tuesday\",\n          \"time\": \"9:00 AM - 10:30 AM\"\n        },\n        {\n          \"day\": \"Thursday\",\n          \"time\": \"9:00 AM - 10:30 AM\"\n        }\n      ]\n    },\n{\n      \"course_code\": \"CS200\",\n      \"course_name\": \"Introduction to Programming\",\n      \"professor\": \"David Smith\",\n      \"schedule\": [\n        {\n          \"day\": \"Monday\",\n          \"time\": \"2:00 PM - 3:30 PM\"\n        },\n        {\n          \"day\": \"Wednesday\",\n          \"time\": \"2:00 PM - 3:30 PM\"\n        }\n      ]\n    },\n    {\n      \"course_code\": \"ART110\",\n      \"course_name\": \"Introduction to Art\",\n      \"professor\": \"Emily White\",\n      \"schedule\": [\n        {\n          \"day\": \"Tuesday\",\n          \"time\": \"3:00 PM - 4:30 PM\"\n        },\n        {\n          \"day\": \"Thursday\",\n          \"time\": \"3:00 PM - 4:30 PM\"\n        }\n      ]\n    }\n  ]\n}', 4);
+INSERT INTO `student` (`student_id`, `year_level`, `course`, `section`, `data`, `user_id`) VALUES
+(2018200836, 4, 'BSIT', 'BSIT4A', '{\n  \"courses\": [\n    {\n      \"course_code\": \"MATH101\",\n      \"course_name\": \"Introduction to Mathematics\",\n      \"professor\": \"John Doe\",\n      \"faculty_id\": \"1\",\n      \"schedule\": [\n        {\n          \"day\": \"Monday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        },\n        {\n          \"day\": \"Wednesday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        }\n      ]\n    },\n    {\n      \"course_code\": \"PHYS201\",\n      \"course_name\": \"Physics Fundamentals\",\n      \"professor\": \"Jane Smith\",\n      \"faculty_id\": \"2\",\n      \"schedule\": [\n        {\n          \"day\": \"Tuesday\",\n          \"time\": \"9:00 AM - 10:30 AM\"\n        },\n        {\n          \"day\": \"Thursday\",\n          \"time\": \"9:00 AM - 10:30 AM\"\n        }\n      ]\n    },\n{\n      \"course_code\": \"CS200\",\n      \"course_name\": \"Introduction to Programming\",\n      \"professor\": \"David Smith\",\n      \"faculty_id\": \"3\",\n      \"schedule\": [\n        {\n          \"day\": \"Monday\",\n          \"time\": \"2:00 PM - 3:30 PM\"\n        },\n        {\n          \"day\": \"Wednesday\",\n          \"time\": \"2:00 PM - 3:30 PM\"\n        }\n      ]\n    },\n    {\n      \"course_code\": \"ART110\",\n      \"course_name\": \"Introduction to Art\",\n      \"faculty_id\": \"4\",\n      \"professor\": \"Emily White\",\n      \"schedule\": [\n        {\n          \"day\": \"Tuesday\",\n          \"time\": \"3:00 PM - 4:30 PM\"\n        },\n        {\n          \"day\": \"Thursday\",\n          \"time\": \"3:00 PM - 4:30 PM\"\n        }\n      ]\n    }\n  ]\n}', 4);
 
 -- --------------------------------------------------------
 
@@ -252,8 +262,6 @@ INSERT INTO `student` (`student_id`, `firstname`, `lastname`, `year_level`, `cou
 
 CREATE TABLE `superadmin` (
   `superadmin_id` int(11) NOT NULL,
-  `firstname` varchar(150) NOT NULL,
-  `lastname` varchar(150) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -261,8 +269,8 @@ CREATE TABLE `superadmin` (
 -- Dumping data for table `superadmin`
 --
 
-INSERT INTO `superadmin` (`superadmin_id`, `firstname`, `lastname`, `user_id`) VALUES
-(1, 'superadmin', 'test', 1);
+INSERT INTO `superadmin` (`superadmin_id`, `user_id`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -311,10 +319,20 @@ ALTER TABLE `departments`
   ADD PRIMARY KEY (`department_id`);
 
 --
+-- Indexes for table `evaluation`
+--
+ALTER TABLE `evaluation`
+  ADD PRIMARY KEY (`eval_id`),
+  ADD KEY `evaluator_id` (`evaluator_id`),
+  ADD KEY `target_id` (`target_id`),
+  ADD KEY `form_id` (`form_id`);
+
+--
 -- Indexes for table `faculty`
 --
 ALTER TABLE `faculty`
-  ADD PRIMARY KEY (`faculty_id`);
+  ADD PRIMARY KEY (`faculty_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `form`
@@ -326,43 +344,55 @@ ALTER TABLE `form`
 -- Indexes for table `form_page`
 --
 ALTER TABLE `form_page`
-  ADD PRIMARY KEY (`page_id`);
+  ADD PRIMARY KEY (`page_id`),
+  ADD KEY `form_id` (`form_id`);
 
 --
 -- Indexes for table `form_permission`
 --
 ALTER TABLE `form_permission`
-  ADD PRIMARY KEY (`permission_id`);
+  ADD PRIMARY KEY (`permission_id`),
+  ADD KEY `form_id` (`form_id`);
 
 --
 -- Indexes for table `form_question`
 --
 ALTER TABLE `form_question`
-  ADD PRIMARY KEY (`question_id`);
+  ADD PRIMARY KEY (`question_id`),
+  ADD KEY `form_id` (`form_id`),
+  ADD KEY `section_id` (`section_id`),
+  ADD KEY `page_id` (`page_id`);
 
 --
 -- Indexes for table `form_response`
 --
 ALTER TABLE `form_response`
-  ADD PRIMARY KEY (`response_id`);
+  ADD PRIMARY KEY (`response_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `form_id` (`form_id`),
+  ADD KEY `question_id` (`question_id`),
+  ADD KEY `section_id` (`section_id`);
 
 --
 -- Indexes for table `form_section`
 --
 ALTER TABLE `form_section`
-  ADD PRIMARY KEY (`section_id`);
+  ADD PRIMARY KEY (`section_id`),
+  ADD KEY `form_id` (`form_id`);
 
 --
 -- Indexes for table `student`
 --
 ALTER TABLE `student`
-  ADD PRIMARY KEY (`student_id`);
+  ADD PRIMARY KEY (`student_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `superadmin`
 --
 ALTER TABLE `superadmin`
-  ADD PRIMARY KEY (`superadmin_id`);
+  ADD PRIMARY KEY (`superadmin_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -385,6 +415,12 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `departments`
   MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `evaluation`
+--
+ALTER TABLE `evaluation`
+  MODIFY `eval_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `faculty`
@@ -445,6 +481,73 @@ ALTER TABLE `superadmin`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `evaluation`
+--
+ALTER TABLE `evaluation`
+  ADD CONSTRAINT `evaluation_ibfk_1` FOREIGN KEY (`evaluator_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `evaluation_ibfk_2` FOREIGN KEY (`target_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `evaluation_ibfk_3` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`);
+
+--
+-- Constraints for table `faculty`
+--
+ALTER TABLE `faculty`
+  ADD CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `fk_target` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `form_page`
+--
+ALTER TABLE `form_page`
+  ADD CONSTRAINT `form_page_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`);
+
+--
+-- Constraints for table `form_permission`
+--
+ALTER TABLE `form_permission`
+  ADD CONSTRAINT `form_permission_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`);
+
+--
+-- Constraints for table `form_question`
+--
+ALTER TABLE `form_question`
+  ADD CONSTRAINT `form_question_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`),
+  ADD CONSTRAINT `form_question_ibfk_2` FOREIGN KEY (`section_id`) REFERENCES `form_section` (`section_id`),
+  ADD CONSTRAINT `form_question_ibfk_3` FOREIGN KEY (`page_id`) REFERENCES `form_page` (`page_id`);
+
+--
+-- Constraints for table `form_response`
+--
+ALTER TABLE `form_response`
+  ADD CONSTRAINT `form_response_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `form_response_ibfk_2` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`),
+  ADD CONSTRAINT `form_response_ibfk_3` FOREIGN KEY (`question_id`) REFERENCES `form_question` (`question_id`),
+  ADD CONSTRAINT `form_response_ibfk_4` FOREIGN KEY (`section_id`) REFERENCES `form_section` (`section_id`);
+
+--
+-- Constraints for table `form_section`
+--
+ALTER TABLE `form_section`
+  ADD CONSTRAINT `form_section_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`);
+
+--
+-- Constraints for table `student`
+--
+ALTER TABLE `student`
+  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `student_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `superadmin`
+--
+ALTER TABLE `superadmin`
+  ADD CONSTRAINT `superadmin_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
