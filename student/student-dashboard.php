@@ -28,6 +28,7 @@
                             Status
                         </div>
                     </div>
+                    <?php getFaculty($_SESSION['user_id']); ?>
                 </div>
                 
             </div>

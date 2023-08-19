@@ -167,6 +167,8 @@ $(document).ready(function () {
     var page_count = 1;
     var section_count = 1;
 
+    
+
     // Generates default formgroup/question box when the page first loads
     $('#form').append(generateFormFieldGroup('paragraph'));
     adjustButton();

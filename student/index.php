@@ -29,6 +29,7 @@ session_start();
 // include_once '../shared/forms/functions.php';
 include '../shared/shared-functions.php';
 include '../shared/forms/FormClass.php';
+include './function.php';
 
 ?>
 
