@@ -7,7 +7,7 @@
 //  session_start();
     include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/shared-functions.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/FormClass.php';
-
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/form-modal.php'; 
     $userID = $_SESSION['user_id'];
     $role = $_SESSION['role'];
 
@@ -56,19 +56,47 @@
 
     </section>
 
-    <aside class="summary-container flex-col-center">
-        <a href="../shared/forms/create-form.php" class="w-100 flex-center" style="text-decoration: none;">
-            <button class="white-btn">CREATE FORM</button>
-        </a>
-        <button class="white-btn" data-bs-toggle="modal" data-bs-target="#scheduleform">SCHEDULE FORM</button>
-        <button class="white-btn" data-bs-toggle="modal" data-bs-target="#assignForm">ASSIGN FORM</button>
-        <!-- Button trigger modal -->
-        <?php     
-        include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/form-modal.php'; 
-        ?>
 
-    </aside>
+                    <aside class="summary-container flex-col-center">
+                    
 
-   
+                    <?php
+                    if($_SESSION['role'] == 'superadmin'){
+                    echo"<a href=\"../shared/forms/create-form.php\" class=\"w-100 flex-center\" style=\"text-decoration: none;\">
+                        <button class=\"white-btn\">CREATE FORM</button>
+                        </a>
+                        <button class=\"white-btn\" data-bs-toggle=\"modal\" data-bs-target=\"#scheduleform\">SCHEDULE FORM</button>
+                        <button class=\"white-btn\" data-bs-toggle=\"modal\" data-bs-target=\"#assignForm\">ASSIGN FORM</button>
+                        ";
+                    }elseif($_SESSION['role'] == 'admin'){
+                        echo"<button class=\"disabled\">CREATE FORM</button>
+                        <button class=\"white-btn\" data-bs-toggle=\"modal\" data-bs-target=\"#scheduleform\">SCHEDULE FORM</button>
+                        <button class=\"white-btn\" data-bs-toggle=\"modal\" data-bs-target=\"#assignForm\">ASSIGN FORM</button>
+                        ";
+                            
+                    }elseif($_SESSION['role'] == 'faculty'){
+                            
+                    }elseif($_SESSION['role'] == 'student'){
+                        
+                    }else{
+                    }
+                     ?>
+
+                    
+
+                    <!-- Button trigger modal -->
+            
+            
+                <?php    
+                include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/form-modal.php'; 
+                ?>
+                    </aside>
+
+                
+
+
     
+    
+
+
 </main>

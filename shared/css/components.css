@@ -103,6 +103,19 @@ input[type="tel"] {
     border: 1px solid #BEBEBE;
 }
 
+.disabled{
+    width: 75%;
+    padding: 10px !important;
+    color: black;
+    background-color: #cacaca;
+    border-radius: 10px;
+    font-weight: 500 !important;
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+  }
+
 input[type='date'], #form-select{
     width: 85%;
     min-width: 250px;
