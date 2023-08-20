@@ -15,6 +15,7 @@ $(document).ready(function () {
                     name: 'field-option',
                     class: 'field-option rounded'
                 }).append(
+                    $("<option>", { value: "textbox", text: "Textbox" }),
                     $("<option>", { value: "paragraph", text: "Short Paragraph" }),
                     $("<option>", { value: "date", text: "Date" }),
                     $("<option>", { value: "time", text: "Time" }),
@@ -36,6 +37,8 @@ $(document).ready(function () {
             appendSectionOrPageInput(formGroup, selectedValue);
         } else if (selectedValue === 'scale') {
             appendScaleOptions(formGroup);
+        } else if (selectedValue === 'textbox') {
+            appendTextboxInput(formGroup);
         }
         renameField(formGroup, selectedValue);
 
@@ -54,7 +57,7 @@ $(document).ready(function () {
     function appendChoiceOptions(formGroup, selectedValue) {
         renameField(formGroup, selectedValue);
         formGroup.find('.field-question').attr('placeholder', 'Enter Question');
-
+    
         var formOptions = $('<section>', {
             class: 'form-options w-100 my-1',
             id: 'form-options' + fieldcounter
@@ -64,12 +67,12 @@ $(document).ready(function () {
                 class: 'form-option-container',
                 id: 'form-option-container' + fieldcounter
             }),
-            $('<a>', { href: '#', class: 'add-option' }).append(
-                $('<small>').html(' Add option or <u>import from excel</u>')
-            )
+            $('<a>', { href: 'javascript:void(0)', class: 'add-option' }),
+            $('<small>').html(' Add option or <u>import from excel</u>')
         );
         formGroup.append(formOptions);
     }
+    
 
     function appendDateOrTimeInput(formGroup, selectedValue) {
         renameField(formGroup, selectedValue);
@@ -103,6 +106,17 @@ $(document).ready(function () {
                 disabled: selectedValue === 'page'
             });
         }
+        formGroup.find('.field-question').replaceWith(inputElement);
+    }
+    function appendTextboxInput(formGroup) {
+        var inputElement;
+        inputElement = $('<input>', {
+            type: 'text',
+            class: 'field-question field-textbox rounded',
+            name: 'field-textbox_' + fieldcounter,
+            placeholder: 'Enter Question'
+        });
+        
         formGroup.find('.field-question').replaceWith(inputElement);
     }
 
@@ -145,8 +159,8 @@ $(document).ready(function () {
         statementsContainer.append($('<p>').html('<u>Statements:</u>'));
         formOptions.append(statementsContainer);
     
+        $('<a>', { href: 'javascript:void(0);', class: 'add-scale-statement' }).append(
         formOptions.append(
-            $('<a>', { href: 'javascript:void(0);', class: 'add-scale-statement' }).append(
                 $('<small>').html(' Add option or <u>import from excel</u>')
             )
         );
@@ -159,7 +173,7 @@ $(document).ready(function () {
         submit_btn.css('width', '70%');
         $('#form').append(submit_btn);
     }
-    
+
 
     var fieldcounter = 1;
     var statement_count = 1;
@@ -167,11 +181,33 @@ $(document).ready(function () {
     var page_count = 1;
     var section_count = 1;
 
+    var result = confirm("Would you like to include a binded Faculty Information Section?");
+
+    if(result){
+        $(this).hide();
+        $('#form').append(generateFormFieldGroup('section'));
+        $('#form .field-group:last').find('.field-section').attr('value', 'Faculty Information');
+        $('#form .field-group:last').find('.field-section').attr('class', 'field-question field-section faculty rounded');
+        $('#form').append(generateFormFieldGroup('textbox'));
+        $('#form .field-group:last').find('.field-textbox').attr('value', 'Student Number');
+        $('#form').append(generateFormFieldGroup('textbox'));
+        $('#form .field-group:last').find('.field-textbox').attr('value', 'Section');
+        $('#form').append(generateFormFieldGroup('dropdown'));
+        $('#form .field-group:last').find('.field-question').attr('value', 'Professor');
+        $('#form .field-group:last').find('a').replaceWith('<small>This field group will be binded with the users list of professors assigned to them.</small>');
+
+        $('#form').append(generateFormFieldGroup('textbox'));
+        $('#form .field-group:last').find('.field-textbox').attr('value', 'Class Schedule');
+
+        adjustButton();
+
+    }else{
+        $('#form').append(generateFormFieldGroup('paragraph'));
+        adjustButton();
+    }
     
 
     // Generates default formgroup/question box when the page first loads
-    $('#form').append(generateFormFieldGroup('paragraph'));
-    adjustButton();
 
     $('#form').on('change', '.field-option', function () {
 
@@ -190,6 +226,8 @@ $(document).ready(function () {
             renameField(formGroup, selectedValue)
         } else if (selectedValue === 'scale') {
             appendScaleOptions(formGroup);
+        } else if (selectedValue === 'textbox') {
+            appendTextboxInput(formGroup);
         }
 
     });
@@ -298,65 +336,76 @@ $(document).ready(function () {
 
     
 
-    // function submitFormData(formData) {
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: 'functions.php', // Change this to the correct path of your functions.php file
-    //         data: formData, // Serialized form data
-    //         success: function (response) {
-    //             // Process the response as needed
-    //             console.log(response);
-
-    //             // Redirect after successful form submission
-    //             // window.location.href = '../forms/functions.php'; // Change this to the desired location
-    //         },
-    //         error: function () {
-    //             console.log('An error occurred.');
-    //         }
-    //     });
-    // }
-
-    $('#form-submit').click(function (e) {
-        // e.preventDefault(); // Prevent the default form submission
-
-        // var formData = $('#form').serialize(); // Serialize the form data
-        // submitFormData(formData); // Call the function to submit form data via AJAX
-
-
+    
+    $('#form-submit').click(function () {
+        var section_count = 0;
+        var role = $(this).attr('value');
+        var questionsData = [];
+        var formTitleValue = $('.form-title input[type="text"]').val();
+        // console.log(formTitleValue);
+    
         $('.field-group').each(function() {
-
             var selectedValue = $(this).find('.field-option').val();
             var groupID = $(this).attr('id');
-            var fieldname = 'input-field-' + selectedValue + '-' + groupID;
-            // var question, type, options, order, page = null;
             var option = null;
-            var section = null;
-
-            if(selectedValue == 'paragraph'){
+    
+            if (selectedValue === 'section') {
+                section_count++;
+                var inputValue = $(this).find('.field-section').val();
+            } else if (selectedValue === 'paragraph') {
                 var inputValue = $(this).find('.field-paragraph').val();
+            } else if (selectedValue === 'page') {
+                var inputValue = $(this).find('.field-page').val();
+            } else if (selectedValue === 'textbox') {
+                var inputValue = $(this).find('.field-textbox').val();
+            } else {
+                if($(this).hasClass('form-title')){
+                    var inputValue = $('.form-title input[type="text"]').val();
+                    selectedValue = 'form-title';
+                }else{
+                    var inputValue = $(this).find('.field-question').val();
+                }
             }
-            else if(selectedValue === 'section'){
-                var inputValue = $(this).find('.field-section').val()
-            }
-            else if(selectedValue === 'page'){
-                var inputValue = $(this).find('.field-page').val()
-            }else{
-                var inputValue = $(this).find('.field-question').val()
-            }
+    
+            var questionObj = {
+                sectionID: section_count,
+                question: inputValue,
+                type: selectedValue,
+                options: option,
+                order: groupID
+            };
             
-            var formData = {
-                sectionID : section,
-                question : inputValue,
-                type :selectedValue,
-                options : option,
-                order : groupID
-                // page :''
-                // insert page here
+            questionsData.push(questionObj);
+        });
+    
+        var formData = {
+            data: questionsData,
+            action: { 'action': 'create form', 'role': role }
+        };
+        
+        $.ajax({
+            type: 'POST',
+            url: '../forms/event-listener.php', // URL to your PHP script
+            data: { 
+                data: JSON.stringify(formData),
+                action: JSON.stringify({ 'action': 'create form', 'role': role })
+            },
+            success: function(response) {
+                // console.log(response);
+                var cleanedResponse = response.replace(/\s/g, '');
+                console.log(cleanedResponse);
+                // Handle the response from the server if needed
+                if(cleanedResponse === 'success'){
+                    window.location.href = '../forms/form-complete.php';
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                // Handle errors here
             }
-            console.log(formData)
         });
     });
-
+    
     
 });
 

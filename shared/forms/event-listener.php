@@ -12,6 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($role == 'student'){
         insertResponse($role, $formData);
         echo "success";
+    }else if ($role === 'superadmin'){
+        if($action === 'create form'){
+            echo "success";
+        }else if($action === 'modify form'){
+            echo "none ";
+        }
     }
 
 }

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +25,7 @@
             height: 100%;
             background-color: rgba(223, 222, 222, 0.73); /* Gray color with 0.6 opacity */
             z-index: -1;
+            
         }
 
      </style>
@@ -67,8 +71,9 @@
                     
                 </div>
             </aside>
+            
 
-            <button id="form-submit" class="rounded">Submit</button>
+            <button id="form-submit" class="rounded" value="<?php echo $_SESSION['role']; ?>">Submit</button>
 
         </form>
         
