@@ -138,6 +138,8 @@ class Form{
                     $this->paragraphFieldInput($row['question_text'], $row['question_id']);
                 } else if ($type == 'choice') {
                     $this->choiceFieldInput($row['question_text'], $row['options'], $row['question_id']);
+                } else if ($type == 'textbox') {
+                    $this->textboxFieldInput($row['question_text'], $row['question_id']);
                 } else if ($type == 'dropdown') {
                     $this->dropdownFieldInput($row['question_text'], $row['options'], $row['question_id']);
                 } else if ($type == 'date' || $type == 'time') {
@@ -152,10 +154,14 @@ class Form{
                     $this->paragraphFieldInput($row['question_text'], $row['question_id']);
                 } else if ($type == 'choice') {
                     $this->choiceFieldInput($row['question_text'], $row['options'], $row['question_id']);
+                }else if ($type == 'textbox') {
+                    $this->textboxFieldInput($row['question_text'], $row['question_id']);
                 } else if ($type == 'dropdown') {
                     $this->dropdownFieldInput($row['question_text'], $row['options'], $row['question_id']);
                 } else if ($type == 'date' || $type == 'time') {
                     $this->dateTimeFieldInput($type, $row['question_text'], $row['question_id']);
+                }else if ($type === 'scale') {
+                    $this->scaleFieldInput($row['question_text'], $row['options'], $row['question_id'], $statementCount);
                 }
             }
         }
@@ -181,6 +187,13 @@ class Form{
             {
                 echo '
                     <div class="form-card" id="'.$row['form_id'].'">
+                        <div class="kebab-menu">
+                            <img src="https://img.icons8.com/?size=512&id=84119&format=png" alt="Three Dots Icon" class="kebab-icon" width="25px">
+                            <ul class="kebab-options">
+                                <li><button type="button" name="modify" value="'.$row['form_id'].'">Edit Form</button></li>
+                                <li><button type="button" name="delete" value="'.$row['form_id'].'">Delete Form</button></li>
+                            </ul>
+                        </div>
                         <h4>'.$row['form_name'].'</h4>
                         <p>'.$row['form_description'].'</p>
     
@@ -213,6 +226,14 @@ class Form{
         <div class="form-response-group paragraph" id="'. $questionID.'" >
             <h6>'. $formQuestion. '</h6>
             <textarea name="field-response-paragraph-'. $questionID.'" class="response-paragraph w-100 mt-2" rows=8"></textarea>
+        </div>
+        ';
+    }
+    function textboxFieldInput($formQuestion, $questionID){
+        echo '
+        <div class="form-response-group paragraph" id="'. $questionID.'" >
+            <h6>'. $formQuestion. '</h6>
+            <input type="text" name="field-response-input-'. $questionID.'" class="w-25"></input>
         </div>
         ';
     }

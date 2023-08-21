@@ -125,6 +125,31 @@ function createForm($role, $formData) {
 }
 
 
+function deleteForm($formID){
+    $conn = connection();
+
+    // Delete from form_section table
+    $deleteFormSections = "DELETE FROM form_section WHERE form_id = '$formID'";
+    if ($conn->query($deleteFormSections) === FALSE) {
+        echo "Error deleting from form_section: " . $conn->error;
+    }
+
+    // Delete from form_question table
+    $deleteFormQuestions = "DELETE FROM form_question WHERE form_id = '$formID'";
+    if ($conn->query($deleteFormQuestions) === FALSE) {
+        echo "Error deleting from form_question: " . $conn->error;
+    }
+
+    // Delete from form table
+    $deleteForm = "DELETE FROM form WHERE form_id = '$formID'";
+    if ($conn->query($deleteForm) === FALSE) {
+        echo "Error deleting from form: " . $conn->error;
+    }
+
+    $conn->close();
+
+}
+
 
 
 ?>

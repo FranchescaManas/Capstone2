@@ -428,7 +428,7 @@ table.user-table{
     border-radius: 25px;
     padding: 25px;
     overflow: auto;
-
+    position: relative;
 }
 
 .form-card > p{
@@ -438,4 +438,43 @@ table.user-table{
 
 .modal-header, .modal-footer{
     border: none !important;
+}
+
+.kebab-menu{
+    text-align: right !important;
+    position: absolute;
+    right: 20px;
+}
+
+.kebab-options {
+    width: 135px;
+    border: 1px solid black;
+    position: absolute;
+    right: 0;
+    background-color: #A8A8A8;
+}
+ul.kebab-options{
+    padding: 0 !important;
+}
+
+.kebab-options li {
+    padding: 5px !important;
+}
+.kebab-options li > button {
+    margin: 0 !important;
+    background-color: transparent !important;
+    color: black;
+}
+.kebab-options li:hover {
+    background-color: #858585;
+}
+
+.kebab-options a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+}
+
+.kebab-menu.open .kebab-options {
+    display: block;
 }

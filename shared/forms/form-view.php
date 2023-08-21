@@ -50,7 +50,8 @@
 
                 
             ?>
-            
+
+                    
 
         </section>
 
@@ -91,12 +92,5 @@
                 include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/form-modal.php'; 
                 ?>
                     </aside>
-
-                
-
-
-    
-    
-
 
 </main>
