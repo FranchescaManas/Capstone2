@@ -447,6 +447,7 @@ table.user-table{
 }
 
 .kebab-options {
+    display: none;
     width: 135px;
     border: 1px solid black;
     position: absolute;
