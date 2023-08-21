@@ -76,14 +76,14 @@ $(document).ready(function () {
 
     function appendDateOrTimeInput(formGroup, selectedValue) {
         renameField(formGroup, selectedValue);
-        var formOptions = $('<section>', { class: 'form-options w-100 my-1' });
-        formOptions.append(
-            $('<input>', {
-                type: selectedValue,
-                class: 'w-25 rounded'
-            })
-        );
-        formGroup.append(formOptions);
+        // var formOptions = $('<section>', { class: 'form-options w-100 my-1' });
+        // formOptions.append(
+        //     $('<input>', {
+        //         type: selectedValue,
+        //         class: 'w-25 rounded'
+        //     })
+        // );
+        // formGroup.append(formOptions);
     }
 
     function appendSectionOrPageInput(formGroup, selectedValue) {

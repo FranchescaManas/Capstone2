@@ -51,7 +51,7 @@ function login($username, $password){
                     header('location: ./superadmin');
                     
                }elseif($_SESSION['role'] == 'admin'){
-                    header('location: ./admin//index.php?page=dashboard');
+                    header('location: ./admin/index.php?page=dashboard');
                     
                }elseif($_SESSION['role'] == 'faculty'){
                     header('location: ./faculty/index.php?page=dashboard');

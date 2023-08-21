@@ -7,6 +7,7 @@
 //  session_start();
     include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/shared-functions.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/FormClass.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/form-modal.php'; 
 
     $userID = $_SESSION['user_id'];
     $role = $_SESSION['role'];
@@ -21,8 +22,7 @@
 
         <section class="flex-center flex-column">
             <?php
-            // echo $_SESSION['role'];
-                // $form->loadFormsGroup($_SESSION['role']);
+            
                 $form = new Form;
 
                 // searches the forms accessible to the current role and id
@@ -40,7 +40,7 @@
                         echo "user can modify";
                     }else if($access === 'full access'){
                         // no function yet
-                        echo "user has full access";
+                        $form->loadFormsGroup($f_id);   
                     }else{
                         // design no permission message
                         echo "no permission to forms";
@@ -62,10 +62,7 @@
         </a>
         <button class="white-btn" data-bs-toggle="modal" data-bs-target="#scheduleform">SCHEDULE FORM</button>
         <button class="white-btn" data-bs-toggle="modal" data-bs-target="#assignForm">ASSIGN FORM</button>
-        <!-- Button trigger modal -->
-        <?php     
-        include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/form-modal.php'; 
-        ?>
+    
 
     </aside>
 

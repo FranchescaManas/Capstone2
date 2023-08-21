@@ -185,7 +185,9 @@ class Form{
                         <p>'.$row['form_description'].'</p>
     
                         <div class="d-flex justify-content-end">
-                            <button class="red-btn small-btn rounded">View</button>
+                            <form action="../shared/forms/form.php" method="post">
+                                <button class="view-form red-btn small-btn rounded" name="viewForm" value="'.$form_id.'">View</button>
+                            </form>
                         </div>
                     </div>
                 ';

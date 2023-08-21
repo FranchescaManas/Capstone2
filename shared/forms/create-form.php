@@ -36,7 +36,7 @@ session_start();
     </header>
 
     <main >
-
+        
         <form action="javascript:void(0)" id="form" method="post">
 
             <header class="field-group form-title">
