@@ -13,7 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         insertResponse($role, $formData);
         echo "success";
     }else if ($role === 'superadmin'){
-        createForm($role, $formData);
+        if($action === 'create form'){
+            createForm($role, $formData);
+        }else if($action === 'delete form'){
+            deleteForm($formData);
+        }
         echo "success";
     }
 
