@@ -57,6 +57,7 @@ $(document).ready(function () {
     function appendChoiceOptions(formGroup, selectedValue) {
         renameField(formGroup, selectedValue);
         formGroup.find('.field-question').attr('placeholder', 'Enter Question');
+        formGroup.find('.field-question').addClass('field-' + selectedValue);
     
         var formOptions = $('<section>', {
             class: 'form-options w-100 my-1',
@@ -67,8 +68,9 @@ $(document).ready(function () {
                 class: 'form-option-container',
                 id: 'form-option-container' + fieldcounter
             }),
-            $('<a>', { href: 'javascript:void(0)', class: 'add-option' }),
-            $('<small>').html(' Add option or <u>import from excel</u>')
+            $('<a>', { href: 'javascript:void(0)', class: 'add-option' }).append(
+                $('<small>').html(' Add option or <u>import from excel</u>')
+            )
         );
         formGroup.append(formOptions);
     }
@@ -121,9 +123,11 @@ $(document).ready(function () {
     }
 
     function appendScaleOptions(formGroup) {
+        // renameField(formGroup, selectedValue);
         var fieldGroupId = formGroup.attr('id'); // Get the fieldGroupId
         formGroup.find('.field-question').attr('placeholder', 'Enter Scale Category');
-        
+        renameField(formGroup, 'scale');
+        formGroup.find('.field-question').removeClass('field-paragraph').addClass('field-scale')
         var formOptions = $('<section>', { class: 'form-options w-100 my-1' });
     
         var scaleContainer = $('<div>', { class: 'd-flex w-100' });
@@ -159,8 +163,8 @@ $(document).ready(function () {
         statementsContainer.append($('<p>').html('<u>Statements:</u>'));
         formOptions.append(statementsContainer);
     
-        $('<a>', { href: 'javascript:void(0);', class: 'add-scale-statement' }).append(
         formOptions.append(
+        $('<a>', { href: 'javascript:void(0);', class: 'add-scale-statement' }).append(
                 $('<small>').html(' Add option or <u>import from excel</u>')
             )
         );
@@ -194,7 +198,7 @@ $(document).ready(function () {
         $('#form .field-group:last').find('.field-textbox').attr('value', 'Section');
         $('#form').append(generateFormFieldGroup('dropdown'));
         $('#form .field-group:last').find('.field-question').attr('value', 'Professor');
-        $('#form .field-group:last').find('a').replaceWith('<small>This field group will be binded with the users list of professors assigned to them.</small>');
+        // $('#form .field-group:last').find('a').replaceAll('<small>This field group will be binded with the users list of professors assigned to them.</small>');
 
         $('#form').append(generateFormFieldGroup('textbox'));
         $('#form .field-group:last').find('.field-textbox').attr('value', 'Class Schedule');
@@ -341,8 +345,7 @@ $(document).ready(function () {
         var section_count = 0;
         var role = $(this).attr('value');
         var questionsData = [];
-        var formTitleValue = $('.form-title input[type="text"]').val();
-        // console.log(formTitleValue);
+       
     
         $('.field-group').each(function() {
             var selectedValue = $(this).find('.field-option').val();
@@ -358,13 +361,46 @@ $(document).ready(function () {
                 var inputValue = $(this).find('.field-page').val();
             } else if (selectedValue === 'textbox') {
                 var inputValue = $(this).find('.field-textbox').val();
+            } else if (selectedValue === 'dropdown' || selectedValue === 'choice') {
+                var inputValue = $(this).find('.field-' + selectedValue).val();
+                option = {};
+                var optionCounter = 1;
+                $(this).find('.add-option-input').each(function() {
+                    var optionValue = $(this).val();
+                    if (optionValue.trim() !== '') {
+                        option['option' + optionCounter] = optionValue;
+                        optionCounter++;
+                    }
+                });
+            } else if (selectedValue === 'scale') {
+                var inputValue = $(this).find('.field-' + selectedValue).val();
+
+                var scaleLabels = {};
+                $(this).find('.scale-options .scale-input').each(function(index) {
+                    var labelValue = $(this).val();
+                    if (labelValue.trim() !== '') {
+                        scaleLabels['label' + (index + 1)] = labelValue;
+                    }
+                });
+
+                var scaleStatements = {};
+                $(this).find('.statements .scale-statement').each(function(index) {
+                    var statementValue = $(this).val();
+                    if (statementValue.trim() !== '') {
+                        scaleStatements['statement' + (index + 1)] = statementValue;
+                    }
+                });
+
+                option = {
+                    'scale-labels': scaleLabels,
+                    'scale-statement': scaleStatements
+                };
             } else {
                 if($(this).hasClass('form-title')){
                     var inputValue = $('.form-title input[type="text"]').val();
                     selectedValue = 'form-title';
-                }else{
-                    var inputValue = $(this).find('.field-question').val();
                 }
+        
             }
     
             var questionObj = {
@@ -382,6 +418,7 @@ $(document).ready(function () {
             data: questionsData,
             action: { 'action': 'create form', 'role': role }
         };
+        // console.log(formData);
         
         $.ajax({
             type: 'POST',

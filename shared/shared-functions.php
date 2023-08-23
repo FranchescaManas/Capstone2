@@ -70,33 +70,35 @@ function insertResponse($role, $formData){
 
     $conn->close();
 }
-
 function createForm($role, $formData) {
     $conn = connection();
-    $section_count = 0;
     $formID = 0;
-
+    $sectionID = null; // Initialize with null to represent no section
+    $section_count = 0;
     foreach ($formData['data'] as $item) {
         if ($item['type'] === 'form-title') {
-            $formTitle = mysqli_real_escape_string($conn, $item['question']);
+            $formTitle = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
+
             $sql = "INSERT INTO form (`form_name`, `form_description`, `form_type`) 
             VALUES ('$formTitle', 'null', null)";
             
             if ($conn->query($sql)) {
                 $formID = $conn->insert_id;
                 
-                 // Insert into form_permission with default values
-                 $insertPermissionSql = "INSERT INTO form_permission (`user_id`, `role`, `form_id`, `can_access`, `can_modify`)
+                // Insert into form_permission with default values
+                $insertPermissionSql = "INSERT INTO form_permission (`user_id`, `role`, `form_id`, `can_access`, `can_modify`)
                  VALUES (0, 'superadmin', '$formID', 1, 1)";
                  
-                 if (!$conn->query($insertPermissionSql)) {
-                     echo "Error: " . $insertPermissionSql . "<br>" . $conn->error;
-                 }
-
+                if (!$conn->query($insertPermissionSql)) {
+                    echo "Error: " . $insertPermissionSql . "<br>" . $conn->error;
+                }
+            } else {
+                echo "Error inserting form: " . $conn->error;
             }
         } else if ($item['type'] === 'section') {
+            $sectionName = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
             $section_count++;
-            $sectionName = mysqli_real_escape_string($conn, $item['question']);
+            
             $sql = "INSERT INTO form_section (`form_id`, `section_name`, `section_order`) VALUES
             ('$formID', '$sectionName', $section_count)";
             
@@ -106,23 +108,31 @@ function createForm($role, $formData) {
                 echo "Error inserting section: " . $conn->error;
             }
         } else {
-            $questionType = mysqli_real_escape_string($conn, $item['type']);
-            $options = mysqli_real_escape_string($conn, $item['options']);
-            $questionOrder = $item['order'];
+            $question = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
+            $questionType = isset($item['type']) ? mysqli_real_escape_string($conn, $item['type']) : '';
+            $options = isset($item['options']) ? mysqli_real_escape_string($conn, json_encode($item['options'])) : null;
+            $questionOrder = isset($item['order']) ? $item['order'] : 0;
             $pageID = 1;
 
-            $sql = "INSERT INTO form_question (`section_id`, `question_type`, `options`, `question_order`, `page_id`, `form_id`)
-            VALUES ('$sectionID', '$questionType', '$options', '$questionOrder', '$pageID', '$formID')";
+            $sql = "INSERT INTO form_question (`section_id`, `question_text`, `question_type`, `options`, `question_order`, `form_id`, `page_id`)
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("isssiii", $sectionID, $question, $questionType, $options, $questionOrder, $formID, $pageID);
 
-            
-            if (!$conn->query($sql)) {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+            if ($stmt->execute()) {
+                // Query executed successfully
+            } else {
+                echo "Error: " . $stmt->error;
             }
         }
     }
 
     $conn->close();
 }
+
+
+
+
 
 
 function deleteForm($formID){
@@ -158,3 +168,5 @@ function deleteForm($formID){
 
 
 ?>
+
+
