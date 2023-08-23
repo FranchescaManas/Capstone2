@@ -72,6 +72,9 @@ $role = $_SESSION['role'];
 
 
         // counts how many forms the user has access to
+        if($role ==='superadmin'){
+            header('location: ../../' . $role . '/index.php?page=forms');
+        }
         if (count($formId) === 1) {
             // check the current access that the user has on the form
             $access = $form->checkAccess($formId[0], $role);

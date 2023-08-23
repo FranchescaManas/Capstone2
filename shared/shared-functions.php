@@ -110,7 +110,7 @@ function createForm($role, $formData) {
         } else {
             $question = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
             $questionType = isset($item['type']) ? mysqli_real_escape_string($conn, $item['type']) : '';
-            $options = isset($item['options']) ? mysqli_real_escape_string($conn, json_encode($item['options'])) : null;
+            $options = isset($item['options']) ? json_encode($item['options']) : null;
             $questionOrder = isset($item['order']) ? $item['order'] : 0;
             $pageID = 1;
 
