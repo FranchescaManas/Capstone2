@@ -1,5 +1,7 @@
 <?php
 session_start();
+include '../shared-functions.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,15 +38,36 @@ session_start();
     </header>
 
     <main >
+    
+            
+            <?php
+      if(isset($_POST['modify'])){
+          ?>
+          <form action="javascript:void(0)" id="form" method="post" data-category="<?php echo $_POST['modify'];?>">
+            <!-- call jquery function here -->
+            <?php
+            loadForm($_SESSION['role'], $_POST['modify']);
+
+}else{
+    ?>
+        <form action="javascript:void(0)" id="form" method="post" data-category="normal">
+                        
+                        <header class="field-group form-title">
+                            <label for="form-title">Form Title:</label>
+                            <input type="text" name="form-title" id="">  
+                        </header>
+
+                        
+
+                        <button id="form-submit" class="rounded" value="<?php echo $_SESSION['role']; ?>">Submit</button>
+                        
+                        
+                        <?php
+        }
         
-        <form action="javascript:void(0)" id="form" method="post">
-
-            <header class="field-group form-title">
-                <label for="form-title">Form Title:</label>
-                <input type="text" name="form-title" id="">  
-            </header>
-
-            <aside class="w-100">
+        
+        ?>
+        <aside class="w-100">
                 <div class="form-group-add">
                 
                     <button id="add-btn" type="button">
@@ -72,9 +95,6 @@ session_start();
                 </div>
             </aside>
             
-
-            <button id="form-submit" class="rounded" value="<?php echo $_SESSION['role']; ?>">Submit</button>
-
         </form>
         
         

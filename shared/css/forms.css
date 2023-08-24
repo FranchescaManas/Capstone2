@@ -79,6 +79,7 @@ select.field-option{
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     position: fixed;
+    top: 35vh !important;
     
 }
 
@@ -206,3 +207,5 @@ select.field-option{
 #response-submit{
     margin: 10vh auto !important;
 }
+
+

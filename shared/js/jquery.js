@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
 
     function generateFormFieldGroup(selectedValue = 'paragraph') {
         var formGroup = $('<div>', {
@@ -176,6 +177,34 @@ $(document).ready(function () {
         submit_btn.css('width', '70%');
         $('#form').append(submit_btn);
     }
+    
+    function bindFaculty(){
+        var result = confirm("Would you like to include a binded Faculty Information Section?");
+    
+        if(result){
+            $(this).hide();
+            $('#form').append(generateFormFieldGroup('section'));
+            $('#form .field-group:last').find('.field-section').attr('value', 'Faculty Information');
+            $('#form .field-group:last').find('.field-section').attr('class', 'field-question field-section faculty rounded');
+            $('#form').append(generateFormFieldGroup('textbox'));
+            $('#form .field-group:last').find('.field-textbox').attr('value', 'Student Number');
+            $('#form').append(generateFormFieldGroup('textbox'));
+            $('#form .field-group:last').find('.field-textbox').attr('value', 'Section');
+            $('#form').append(generateFormFieldGroup('dropdown'));
+            $('#form .field-group:last').find('.field-question').attr('value', 'Professor');
+            // $('#form .field-group:last').find('a').replaceAll('<small>This field group will be binded with the users list of professors assigned to them.</small>');
+    
+            $('#form').append(generateFormFieldGroup('textbox'));
+            $('#form .field-group:last').find('.field-textbox').attr('value', 'Class Schedule');
+    
+            adjustButton();
+    
+        }else{
+            $('#form').append(generateFormFieldGroup('paragraph'));
+            adjustButton();
+        }
+
+    }
 
 
     var fieldcounter = 1;
@@ -183,30 +212,12 @@ $(document).ready(function () {
     var option_count = 1;
     var page_count = 1;
     var section_count = 1;
-
-    var result = confirm("Would you like to include a binded Faculty Information Section?");
-
-    if(result){
-        $(this).hide();
-        $('#form').append(generateFormFieldGroup('section'));
-        $('#form .field-group:last').find('.field-section').attr('value', 'Faculty Information');
-        $('#form .field-group:last').find('.field-section').attr('class', 'field-question field-section faculty rounded');
-        $('#form').append(generateFormFieldGroup('textbox'));
-        $('#form .field-group:last').find('.field-textbox').attr('value', 'Student Number');
-        $('#form').append(generateFormFieldGroup('textbox'));
-        $('#form .field-group:last').find('.field-textbox').attr('value', 'Section');
-        $('#form').append(generateFormFieldGroup('dropdown'));
-        $('#form .field-group:last').find('.field-question').attr('value', 'Professor');
-        // $('#form .field-group:last').find('a').replaceAll('<small>This field group will be binded with the users list of professors assigned to them.</small>');
-
-        $('#form').append(generateFormFieldGroup('textbox'));
-        $('#form .field-group:last').find('.field-textbox').attr('value', 'Class Schedule');
-
-        adjustButton();
-
+    
+    if ($('[data-category="normal"]').length > 0) {
+        // Do something
+        bindFaculty();
     }else{
-        $('#form').append(generateFormFieldGroup('paragraph'));
-        adjustButton();
+        console.log('modify');
     }
     
 

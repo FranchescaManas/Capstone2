@@ -63,9 +63,11 @@
 
                     <?php
                     if($_SESSION['role'] == 'superadmin'){
-                    echo"<a href=\"../shared/forms/create-form.php\" class=\"w-100 flex-center\" style=\"text-decoration: none;\">
-                        <button class=\"white-btn\">CREATE FORM</button>
-                        </a>
+                    echo"
+                    <form action='../shared/forms/create-form.php' method='post'>
+                        <button class=\"white-btn w-100\" name='action' value='create'>CREATE FORM</button>
+                    </form>
+                        
                         <button class=\"white-btn\" data-bs-toggle=\"modal\" data-bs-target=\"#scheduleform\">SCHEDULE FORM</button>
                         <button class=\"white-btn\" data-bs-toggle=\"modal\" data-bs-target=\"#assignForm\">ASSIGN FORM</button>
                         ";

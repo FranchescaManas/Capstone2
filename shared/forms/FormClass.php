@@ -175,7 +175,10 @@ class Form{
                         <div class="kebab-menu">
                             <img src="https://img.icons8.com/?size=512&id=84119&format=png" alt="Three Dots Icon" class="kebab-icon" width="25px">
                             <ul class="kebab-options">
-                                <li><button type="button" name="modify" value="'.$row['form_id'].'">Edit Form</button></li>
+                                <li>
+                                <form action="../shared/forms/create-form.php" method="post">
+                                <button type="submit" name="modify" value="'.$row['form_id'].'">Edit Form</button></li>
+                                </form>
                                 <li><button type="button" name="delete" value="'.$row['form_id'].'">Delete Form</button></li>
                             </ul>
                         </div>

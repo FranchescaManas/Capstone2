@@ -40,5 +40,28 @@ $(document).ready(function() {
             });
         }
     });
-
+    // $('button[name="modify"]').click(function() {
+    //     // var confirmDelete = confirm("are your sure you want to delete this form?");
+    //     var editButtonValue = $(this).val();
+        
+       
+    
+    //     // Send the data to the server using an AJAX request
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '../shared/forms/create-form.php', // Replace with the actual URL
+    //         data: {
+    //             userRole: userRole,
+    //             action: 'modify form',
+    //             formid: editButtonValue
+    //         },
+    //         success: function(response) {
+    //             // window.location.href = '../shared/forms/create-form.php';
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error('Error:', error);
+    //         }
+            
+    //     });
+    // });
 });

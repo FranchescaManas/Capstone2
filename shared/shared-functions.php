@@ -130,11 +130,6 @@ function createForm($role, $formData) {
     $conn->close();
 }
 
-
-
-
-
-
 function deleteForm($formID){
     $conn = connection();
     
@@ -164,6 +159,102 @@ function deleteForm($formID){
     $conn->close();
 
 }
+
+
+function loadForm($role, $formID)
+{
+    $conn = connection();
+
+
+    $sql = "SELECT
+        f.form_id,
+        fq.question_id,
+        fq.question_text,
+        fq.question_type,
+        fq.options,
+        fq.question_order,
+        fs.section_id,
+        fs.section_name,
+        fs.section_order,
+        fp.page_id,
+        fp.page_sequence
+    FROM
+        form f            LEFT JOIN
+        form_question fq ON f.form_id = fq.form_id
+    LEFT JOIN
+        form_section fs ON fq.section_id = fs.section_id
+    LEFT JOIN
+        form_page fp ON fq.form_id = fp.form_id
+    WHERE
+        fq.form_id = $formID
+    ORDER BY
+        fp.page_sequence ASC,
+        fs.section_order ASC,
+        fq.question_order ASC;
+    ";
+    
+
+    $result = $conn->query($sql);
+
+    if ($result) {
+
+        while ($row = $result->fetch_assoc()) {
+            $questionID = $row['question_id'];
+            $questionText = $row['question_text'];
+            $questionType = $row['question_type'];
+
+            echo generateFormFieldGroup($questionType, $questionID);
+        }
+        $result->free();
+    } else {
+        // Handle the query error
+        echo "Error: " . ($conn)->error;
+    }
+}
+
+
+
+function generateFormFieldGroup($selectedValue, $questionID) {
+    $questionTypes = [
+        ["value" => "textbox", "text" => "Textbox"],
+        ["value" => "paragraph", "text" => "Short Paragraph"],
+        ["value" => "date", "text" => "Date"],
+        ["value" => "time", "text" => "Time"],
+        ["value" => "choice", "text" => "Multiple Choice"],
+        ["value" => "dropdown", "text" => "Dropdown"],
+        ["value" => "scale", "text" => "Linear Scale"],
+        ["value" => "page", "text" => "Page"],
+        ["value" => "section", "text" => "Section"]
+    ];
+
+    $formGroupHtml = '<div class="field-group" id="' . $questionID++ . '">';
+    $formGroupHtml .= '<section class="w-100">';
+    $formGroupHtml .= '<input type="text" class="field-question rounded" placeholder="Question">';
+    $formGroupHtml .= '<select name="field-option" class="field-option rounded">';
+    foreach ($questionTypes as $type) {
+        $selected = ($type['value'] === $selectedValue) ? 'selected' : '';
+        $formGroupHtml .= '<option value="' . $type['value'] . '" ' . $selected . '>' . $type['text'] . '</option>';
+    }
+    $formGroupHtml .= '</select>';
+    $formGroupHtml .= '</section>';
+    if ($selectedValue === 'choice' || $selectedValue === 'dropdown') {
+        // do something
+    } else if ($selectedValue === 'date' || $selectedValue === 'time') {
+        // do something
+    } else if ($selectedValue === 'section' || $selectedValue === 'page' || $selectedValue === 'paragraph') {
+        // do something
+    } else if ($selectedValue === 'scale') {
+        // do something
+    } 
+    $formGroupHtml .= '</div>';
+
+    return $formGroupHtml;
+}
+
+
+
+
+
 
 
 

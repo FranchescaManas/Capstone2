@@ -17,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             createForm($role, $formData);
         }else if($action === 'delete form'){
             deleteForm($formData);
+        }else if($action === 'modify form'){
+            // modifyForm($role, $formData);
+            //do something
         }
         echo "success";
     }
