@@ -1,28 +1,31 @@
-
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/connection.php';
 
-function logout(){
+function logout()
+{
     // session_start(); // Make sure you start the session first
-    
+
     // Clear session variables
     $_SESSION = array();
-    
+
     // Destroy the session
     session_destroy();
-    
+
     // Redirect
     header('location: ../index.php');
-    exit; 
+    exit;
 }
 
-function getUsername(){
+function getUsername()
+{
     return $_SESSION['username'];
 }
-function getRole(){
+function getRole()
+{
     return $_SESSION['role'];
 }
-function insertResponse($role, $formData){
+function insertResponse($role, $formData)
+{
     $conn = connection();
 
     $formID = $formData['form_id'];
@@ -47,7 +50,7 @@ function insertResponse($role, $formData){
                     break;
                 case 'date':
                 case 'time':
-                    $responseValue = $response[ $questionType . '_response'];
+                    $responseValue = $response[$questionType . '_response'];
                     break;
                 case 'paragraph':
                     $responseValue = $response['text_response'];
@@ -56,7 +59,7 @@ function insertResponse($role, $formData){
                     $responseValue = json_encode($response['scale_responses']);
                     break;
                 default:
-                    // Handle unknown question types
+                // Handle unknown question types
             }
 
             $sql = "INSERT INTO form_response (form_id, user_id, section_id, question_id, response_value, response_type)
@@ -70,7 +73,8 @@ function insertResponse($role, $formData){
 
     $conn->close();
 }
-function createForm($role, $formData) {
+function createForm($role, $formData)
+{
     $conn = connection();
     $formID = 0;
     $sectionID = null; // Initialize with null to represent no section
@@ -81,14 +85,14 @@ function createForm($role, $formData) {
 
             $sql = "INSERT INTO form (`form_name`, `form_description`, `form_type`) 
             VALUES ('$formTitle', 'null', null)";
-            
+
             if ($conn->query($sql)) {
                 $formID = $conn->insert_id;
-                
+
                 // Insert into form_permission with default values
                 $insertPermissionSql = "INSERT INTO form_permission (`user_id`, `role`, `form_id`, `can_access`, `can_modify`)
                  VALUES (0, 'superadmin', '$formID', 1, 1)";
-                 
+
                 if (!$conn->query($insertPermissionSql)) {
                     echo "Error: " . $insertPermissionSql . "<br>" . $conn->error;
                 }
@@ -98,10 +102,10 @@ function createForm($role, $formData) {
         } else if ($item['type'] === 'section') {
             $sectionName = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
             $section_count++;
-            
+
             $sql = "INSERT INTO form_section (`form_id`, `section_name`, `section_order`) VALUES
             ('$formID', '$sectionName', $section_count)";
-            
+
             if ($conn->query($sql) === TRUE) {
                 $sectionID = $conn->insert_id; // Retrieve the inserted section_id
             } else {
@@ -130,9 +134,10 @@ function createForm($role, $formData) {
     $conn->close();
 }
 
-function deleteForm($formID){
+function deleteForm($formID)
+{
     $conn = connection();
-    
+
     // Delete from form_question table
     $deleteFormPermission = "DELETE FROM form_permission WHERE form_id = '$formID'";
     if ($conn->query($deleteFormPermission) === FALSE) {
@@ -192,7 +197,7 @@ function loadForm($role, $formID)
         fs.section_order ASC,
         fq.question_order ASC;
     ";
-    
+
 
     $result = $conn->query($sql);
 
@@ -203,7 +208,95 @@ function loadForm($role, $formID)
             $questionText = $row['question_text'];
             $questionType = $row['question_type'];
 
-            echo generateFormFieldGroup($questionType, $questionID);
+            $selectedValue = [
+                ["value" => "textbox", "text" => "Textbox"],
+                ["value" => "paragraph", "text" => "Short Paragraph"],
+                ["value" => "date", "text" => "Date"],
+                ["value" => "time", "text" => "Time"],
+                ["value" => "choice", "text" => "Multiple Choice"],
+                ["value" => "dropdown", "text" => "Dropdown"],
+                ["value" => "scale", "text" => "Linear Scale"],
+                ["value" => "page", "text" => "Page"],
+                ["value" => "section", "text" => "Section"]
+            ];
+
+            $formGroupHtml = '<div class="field-group" id="' . $questionID . '">';
+            $formGroupHtml .= '<section class="w-100">';
+            $formGroupHtml .= '<input type="text" class="field-question rounded" placeholder="' . $questionText . '">';
+            $formGroupHtml .= '<select name="field-option" class="field-option rounded">';
+            foreach ($selectedValue as $type) {
+                $selected = ($type['value'] === $questionType) ? 'selected' : '';
+                $formGroupHtml .= '<option value="' . $type['value'] . '" ' . $selected . '>' . $type['text'] . '</option>';
+            }
+            
+            $formGroupHtml .= '</select>';
+            $formGroupHtml .= '</section>';
+            if (in_array($questionType, ['choice', 'dropdown', 'scale'])) {
+                $formGroupHtml .= "<section class='form-options w-100 my-1' id='form-options{$questionID}'>";
+                $dataArray = json_decode($row['options'], true);
+                $optionCount = 0;
+                if ($questionType === 'choice' || $questionType === 'dropdown') {
+                    $formGroupHtml .= '<div class="form-option-container" id="form-option-container{$questionID}">';
+                    foreach ($dataArray as $key => $value) {
+                        $formGroupHtml .= '<input type="text" class="add-option-input w-75 mb-1" 
+                        name="add_option_input' . $optionCount++ . '?>" 
+                        placeholder="' . $value . '">';
+                    }
+                    $formGroupHtml .= '</div><a href="javascript:void(0)" class="add-option">
+                        <small> Add option or <u>import from excel</u></small>
+                    </a>
+                    ';
+                } else if ($questionType === 'scale') {
+                    $formGroupHtml .= '<section class="form-options w-100 my-1" id="form-options' . $questionID . '">';
+
+                    // Scale range and labels
+                    $formGroupHtml .= '<div class="d-flex w-100">';
+                    $formGroupHtml .= '<aside class="scale-range d-flex flex-row me-5">';
+                    $formGroupHtml .= '<select name="startselect" class="rounded" id="start_select">';
+                    $formGroupHtml .= '<option value="1">1</option>';
+                    $formGroupHtml .= '</select>';
+                    $formGroupHtml .= '<p> to </p>';
+                    $formGroupHtml .= '<select name="endselect" class="end_select">';
+                    for ($i = 1; $i <= 5; $i++) {
+                        $formGroupHtml .= '<option value="' . $i . '">' . $i . '</option>';
+                    }
+                    $formGroupHtml .= '</select>';
+                    $formGroupHtml .= '</aside>';
+
+                    $formGroupHtml .= '<aside class="d-flex flex-column w-100 ml-3">';
+                    $formGroupHtml .= '<p>Scale Labels:</p>';
+                    $formGroupHtml .= '<div class="scale-options d-flex flex-column flex-wrap" id="' . $questionID . '">';
+
+                    // Display scale labels from JSON options
+                    $scaleLabels = json_decode($row['options'], true)['scale-labels'];
+                    foreach ($scaleLabels as $label => $labelText) {
+                        $formGroupHtml .= '<input type="text" class="scale-input w-25 mb-2" 
+            name="' . $label . '" placeholder="' . $labelText . '">';
+                    }
+
+                    $formGroupHtml .= '</div>';
+                    $formGroupHtml .= '</aside>';
+                    $formGroupHtml .= '</div>';
+
+                    // Scale statements
+                    $formGroupHtml .= '<div class="statements mt-5">';
+                    foreach ($dataArray['scale-statement'] as $statement => $statementText) {
+                        $formGroupHtml .= '<input type="text" class="scale-statement w-75 mb-1" 
+            name="' . $statement . '" placeholder="' . $statementText . '">';
+                    }
+                    $formGroupHtml .= '</div>';
+
+                    // Add statement link
+                    $formGroupHtml .= '<a href="javascript:void(0)" class="add-scale-statement">
+        <small> Add statement</small>
+    </a>';
+
+                    $formGroupHtml .= '</section>';
+                }
+            }
+            $formGroupHtml .= '</div>';
+
+            echo $formGroupHtml;
         }
         $result->free();
     } else {
@@ -213,43 +306,7 @@ function loadForm($role, $formID)
 }
 
 
-
-function generateFormFieldGroup($selectedValue, $questionID) {
-    $questionTypes = [
-        ["value" => "textbox", "text" => "Textbox"],
-        ["value" => "paragraph", "text" => "Short Paragraph"],
-        ["value" => "date", "text" => "Date"],
-        ["value" => "time", "text" => "Time"],
-        ["value" => "choice", "text" => "Multiple Choice"],
-        ["value" => "dropdown", "text" => "Dropdown"],
-        ["value" => "scale", "text" => "Linear Scale"],
-        ["value" => "page", "text" => "Page"],
-        ["value" => "section", "text" => "Section"]
-    ];
-
-    $formGroupHtml = '<div class="field-group" id="' . $questionID++ . '">';
-    $formGroupHtml .= '<section class="w-100">';
-    $formGroupHtml .= '<input type="text" class="field-question rounded" placeholder="Question">';
-    $formGroupHtml .= '<select name="field-option" class="field-option rounded">';
-    foreach ($questionTypes as $type) {
-        $selected = ($type['value'] === $selectedValue) ? 'selected' : '';
-        $formGroupHtml .= '<option value="' . $type['value'] . '" ' . $selected . '>' . $type['text'] . '</option>';
-    }
-    $formGroupHtml .= '</select>';
-    $formGroupHtml .= '</section>';
-    if ($selectedValue === 'choice' || $selectedValue === 'dropdown') {
-        // do something
-    } else if ($selectedValue === 'date' || $selectedValue === 'time') {
-        // do something
-    } else if ($selectedValue === 'section' || $selectedValue === 'page' || $selectedValue === 'paragraph') {
-        // do something
-    } else if ($selectedValue === 'scale') {
-        // do something
-    } 
-    $formGroupHtml .= '</div>';
-
-    return $formGroupHtml;
-}
+  
 
 
 
@@ -259,5 +316,3 @@ function generateFormFieldGroup($selectedValue, $questionID) {
 
 
 ?>
-
-
