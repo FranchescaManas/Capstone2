@@ -43,8 +43,6 @@ $(document).ready(function () {
         renameField(formGroup, selectedValue);
 
 
-        
-
         return formGroup;
     }
 
@@ -78,6 +76,7 @@ $(document).ready(function () {
 
     function appendDateOrTimeInput(formGroup, selectedValue) {
         renameField(formGroup, selectedValue);
+        formGroup.find('.field-question').addClass('field-' + selectedValue);
         // var formOptions = $('<section>', { class: 'form-options w-100 my-1' });
         // formOptions.append(
         //     $('<input>', {
@@ -361,6 +360,8 @@ $(document).ready(function () {
                 var inputValue = $(this).find('.field-page').val();
             } else if (selectedValue === 'textbox') {
                 var inputValue = $(this).find('.field-textbox').val();
+            } else if (selectedValue === 'date'|| selectedValue === 'time') {
+                var inputValue = $(this).find('.field-' + selectedValue).val();
             } else if (selectedValue === 'dropdown' || selectedValue === 'choice') {
                 var inputValue = $(this).find('.field-' + selectedValue).val();
                 option = {};
@@ -418,7 +419,7 @@ $(document).ready(function () {
             data: questionsData,
             action: { 'action': 'create form', 'role': role }
         };
-        // console.log(formData);
+        console.log(formData);
         
         $.ajax({
             type: 'POST',
