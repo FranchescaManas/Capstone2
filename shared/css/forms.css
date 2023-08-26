@@ -3,6 +3,12 @@
     --container-w: 70%;
 }
 
+
+body{
+
+   
+}
+
 #form{
     display: flex;
     flex-direction: column;

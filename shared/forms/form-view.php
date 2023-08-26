@@ -64,7 +64,7 @@
                     <?php
                     if($_SESSION['role'] == 'superadmin'){
                     echo"
-                    <form action='../shared/forms/create-form.php' method='post'>
+                    <form action='../shared/forms/create-form.php' method='post' style='width: 75%;'>
                         <button class=\"white-btn w-100\" name='action' value='create'>CREATE FORM</button>
                     </form>
                         
