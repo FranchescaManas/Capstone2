@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     
 
     function generateFormFieldGroup(selectedValue = 'paragraph') {
@@ -217,7 +218,7 @@ $(document).ready(function () {
         // Do something
         bindFaculty();
     }else{
-        console.log('modify');
+        // console.log('modify');
     }
     
 
@@ -352,6 +353,11 @@ $(document).ready(function () {
 
     
     $('#form-submit').click(function () {
+        // console.log(isModifyMode);
+
+        var actionType = isModifyMode ? 'modify form' : 'create form';
+        formid = formid ? formid : null;
+
         var section_count = 0;
         var role = $(this).attr('value');
         var questionsData = [];
@@ -426,18 +432,23 @@ $(document).ready(function () {
             questionsData.push(questionObj);
         });
     
+     
         var formData = {
             data: questionsData,
-            action: { 'action': 'create form', 'role': role }
+            action: { 'action': actionType, 'role': role }, 
+            formid: formid
         };
-        console.log(formData);
-        
+        if (isModifyMode) {
+            formData.formid = formid;
+        }
+        // console.log(formData);
+
         $.ajax({
             type: 'POST',
             url: '../forms/event-listener.php', // URL to your PHP script
             data: { 
                 data: JSON.stringify(formData),
-                action: JSON.stringify({ 'action': 'create form', 'role': role })
+                action: JSON.stringify({ 'action': actionType, 'role': role, 'formID': formid })
             },
             success: function(response) {
                 // console.log(response);

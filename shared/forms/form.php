@@ -62,7 +62,7 @@ $role = $_SESSION['role'];
         </header>
         <main class='form-response-body'>
             <?php $form->loadFormData($formId); ?>
-            <!-- <button id="response-submit" class="rounded">Submit</button> -->
+            <!-- <button id="modify-sub/mit" class="rounded">Save Changes</button> -->
         </main>
         <?php
 

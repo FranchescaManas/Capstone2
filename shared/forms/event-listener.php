@@ -15,11 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }else if ($role === 'superadmin'){
         if($action === 'create form'){
             createForm($role, $formData);
+            // print_r($formData);
         }else if($action === 'delete form'){
             deleteForm($formData);
         }else if($action === 'modify form'){
-            // modifyForm($role, $formData);
-            //do something
+            updateForm($formData);
         }
         echo "success";
     }

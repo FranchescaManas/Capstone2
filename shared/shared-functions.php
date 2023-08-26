@@ -164,7 +164,19 @@ function deleteForm($formID)
     $conn->close();
 
 }
+function getFormName($formID){
+    $conn = connection();
 
+    $sql = "SELECT form_name FROM form where form_id = $formID";
+
+    if ($result = $conn->query($sql)) {
+        $row = $result->fetch_assoc();
+        $formName = $row['form_name'];
+    }
+    
+
+    return $formName;
+}
 
 function loadForm($role, $formID)
 {
@@ -222,15 +234,15 @@ function loadForm($role, $formID)
 
             $formGroupHtml = '<div class="field-group" id="' . $questionID . '">';
             $formGroupHtml .= '<section class="w-100">';
-            $formGroupHtml .= '<input type="text" class="field-question rounded" placeholder="' . $questionText . '">';
+            $formGroupHtml .= '<input type="text" class="field-question rounded field-'.$questionType.'" value="' . $questionText . '">';
             $formGroupHtml .= '<select name="field-option" class="field-option rounded">';
             foreach ($selectedValue as $type) {
                 $selected = ($type['value'] === $questionType) ? 'selected' : '';
                 $formGroupHtml .= '<option value="' . $type['value'] . '" ' . $selected . '>' . $type['text'] . '</option>';
             }
             
-            $formGroupHtml .= '</select>';
-            $formGroupHtml .= '</section>';
+                $formGroupHtml .= '</select>';
+                $formGroupHtml .= '</section>';
             if (in_array($questionType, ['choice', 'dropdown', 'scale'])) {
                 $formGroupHtml .= "<section class='form-options w-100 my-1' id='form-options{$questionID}'>";
                 $dataArray = json_decode($row['options'], true);
@@ -240,7 +252,7 @@ function loadForm($role, $formID)
                     foreach ($dataArray as $key => $value) {
                         $formGroupHtml .= '<input type="text" class="add-option-input w-75 mb-1" 
                         name="add_option_input' . $optionCount++ . '?>" 
-                        placeholder="' . $value . '">';
+                        value="' . $value . '">';
                     }
                     $formGroupHtml .= '</div><a href="javascript:void(0)" class="add-option">
                         <small> Add option or <u>import from excel</u></small>
@@ -271,7 +283,7 @@ function loadForm($role, $formID)
                     $scaleLabels = json_decode($row['options'], true)['scale-labels'];
                     foreach ($scaleLabels as $label => $labelText) {
                         $formGroupHtml .= '<input type="text" class="scale-input w-25 mb-2" 
-            name="' . $label . '" placeholder="' . $labelText . '">';
+                        name="' . $label . '" value="' . $labelText . '">';
                     }
 
                     $formGroupHtml .= '</div>';
@@ -282,14 +294,14 @@ function loadForm($role, $formID)
                     $formGroupHtml .= '<div class="statements mt-5">';
                     foreach ($dataArray['scale-statement'] as $statement => $statementText) {
                         $formGroupHtml .= '<input type="text" class="scale-statement w-75 mb-1" 
-            name="' . $statement . '" placeholder="' . $statementText . '">';
+                        name="' . $statement . '" value="' . $statementText . '">';
                     }
                     $formGroupHtml .= '</div>';
 
                     // Add statement link
                     $formGroupHtml .= '<a href="javascript:void(0)" class="add-scale-statement">
-        <small> Add statement</small>
-    </a>';
+                        <small> Add statement</small>
+                    </a>';
 
                     $formGroupHtml .= '</section>';
                 }
@@ -303,6 +315,84 @@ function loadForm($role, $formID)
         // Handle the query error
         echo "Error: " . ($conn)->error;
     }
+}
+function updateForm($formData)
+{
+    $conn = connection();
+    $formID = $formData['formid'];
+
+    $section_count = 0;
+
+    foreach ($formData['data'] as $item) {
+        if ($item['type'] === 'form-title') {
+            $formTitle = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
+
+            // Update the form title in the database
+            $updateFormTitleSql = "UPDATE form SET form_name = '$formTitle' WHERE form_id = $formID";
+
+            if ($conn->query($updateFormTitleSql) === FALSE) {
+                echo "Error updating form title: " . $conn->error;
+            }
+        } else if ($item['type'] === 'section') {
+            $sectionID = $item['sectionID'];
+            $sectionName = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
+
+            // Check if the section already exists
+            $sectionCheckSql = "SELECT * FROM form_section WHERE form_id = $formID AND section_id = $sectionID";
+            $sectionCheckResult = $conn->query($sectionCheckSql);
+
+            if ($sectionCheckResult && $sectionCheckResult->num_rows > 0) {
+                // Update the existing section
+                $updateSectionSql = "UPDATE form_section SET section_name = '$sectionName' WHERE form_id = $formID AND section_id = $sectionID";
+
+                if ($conn->query($updateSectionSql) === FALSE) {
+                    echo "Error updating section: " . $conn->error;
+                }
+            } else {
+                // Insert the new section
+                $section_count++;
+                $insertSectionSql = "INSERT INTO form_section (`form_id`, `section_id`, `section_name`, `section_order`)
+                VALUES ('$formID', '$sectionID', '$sectionName', $section_count)";
+
+                if ($conn->query($insertSectionSql) === FALSE) {
+                    echo "Error inserting section: " . $conn->error;
+                }
+            }
+        } else {
+            $sectionID = $item['sectionID'];
+            $question = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
+            $questionType = isset($item['type']) ? mysqli_real_escape_string($conn, $item['type']) : '';
+            $options = isset($item['options']) ? json_encode($item['options']) : null;
+            $questionOrder = isset($item['order']) ? $item['order'] : 0;
+            $pageID = 1;
+
+            // Check if the question already exists
+            $questionCheckSql = "SELECT * FROM form_question WHERE form_id = $formID AND section_id = $sectionID AND question_text = '$question'";
+            $questionCheckResult = $conn->query($questionCheckSql);
+
+            if ($questionCheckResult && $questionCheckResult->num_rows > 0) {
+                // Update the existing question
+                $updateQuestionSql = "UPDATE form_question SET question_type = '$questionType', options = '$options', question_order = $questionOrder
+                WHERE form_id = $formID AND section_id = $sectionID AND question_text = '$question'";
+
+                if ($conn->query($updateQuestionSql) === FALSE) {
+                    echo "Error updating question: " . $conn->error;
+                }
+            } else {
+                // Insert the new question
+                $insertQuestionSql = "INSERT INTO form_question (`section_id`, `question_text`, `question_type`, `options`, `question_order`, `form_id`, `page_id`)
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($insertQuestionSql);
+                $stmt->bind_param("isssiii", $sectionID, $question, $questionType, $options, $questionOrder, $formID, $pageID);
+
+                if ($stmt->execute() === FALSE) {
+                    echo "Error inserting question: " . $stmt->error;
+                }
+            }
+        }
+    }
+
+    $conn->close();
 }
 
 
