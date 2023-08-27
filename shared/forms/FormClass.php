@@ -188,7 +188,7 @@ class Form{
                             <ul class="kebab-options">
                                 <li>
                                 <form action="../shared/forms/create-form.php" method="post">
-                                <button type="submit" name="modify" value="'.$row['form_id'].'">Edit Form</button></li>
+                                <button type="submit" name="modify" style="background: none; color:black;" value="'.$row['form_id'].'">Edit Form</button></li>
                                 </form>
                                 <li><button type="button" name="delete" value="'.$row['form_id'].'">Delete Form</button></li>
                             </ul>

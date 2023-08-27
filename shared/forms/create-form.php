@@ -10,8 +10,9 @@ include '../shared-functions.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Form</title>
-    <link rel="stylesheet" href="../css/forms.css">
     <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    
     <!-- jquery cdn -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
@@ -25,7 +26,7 @@ include '../shared-functions.php';
     <style>
         body::before {
             content: '';
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -35,6 +36,7 @@ include '../shared-functions.php';
             z-index: -1;
 
         }
+        
     </style>
 </head>
 
@@ -58,7 +60,7 @@ include '../shared-functions.php';
                 <?php
                 loadForm($_SESSION['role'], $_POST['modify']);
                 
-                echo '<button id="form-submit" class="rounded" value="' . $_SESSION['role'] . '">Submit</button>';
+                echo '<button id="form-submit" class="rounded" style="width: 10%;"value="' . $_SESSION['role'] . '">Submit</button>';
 
         } else {
             ?>
