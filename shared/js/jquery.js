@@ -58,6 +58,7 @@ $(document).ready(function () {
         renameField(formGroup, selectedValue);
         formGroup.find('.field-question').attr('placeholder', 'Enter Question');
         formGroup.find('.field-question').addClass('field-' + selectedValue);
+        formGroup.find('.field-question').attr('id', 0);
     
         var formOptions = $('<section>', {
             class: 'form-options w-100 my-1',
@@ -79,6 +80,7 @@ $(document).ready(function () {
     function appendDateOrTimeInput(formGroup, selectedValue) {
         renameField(formGroup, selectedValue);
         formGroup.find('.field-question').addClass('field-' + selectedValue);
+        formGroup.find('.field-question').attr('id', 0);
         // var formOptions = $('<section>', { class: 'form-options w-100 my-1' });
         // formOptions.append(
         //     $('<input>', {
@@ -96,6 +98,7 @@ $(document).ready(function () {
             inputElement = $('<input>', {
                 type: 'text',
                 class: 'field-question field-paragraph rounded',
+                id: 0, 
                 name: 'field-paragraph_' + fieldcounter,
                 placeholder: 'Enter Question'
             });
@@ -104,6 +107,7 @@ $(document).ready(function () {
             inputElement = $('<input>', {
                 type: 'text',
                 class: 'field-question ' + inputType + ' rounded',
+                id: 0, 
                 name: 'field-' + selectedValue + '_' + fieldcounter,
                 placeholder: selectedValue === 'section' ? 'Section Name' : 'Page',
                 disabled: selectedValue === 'page'
@@ -116,6 +120,7 @@ $(document).ready(function () {
         inputElement = $('<input>', {
             type: 'text',
             class: 'field-question field-textbox rounded',
+            id: 0, 
             name: 'field-textbox_' + fieldcounter,
             placeholder: 'Enter Question'
         });
@@ -127,6 +132,7 @@ $(document).ready(function () {
         // renameField(formGroup, selectedValue);
         var fieldGroupId = formGroup.attr('id'); // Get the fieldGroupId
         formGroup.find('.field-question').attr('placeholder', 'Enter Scale Category');
+        formGroup.find('.field-question').attr('id', 0);
         renameField(formGroup, 'scale');
         formGroup.find('.field-question').removeClass('field-paragraph').addClass('field-scale')
         var formOptions = $('<section>', { class: 'form-options w-100 my-1' });
@@ -207,8 +213,12 @@ $(document).ready(function () {
 
     }
 
-
-    var fieldcounter = 0;
+    if(isModifyMode){
+        var fieldcounter = $('#form .field-group:last').attr('id');
+        fieldcounter++;
+    }else{
+        var fieldcounter = 0;
+    }
     var statement_count = 1;
     var option_count = 1;
     var page_count = 1;

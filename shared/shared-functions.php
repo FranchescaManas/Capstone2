@@ -396,7 +396,9 @@ function updateForm($formData)
 
     // print_r($formData);
 
+    // print_r($formData);
     foreach ($formData['data'] as $item) {
+
         if ($item['type'] === 'form-title') {
             $formTitle = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
 
@@ -408,20 +410,17 @@ function updateForm($formData)
             // echo $sql;
         } else if ($item['type'] === 'section') {
             $sectionName = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
+            $sectionID = isset($item['questionID']) ? $item['questionID'] : ''; // No need to escape integer
             $section_count++;
 
-            $sql = "INSERT INTO form_section (`form_id`, `section_name`, `section_order`) VALUES
-            ('$formID', '$sectionName', $section_count)
-            ON DUPLICATE KEY UPDATE `section_name` = VALUES(`section_name`)";
-
             // Check if the section already exists in the database
-            $sectionExistsQuery = "SELECT section_id FROM form_section WHERE `form_id` = $formID AND `section_id` = " . $item['questionID'];
+            $sectionExistsQuery = "SELECT section_id FROM form_section WHERE `section_id` = " . $sectionID;
 
             $sectionExistsResult = $conn->query($sectionExistsQuery);
 
             if ($sectionExistsResult->num_rows > 0) {
                 // Section already exists, update its name
-                $updateSectionSql = "UPDATE form_section SET section_name = '$sectionName' WHERE form_id = $formID AND section_id = " . $item['questionID'];
+                $updateSectionSql = "UPDATE form_section SET section_name = '$sectionName' WHERE form_id = $formID AND section_id = " . $sectionID;
                 if ($conn->query($updateSectionSql) === TRUE) {
                     // Section updated successfully
                 } else {
@@ -456,8 +455,8 @@ function updateForm($formData)
             VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             $updateQuestionSql = "UPDATE form_question 
-                        SET `question_text` = ?, `question_type` = ?, `options` = ?, `question_order` = ?
-                        WHERE `section_id` = ? AND `form_id` = ? AND `page_id` = ?";
+            SET `question_text` = ?, `question_type` = ?, `options` = ?, `question_order` = ?, `form_id` = ?, `section_id` = ?, `page_id` = ?
+            WHERE `question_id` = ?";
 
 
             // Check if the question exists in the database
@@ -465,22 +464,22 @@ function updateForm($formData)
             $questionExistsResult = $conn->query($questionExistsQuery);
 
             if ($questionExistsResult->num_rows > 0) {
-                echo "update question";
+                // echo $question;
                 // Question already exists, update it
-                // $stmt = $conn->prepare($updateQuestionSql);
-                // $stmt->bind_param("ssssiii", $question, $questionType, $options, $questionOrder, $sectionID, $formID, $pageID);
+                $stmt = $conn->prepare($updateQuestionSql);
+                $stmt->bind_param("sssiiiii", $question, $questionType, $options, $questionOrder, $formID, $sectionID, $pageID, $item['questionID']);
             } else {
-                echo "insert question";
+                // echo "insert question";
                 // Question doesn't exist, insert it
-                // $stmt = $conn->prepare($insertQuestionSql);
-                // $stmt->bind_param("isssiii", $sectionID, $question, $questionType, $options, $questionOrder, $formID, $pageID);
+                $stmt = $conn->prepare($insertQuestionSql);
+                $stmt->bind_param("isssiii", $sectionID, $question, $questionType, $options, $questionOrder, $formID, $pageID);
             }
 
-            // if ($stmt->execute()) {
-            //     // Query executed successfully
-            // } else {
-            //     echo "Error: " . $stmt->error;
-            // }
+            if ($stmt->execute()) {
+                // echo "success";
+            } else {
+                echo "Error: " . $stmt->error;
+            }
         }
         
     }
