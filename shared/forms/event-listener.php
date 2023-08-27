@@ -20,6 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             deleteForm($formData);
         }else if($action === 'modify form'){
             updateForm($formData);
+            // print_r($formData);
+
         }
         echo "success";
     }

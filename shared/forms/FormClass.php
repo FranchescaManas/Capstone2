@@ -76,7 +76,18 @@ class Form{
     function loadFormData($formID)
     {
         $this->conn = connection();
-    
+        $sectionQuery = "SELECT
+        fs.section_id,
+        fs.section_name,
+        fs.section_order
+    FROM
+        form_section fs
+    WHERE
+        fs.form_id = $formID
+    ORDER BY
+        fs.section_order ASC;
+    ";
+
         $sql = "SELECT
                 f.form_id,
                 fq.question_id,

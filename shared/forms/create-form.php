@@ -57,6 +57,7 @@ include '../shared-functions.php';
 
                 <?php
                 loadForm($_SESSION['role'], $_POST['modify']);
+                
                 echo '<button id="form-submit" class="rounded" value="' . $_SESSION['role'] . '">Submit</button>';
 
         } else {

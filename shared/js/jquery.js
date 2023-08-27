@@ -208,7 +208,7 @@ $(document).ready(function () {
     }
 
 
-    var fieldcounter = 1;
+    var fieldcounter = 0;
     var statement_count = 1;
     var option_count = 1;
     var page_count = 1;
@@ -358,7 +358,7 @@ $(document).ready(function () {
         var actionType = isModifyMode ? 'modify form' : 'create form';
         formid = formid ? formid : null;
 
-        var section_count = 0;
+        
         var role = $(this).attr('value');
         var questionsData = [];
        
@@ -366,10 +366,18 @@ $(document).ready(function () {
         $('.field-group').each(function() {
             var selectedValue = $(this).find('.field-option').val();
             var groupID = $(this).attr('id');
+            var questionID = null;
             var option = null;
+
+            
+            
     
             if (selectedValue === 'section') {
-                section_count++;
+                if(isModifyMode){
+                    section_count = $(this).find('.field-section').attr('id');
+                }else{
+                    section_count++;
+                }
                 var inputValue = $(this).find('.field-section').val();
             } else if (selectedValue === 'paragraph') {
                 var inputValue = $(this).find('.field-paragraph').val();
@@ -420,9 +428,17 @@ $(document).ready(function () {
                 }
         
             }
+
+            if(isModifyMode){
+                questionID = $(this).find('.field-'+selectedValue).attr('id');
+                // console.log(questionID);
+            }else{
+                var questionID = null;
+            }
     
             var questionObj = {
                 sectionID: section_count,
+                questionID: questionID,
                 question: inputValue,
                 type: selectedValue,
                 options: option,
