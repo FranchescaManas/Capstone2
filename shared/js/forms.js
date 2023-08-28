@@ -34,17 +34,14 @@ $(document).ready(function() {
                     action: JSON.stringify({ 'action': 'delete form', 'role': userRole })
                 },
                 success: function(response) {
-                    // console.log(response);
                     var cleanedResponse = response.replace(/\s/g, '');
                     console.log(cleanedResponse);
-                    // Handle the response from the server if needed
                     if(cleanedResponse === 'success'){
                         alert('form deleted');
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
-                    // Handle errors here
                 }
             });
         }
@@ -72,7 +69,6 @@ $(document).ready(function() {
             respondents: respondents
         };
 
-        // console.log(permissionData);
         $.ajax({
             type: 'POST',
             url: '../shared/forms/event-listener.php', // URL to your PHP script

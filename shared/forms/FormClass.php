@@ -63,7 +63,7 @@ class Form{
             } elseif ($permission['can_modify'] == 1) {
                 return 'can modify';
             } else {
-                return 'no access permitted';
+                return 'no access';
             }
         } else {
             return 'error accessing permission data';
