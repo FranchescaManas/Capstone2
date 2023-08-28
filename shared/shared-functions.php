@@ -528,6 +528,32 @@ function getForms(){
     }
 }
 
+function updatePermission($permissionData){
+    $conn = connection();
+    $formID = $permissionData['formID'];
+    $canAccess = $permissionData['can_access'] ? 1 : 0;
+    $canViewResults = $permissionData['can_view_results'] ? 1 : 0;
+    $canModify = $permissionData['can_modify'] ? 1 : 0;
+    $respondents = $permissionData['role'];
+
+    // Check if permission already exists for the form and update or insert accordingly
+    $sql = "SELECT * FROM form_permission WHERE form_id = $formID";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // TODO: ADD CAN VIEW RESULTS COLUMN IN DATABASE AND SET HERE
+        $updatePermissionSQL = "UPDATE form_permission SET can_access = $canAccess, can_modify = $canModify WHERE form_id = $formID AND `role` = ";
+    } else {
+        $insertPermissionSQL = "INSERT INTO form_permission (form_id, can_access, can_view_results, can_modify) VALUES ($formID, $canAccess, $canViewResults, $canModify)";
+    }
+    if ($conn->query($updatePermissionSQL) === TRUE || $conn->query($insertPermissionSQL) === TRUE) {
+        // Handle success
+    } else {
+        echo "Error: " . $conn->error;
+    }
+
+    $conn->close();
+}
 
 
 

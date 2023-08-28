@@ -40,28 +40,25 @@ $(document).ready(function() {
             });
         }
     });
-    // $('button[name="modify"]').click(function() {
-    //     // var confirmDelete = confirm("are your sure you want to delete this form?");
-    //     var editButtonValue = $(this).val();
-        
-       
+    $('#save-permission').click(function () {
+        var selectedFormID = $('#form-select').val();
+        var canAccess = $('#canAccess').prop('checked');
+        var canViewResults = $('#canViewResults').prop('checked');
+        var canModify = $('#canModify').prop('checked');
+        var respondents = [];
     
-    //     // Send the data to the server using an AJAX request
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '../shared/forms/create-form.php', // Replace with the actual URL
-    //         data: {
-    //             userRole: userRole,
-    //             action: 'modify form',
-    //             formid: editButtonValue
-    //         },
-    //         success: function(response) {
-    //             // window.location.href = '../shared/forms/create-form.php';
-    //         },
-    //         error: function(xhr, status, error) {
-    //             console.error('Error:', error);
-    //         }
-            
-    //     });
-    // });
+        $("input[name='respondents[]']:checked").each(function () {
+            respondents.push($(this).val());
+        });
+    
+        var permissionData = {
+            formID: selectedFormID,
+            can_access: canAccess,
+            can_view_results: canViewResults,
+            can_modify: canModify,
+            role: role
+        };
+    
+        updatePermission(permissionData);
+    });
 });

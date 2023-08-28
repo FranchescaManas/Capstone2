@@ -71,7 +71,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body pt-0">
-                <form action="">
+                <form action="" >
                     <section class="d-flex flex-row">
                         <div class="form-group">
                             <label for="form-select">Select Form:</label>
@@ -87,13 +87,26 @@
                                     }
                                     ?>
                             </select>
-                            <div class="form-group d-flex flex-row">
-                                <input class="form-check-input" type="checkbox" value="adfadf" id="flexCheckDefault">
-                                <label class="form-check-label mx-2" for="flexCheckDefault">
-                                    adfadf
-                                </label>
-                            </div>
                         </div>
+                        <div class="form-group d-flex flex-row">
+                            <input class="form-check-input" type="checkbox" name="can_access" id="canAccess">
+                            <label class="form-check-label mx-2" for="canAccess">
+                                can access
+                            </label>
+                        </div>
+                        <div class="form-group d-flex flex-row">
+                            <input class="form-check-input" type="checkbox" name="can_view_results" id="canViewResults">
+                            <label class="form-check-label mx-2" for="canViewResults">
+                                can view results
+                            </label>
+                        </div>
+                        <div class="form-group d-flex flex-row">
+                            <input class="form-check-input" type="checkbox" name="can_modify" id="canModify">
+                            <label class="form-check-label mx-2" for="canModify">
+                                can modify
+                            </label>
+                        </div>
+
                     </section>
 
                     <section class="d-flex flex-wrap m-3">
@@ -106,7 +119,7 @@
 
                         foreach ($roles as $role) {
                             ?>
-                            <input class="form-check-input" type="checkbox" value="<?php echo $role; ?>" id="flexCheckDefault">
+                            <input class="form-check-input" name="respondents[]" type="checkbox" value="<?php echo $role; ?>" id="flexCheckDefault">
                             <label class="form-check-label" for="flexCheckDefault">
                             <?php echo $role; ?>
                             </label><br>                           
@@ -120,7 +133,7 @@
                 </form>
             </div>
             <div class="modal-footer flex-end">
-                <button type="button" class="red-btn small-btn rounded">Save</button>
+                <button type="button" class="red-btn small-btn rounded" id="save-permission" value="<?php echo $_SESSION['role']; ?>">Save</button>
                 <button type="button" class="red-btn small-btn rounded" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
