@@ -20,43 +20,30 @@
             <h2>Forms</h2>
         </header>
 
-        <section class="flex-center flex-column">
-            <?php
-            
-                $form = new Form;
+        <?php
+            $form = new Form;
+            $formId = $form->getFormID($userID, $role);
 
-                // searches the forms accessible to the current role and id
-                $formId = $form->getFormID($userID, $role);
+            // Simulating access data as an associative array
+            $accessData = array();
+            foreach ($formId as $f_id) {
+                $access = $form->checkAccess($f_id, $role);
+                $accessData[$f_id] = $access;
 
-                foreach($formId as $f_id){
-                    $access = $form->checkAccess($f_id, $role);
-                    if($access === 'can access'){
-                       
-                        $form->loadFormsGroup($f_id);
-                        
-                    // if user has modification access, then display modify button
-                    }else if($access === 'can modify'){
-                        // no function yet
-                        echo "user can modify";
-                    }else if($access === 'full access'){
-                        // no function yet
-                        $form->loadFormsGroup($f_id);   
-                    }else{
-                        // design no permission message
-                        echo "no permission to forms";
-                    }
-
+                if ($access !== 'no access') {
+                    $form->loadFormsGroup($f_id);
                 }
-
                 
-            ?>
-
-                    
-
+            }
+            
+        ?>
+        <script>
+            var formAccessData = <?php echo json_encode($accessData); ?>;
+        </script>
         </section>
 
     </section>
-
+                
 
                     <aside class="summary-container flex-col-center">
                     
@@ -96,3 +83,7 @@
                     </aside>
 
 </main>
+<script>
+    // $('.kebab-menu').hide();
+    
+</script>

@@ -99,11 +99,8 @@ $role = $_SESSION['role'];
                 <?php
                 // if user has modification access, then display modify button
             } else if ($access === 'can modify') {
-                // no function yet
-                echo "user can modify";
-            } else if ($access === 'full access') {
-                // no function yet
-                echo "user has full access";
+                header('location: ../../' . $role . '/index.php?page=forms');
+
             } else {
                 // design no permission message
                 echo "no permission to forms";

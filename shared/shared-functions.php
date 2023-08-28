@@ -528,32 +528,36 @@ function getForms(){
     }
 }
 
-function updatePermission($permissionData){
+function updatePermission($permissionData) {
     $conn = connection();
     $formID = $permissionData['formID'];
     $canAccess = $permissionData['can_access'] ? 1 : 0;
-    $canViewResults = $permissionData['can_view_results'] ? 1 : 0;
     $canModify = $permissionData['can_modify'] ? 1 : 0;
-    $respondents = $permissionData['role'];
+    $respondents = $permissionData['respondents'];
 
-    // Check if permission already exists for the form and update or insert accordingly
-    $sql = "SELECT * FROM form_permission WHERE form_id = $formID";
-    $result = $conn->query($sql);
+    foreach ($respondents as $respondent) {
+        $sql = "SELECT * FROM form_permission WHERE form_id = $formID AND `role` = '$respondent'";
+        $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        // TODO: ADD CAN VIEW RESULTS COLUMN IN DATABASE AND SET HERE
-        $updatePermissionSQL = "UPDATE form_permission SET can_access = $canAccess, can_modify = $canModify WHERE form_id = $formID AND `role` = ";
-    } else {
-        $insertPermissionSQL = "INSERT INTO form_permission (form_id, can_access, can_view_results, can_modify) VALUES ($formID, $canAccess, $canViewResults, $canModify)";
+        if ($result->num_rows > 0) {
+            // Role already has permission entry, so update it
+            $updatePermissionSQL = "UPDATE form_permission SET can_access = $canAccess, can_modify = $canModify WHERE form_id = $formID AND `role` = '$respondent'";
+            if ($conn->query($updatePermissionSQL) !== TRUE) {
+                echo "Error updating permission: " . $conn->error;
+            }
+        } else {
+            // Role doesn't have permission entry, so insert a new one
+            $insertPermissionSQL = "INSERT INTO form_permission (form_id, can_access, can_modify, `role`) VALUES ($formID, $canAccess, $canModify, '$respondent')";
+            if ($conn->query($insertPermissionSQL) !== TRUE) {
+                echo "Error inserting permission: " . $conn->error;
+            }
+        }
     }
-    if ($conn->query($updatePermissionSQL) === TRUE || $conn->query($insertPermissionSQL) === TRUE) {
-        // Handle success
-    } else {
-        echo "Error: " . $conn->error;
-    }
 
+    // Close the connection
     $conn->close();
 }
+
 
 
 

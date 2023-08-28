@@ -71,7 +71,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body pt-0">
-                <form action="" >
+                <form action="">
                     <section class="d-flex flex-row">
                         <div class="form-group">
                             <label for="form-select">Select Form:</label>
@@ -139,3 +139,4 @@
         </div>
     </div>
 </div>
+<!-- <script src="../shared/js/forms.js"></script> -->

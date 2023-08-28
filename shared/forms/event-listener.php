@@ -15,14 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }else if ($role === 'superadmin'){
         if($action === 'create form'){
             createForm($role, $formData);
-            // print_r($formData);
         }else if($action === 'delete form'){
             deleteForm($formData);
         }else if($action === 'modify form'){
             updateForm($formData);
-            // print_r($formData);
-
+        }else if($action === 'update permission'){
+            updatePermission($formData);
+            // echo "update permission";
         }
+        // TODO: put the success prompt in the ajax if query works
         echo "success";
     }
 
