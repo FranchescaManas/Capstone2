@@ -32,10 +32,20 @@
                         <div class="w-100"></div>
                         
                         <div class="form-check my-2 me-5">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Default checkbox
-                            </label>
+                            
+                            <?php
+
+                                $forms = getForms();
+                                
+                                foreach ($forms as $formid=> $formName) {
+                                    ?>
+                                    <input class="form-check-input" type="checkbox" value="<?php echo $formid?>" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        <?php echo $formName?>
+                                    </label><br>
+                                    <?php
+                                }
+                            ?>
                         </div>
                         
                         
@@ -62,14 +72,27 @@
             </div>
             <div class="modal-body pt-0">
                 <form action="">
-                    <section class="flex-start">
+                    <section class="d-flex flex-row">
                         <div class="form-group">
                             <label for="form-select">Select Form:</label>
+
                             <select name="form-select" id="form-select">
-                                <option value="1">{{form1}}</option>
-                                <option value="1">{{form2}}</option>
-                                <option value="1">{{form3}}</option>
+                            <?php
+                                    $forms = getForms();
+                                    
+                                    foreach ($forms as $formid=> $formName) {
+                                        ?>
+                                        <option value="<?php echo $formid?>"><?php echo $formName?></option>                        
+                                        <?php
+                                    }
+                                    ?>
                             </select>
+                            <div class="form-group d-flex flex-row">
+                                <input class="form-check-input" type="checkbox" value="adfadf" id="flexCheckDefault">
+                                <label class="form-check-label mx-2" for="flexCheckDefault">
+                                    adfadf
+                                </label>
+                            </div>
                         </div>
                     </section>
 
@@ -78,13 +101,20 @@
                         <div class="w-100"></div>
                         
                         <div class="form-check my-2 me-5">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <?php
+                            $roles = getRoles();
+
+                        foreach ($roles as $role) {
+                            ?>
+                            <input class="form-check-input" type="checkbox" value="<?php echo $role; ?>" id="flexCheckDefault">
                             <label class="form-check-label" for="flexCheckDefault">
-                                {{role}}
-                            </label>
+                            <?php echo $role; ?>
+                            </label><br>                           
+                            <?php
+                        }
+                            ?>
                         </div>
-                        
-                        
+                       
                     </section>
                    
                 </form>

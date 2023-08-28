@@ -163,6 +163,11 @@ function deleteForm($formID)
     }
 
 
+    // Delete from form page
+    $deletePage = "DELETE FROM form_page WHERE form_id = '$formID'";
+    if ($conn->query($deletePage) === FALSE) {
+        echo "Error deleting from form: " . $conn->error;
+    }
     // Delete from form table
     $deleteForm = "DELETE FROM form WHERE form_id = '$formID'";
     if ($conn->query($deleteForm) === FALSE) {
@@ -487,6 +492,41 @@ function updateForm($formData)
     $conn->close();
 }
 
+function getRoles(){
+    $conn = connection();
+
+        $sql = "SELECT DISTINCT `role` FROM users";
+
+        $result = $conn->query($sql);
+
+        $roles = array();
+        
+        if($result){
+            while($row = $result->fetch_assoc()){
+                $roles[] = $row['role'];
+            }
+            return $roles;
+        }
+
+    return $roles;
+}
+
+function getForms(){
+    $conn = connection();
+
+    $sql = "SELECT `form_id`, `form_name` FROM form";
+
+    $result = $conn->query($sql);
+
+    $forms = array();
+    
+    if($result){
+        while($row = $result->fetch_assoc()){
+            $forms[$row['form_id']] = $row['form_name'];
+        }
+        return $forms;
+    }
+}
 
 
 
