@@ -32,7 +32,7 @@
             <a href="../shared/forms/form.php">Forms</a>
         </li>
         <li class="sidebar-item">
-            <a href="./index.php?page=reports">Reports</a>
+            <a href="../shared/reports/report.php">Reports</a>
         </li>
     </ul>
 
