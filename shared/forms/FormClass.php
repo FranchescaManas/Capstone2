@@ -230,6 +230,7 @@ class Form{
         echo '<section class="form-response-group section" id="' . $sectionID . '">
         <h5>' . $sectionName . '</h5></section>';
     }
+   
 
     function paragraphFieldInput($formQuestion, $questionID){
         echo '

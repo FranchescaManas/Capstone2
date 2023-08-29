@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }else if($action === 'delete form'){
             deleteForm($formData);
         }else if($action === 'modify form'){
-            // updateForm($formData);
-            print_r($formData);
+            updateForm($formData);
+            // print_r($formData);
         }else if($action === 'update permission'){
             updatePermission($formData);
             // echo "update permission";

@@ -393,6 +393,11 @@ $(document).ready(function () {
                 var inputValue = $(this).find('.field-paragraph').val();
             } else if (selectedValue === 'page') {
                 var inputValue = $(this).find('.field-page').val();
+                if(isModifyMode){
+                    page_count = $(this).find('.field-page').attr('id');
+                }else{
+                    page_count++;
+                }
             } else if (selectedValue === 'textbox') {
                 var inputValue = $(this).find('.field-textbox').val();
             } else if (selectedValue === 'date'|| selectedValue === 'time') {
@@ -452,7 +457,9 @@ $(document).ready(function () {
                 question: inputValue,
                 type: selectedValue,
                 options: option,
-                order: groupID
+                order: groupID,
+                page: page_count
+                
             };
             
             questionsData.push(questionObj);
