@@ -9,11 +9,8 @@ $(document).ready(function() {
     var access = formAccessData;
     $('.form-card').each(function() {
         var formId = $(this).attr('id');
-        console.log(access[formId]);
-
-        if (access[formId] === 'can modify') {
+        if (access[formId] === 'can modify' || access[formId] === 'full access') {
             $(this).find('.kebab-menu').show();
-            console.log('show');
         }else{
             $(this).find('.kebab-menu').hide();
 

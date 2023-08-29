@@ -170,9 +170,20 @@ class Form{
     
     }
 
-    function loadFormsGroup($form_id){
+    function loadFormsGroup($form_id, $access = 'viewForm'){
         $this->conn = connection();
-    
+        if($access === 'can modify'){
+            $action = 'viewForm';
+            $btnText = 'View';
+        }else if($access === 'can access'){
+            $action = 'evaluateForm';
+            $btnText = 'Evaluate';
+        }else{
+            // might change for full access to can both evaluate and modify form
+            $action = 'viewForm';
+            $btnText = 'View';
+        }
+
         $sql = "SELECT * FROM form WHERE `form_id` = '$form_id'";
         $result = ($this->conn)->query($sql);
     
@@ -198,7 +209,7 @@ class Form{
     
                         <div class="d-flex justify-content-end">
                             <form action="../shared/forms/form.php" method="post">
-                                <button class="view-form red-btn small-btn rounded" name="viewForm" value="'.$form_id.'">View</button>
+                                <button class="view-form red-btn small-btn rounded" name="'.$action.'" value="'.$form_id.'">'.$btnText.'</button>
                             </form>
                         </div>
                     </div>

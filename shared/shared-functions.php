@@ -395,14 +395,15 @@ function updateForm($formData)
     $formID = $formData['formid'];
 
     // Retrieve the maximum page_sequence for the form
-    $maxPageSeqResult = $conn->query("SELECT MAX(page_sequence) as max_page_sequence FROM form_page WHERE form_id = $formID");
-    $maxPageSeqRow = $maxPageSeqResult->fetch_assoc();
-    $pageID = $maxPageSeqRow['max_page_sequence'] + 1;
+    
 
     // print_r($formData);
 
     // print_r($formData);
     foreach ($formData['data'] as $item) {
+        $maxPageSeqResult = $conn->query("SELECT MAX(page_sequence) as max_page_sequence FROM form_page WHERE form_id = $formID");
+        $maxPageSeqRow = $maxPageSeqResult->fetch_assoc();
+        $pageID = $maxPageSeqRow['max_page_sequence'] + 1;
 
         if ($item['type'] === 'form-title') {
             $formTitle = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
@@ -417,7 +418,7 @@ function updateForm($formData)
             $sectionName = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
             $sectionID = isset($item['questionID']) ? $item['questionID'] : ''; // No need to escape integer
             $section_count++;
-
+            $pageID = $maxPageSeqRow['max_page_sequence'] + 1;
             // Check if the section already exists in the database
             $sectionExistsQuery = "SELECT section_id FROM form_section WHERE `section_id` = " . $sectionID;
 
@@ -453,7 +454,7 @@ function updateForm($formData)
             $questionType = isset($item['type']) ? mysqli_real_escape_string($conn, $item['type']) : '';
             $options = isset($item['options']) ? json_encode($item['options']) : null;
             $questionOrder = isset($item['order']) ? $item['order'] : 0;
-            // $pageID = 1;
+            // pageID = ???
 
 
             $insertQuestionSql = "INSERT INTO form_question (`section_id`, `question_text`, `question_type`, `options`, `question_order`, `form_id`, `page_id`)
@@ -463,14 +464,12 @@ function updateForm($formData)
             SET `question_text` = ?, `question_type` = ?, `options` = ?, `question_order` = ?, `form_id` = ?, `section_id` = ?, `page_id` = ?
             WHERE `question_id` = ?";
 
-
             // Check if the question exists in the database
             $questionExistsQuery = "SELECT question_id FROM form_question WHERE question_id = " . $item['questionID'];
             $questionExistsResult = $conn->query($questionExistsQuery);
 
             if ($questionExistsResult->num_rows > 0) {
-                // echo $question;
-                // Question already exists, update it
+                
                 $stmt = $conn->prepare($updateQuestionSql);
                 $stmt->bind_param("sssiiiii", $question, $questionType, $options, $questionOrder, $formID, $sectionID, $pageID, $item['questionID']);
             } else {
@@ -495,18 +494,20 @@ function updateForm($formData)
 function getRoles(){
     $conn = connection();
 
-        $sql = "SELECT DISTINCT `role` FROM users";
+    $sql = "SELECT DISTINCT `role` FROM users";
 
-        $result = $conn->query($sql);
+    $result = $conn->query($sql);
 
-        $roles = array();
-        
-        if($result){
-            while($row = $result->fetch_assoc()){
-                $roles[] = $row['role'];
-            }
-            return $roles;
+    $roles = array();
+    
+    if($result){
+        while($row = $result->fetch_assoc()){
+            $roles[] = $row['role'];
         }
+        return $roles;
+    }
+
+    $conn->close();
 
     return $roles;
 }
@@ -526,6 +527,7 @@ function getForms(){
         }
         return $forms;
     }
+    $conn->close();
 }
 
 function updatePermission($permissionData) {

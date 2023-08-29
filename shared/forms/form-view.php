@@ -25,7 +25,7 @@ $role = $_SESSION['role'];
             $accessData[$f_id] = $access;
 
             if ($access !== 'no access') {
-                $form->loadFormsGroup($f_id);
+                $form->loadFormsGroup($f_id, $access);
             }
 
         }

@@ -17,7 +17,7 @@ $role = $_SESSION['role'];
     <link rel="stylesheet" href="../css/forms.css">
     <!-- jquery cdn -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script> 
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
@@ -36,7 +36,7 @@ $role = $_SESSION['role'];
 </head>
 
 <body>
-    
+
     <?php
     // include '../connection.php';
     include '../navbar.php';
@@ -66,36 +66,53 @@ $role = $_SESSION['role'];
         </main>
         <?php
 
+    } else if (isset($_POST['evaluateForm'])) {
+        $formId = $_POST['evaluateForm'];
+        $formName = $form->getFormName($formId);
+        ?>
+            <header class="form-response-body">
+                <h4 class="form-response-group text-center" id="form-response-name">
+                    <?php
+                    if (isset($formName)) {
+                        echo $formName;
+                    }
+                    ?>
+                </h4>
+            </header>
+            <main class='form-response-body'>
+            <?php $form->loadFormData($formId); ?>
+                <button id="response-submit" class="rounded">Submit</button>
+            </main>
+        <?php
     } else {
         // searches the forms accessible to the current role and id
         $formId = $form->getFormID($userID, $role);
 
 
         // counts how many forms the user has access to
-        if($role ==='superadmin'){
+        if ($role === 'superadmin') {
             header('location: ../../' . $role . '/index.php?page=forms');
         }
         if (count($formId) === 1) {
             // check the current access that the user has on the form
             $access = $form->checkAccess($formId[0], $role);
-            echo $access;
             // if user has access then load/generate the form
             if ($access === 'can access') {
                 $formName = $form->getFormName($formId[0]);
                 ?>
-                <header class="form-response-body">
-                    <h4 class="form-response-group text-center" id="form-response-name">
-                        <?php
-                        if (isset($formName)) {
-                            echo $formName;
-                        }
-                        ?>
-                    </h4>
-                </header>
-                <main class='form-response-body'>
+                    <header class="form-response-body">
+                        <h4 class="form-response-group text-center" id="form-response-name">
+                            <?php
+                            if (isset($formName)) {
+                                echo $formName;
+                            }
+                            ?>
+                        </h4>
+                    </header>
+                    <main class='form-response-body'>
                     <?php $form->loadFormData($formId[0]); ?>
-                    <button id="response-submit" class="rounded">Submit</button>
-                </main>
+                        <button id="response-submit" class="rounded">Submit</button>
+                    </main>
                 <?php
                 // if user has modification access, then display modify button
             } else if ($access === 'can modify') {
