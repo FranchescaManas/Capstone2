@@ -19,14 +19,16 @@ $(document).ready(function(){
     })
 
     $('#response-submit').click(function() {
+    
         var formData = {
-            form_id: 1,
-            user_id: 1,
+            form_id: formID,
+            user_id: userID,
             submission_date: currentDateTime,
             sections: []
         };
     
         var currentSectionData = null;
+        // console.log(formID);
     
         $('.form-response-group').each(function() {
             var isSection = $(this).hasClass('section');
@@ -50,6 +52,8 @@ $(document).ready(function(){
                     ? 'date'
                     : $(this).hasClass('time')
                     ? 'time'
+                    : $(this).hasClass('textbox')
+                    ? 'textbox'
                     : $(this).hasClass('scale')
                     ? 'scale'
                     : null;
@@ -68,7 +72,7 @@ $(document).ready(function(){
             formData.sections.push(currentSectionData);
         }
     
-        // console.log(JSON.stringify(formData));
+        console.log(JSON.stringify(formData));
         $.ajax({
             type: 'POST',
             url: './event-listener.php', // URL to your PHP script
@@ -98,7 +102,7 @@ $(document).ready(function(){
         if (groupElement.hasClass('choice')) {
             response.selected_choice = groupElement.find('input[type="radio"]:checked').val();
         } else if (groupElement.hasClass('paragraph')) {
-            response.text_response = groupElement.find('textarea').val();
+            response.paragraph_response = groupElement.find('textarea').val();
         } else if (groupElement.hasClass('dropdown')) {
             response.selected_option = groupElement.find('select').val();
         } else if (groupElement.hasClass('date')) {
@@ -107,6 +111,8 @@ $(document).ready(function(){
             response.time_response = groupElement.find('input[type="time"]').val();
         } else if (groupElement.hasClass('scale')) {
             response.scale_responses = getScaleResponses(groupElement);
+        } else if (groupElement.hasClass('textbox')) {
+            response.textbox_response = groupElement.find('input[type="text"]').val();
         }
     
         return response;

@@ -98,8 +98,8 @@ class Form
             // $previousPageID = null;
 
             while ($pageRow = $pageResult->fetch_assoc()) {
-                
                 $pageID = $pageRow['page_id'];
+                // echo '<div class="form-response-group page" id="'.$pageID.'">';
                 $sql = "SELECT
                 f.form_id,
                 fq.question_id,
@@ -127,13 +127,11 @@ class Form
                             fq.question_order ASC;
                 ";
 
-                // Rest of your existing code for generating sections and questions
                 $result = ($this->conn)->query($sql);
-
                 if ($result) {
                     $currentSection = null;
                     $statementCount = 1;
-
+                    
                     while ($row = $result->fetch_assoc()) {
                         $type = $row['question_type'];
 
@@ -175,12 +173,12 @@ class Form
                         }
                     }
                     $result->free();
-                    echo "new page";
+
                 } else {
                     // Handle the query error
                     echo "Error: " . ($this->conn)->error;
                 }
-
+                // echo '</div>';
             }
 
             // Close the pageResult loop
@@ -252,6 +250,10 @@ class Form
         echo '<section class="form-response-group section" id="' . $sectionID . '">
         <h5>' . $sectionName . '</h5></section>';
     }
+    function page($pageID)
+    {
+        echo '<div class="form-response-group page" id="' . $pageID . '"></div>';
+    }
 
 
     function paragraphFieldInput($formQuestion, $questionID)
@@ -266,7 +268,7 @@ class Form
     function textboxFieldInput($formQuestion, $questionID)
     {
         echo '
-        <div class="form-response-group paragraph" id="' . $questionID . '" >
+        <div class="form-response-group textbox" id="' . $questionID . '" >
             <h6>' . $formQuestion . '</h6>
             <input type="text" name="field-response-input-' . $questionID . '" class="w-25"></input>
         </div>

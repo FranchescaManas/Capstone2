@@ -81,14 +81,7 @@ $(document).ready(function () {
         renameField(formGroup, selectedValue);
         formGroup.find('.field-question').addClass('field-' + selectedValue);
         formGroup.find('.field-question').attr('id', 0);
-        // var formOptions = $('<section>', { class: 'form-options w-100 my-1' });
-        // formOptions.append(
-        //     $('<input>', {
-        //         type: selectedValue,
-        //         class: 'w-25 rounded'
-        //     })
-        // );
-        // formGroup.append(formOptions);
+   
     }
 
     function appendSectionOrPageInput(formGroup, selectedValue) {

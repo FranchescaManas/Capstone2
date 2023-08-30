@@ -83,6 +83,11 @@ $role = $_SESSION['role'];
             <?php $form->loadFormData($formId); ?>
                 <button id="response-submit" class="rounded">Submit</button>
             </main>
+            <script>
+            var formID = <?php echo json_encode($formId); ?>;
+            var userID = <?php echo json_encode($userID); ?>;
+            // console.log(formID);
+            </script>
         <?php
     } else {
         // searches the forms accessible to the current role and id
@@ -113,6 +118,11 @@ $role = $_SESSION['role'];
                     <?php $form->loadFormData($formId[0]); ?>
                         <button id="response-submit" class="rounded">Submit</button>
                     </main>
+                    <script>
+                    var formID = <?php echo json_encode($formId); ?>;
+                    var userID = <?php echo json_encode($userID); ?>;
+                    console.log(formID);
+                    </script>
                 <?php
                 // if user has modification access, then display modify button
             } else if ($access === 'can modify') {
