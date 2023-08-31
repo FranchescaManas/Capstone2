@@ -99,7 +99,8 @@ class Form
 
             while ($pageRow = $pageResult->fetch_assoc()) {
                 $pageID = $pageRow['page_id'];
-                // echo '<div class="form-response-group page" id="'.$pageID.'">';
+
+
                 $sql = "SELECT
                 f.form_id,
                 fq.question_id,
@@ -127,58 +128,63 @@ class Form
                             fq.question_order ASC;
                 ";
 
-                $result = ($this->conn)->query($sql);
-                if ($result) {
-                    $currentSection = null;
-                    $statementCount = 1;
-                    
-                    while ($row = $result->fetch_assoc()) {
-                        $type = $row['question_type'];
-
-                        if ($row['section_id'] >= 1) {
-                            if ($row['section_id'] !== $currentSection) {
-                                $this->section($row['section_id'], $row['section_name']);
-                                $currentSection = $row['section_id'];
-
-                            }
-                            if ($type === 'paragraph') {
-                                $this->paragraphFieldInput($row['question_text'], $row['question_id']);
-                            } else if ($type == 'choice') {
-                                $this->choiceFieldInput($row['question_text'], $row['options'], $row['question_id']);
-                            } else if ($type == 'textbox') {
-                                $this->textboxFieldInput($row['question_text'], $row['question_id']);
-                            } else if ($type == 'dropdown') {
-                                $this->dropdownFieldInput($row['question_text'], $row['options'], $row['question_id']);
-                            } else if ($type == 'date' || $type == 'time') {
-                                $this->dateTimeFieldInput($type, $row['question_text'], $row['question_id']);
-                            } else if ($type === 'scale') {
-                                $this->scaleFieldInput($row['question_text'], $row['options'], $row['question_id'], $statementCount);
-                            }
-
-
-                        } else {
-                            if ($type === 'paragraph') {
-                                $this->paragraphFieldInput($row['question_text'], $row['question_id']);
-                            } else if ($type == 'choice') {
-                                $this->choiceFieldInput($row['question_text'], $row['options'], $row['question_id']);
-                            } else if ($type == 'textbox') {
-                                $this->textboxFieldInput($row['question_text'], $row['question_id']);
-                            } else if ($type == 'dropdown') {
-                                $this->dropdownFieldInput($row['question_text'], $row['options'], $row['question_id']);
-                            } else if ($type == 'date' || $type == 'time') {
-                                $this->dateTimeFieldInput($type, $row['question_text'], $row['question_id']);
-                            } else if ($type === 'scale') {
-                                $this->scaleFieldInput($row['question_text'], $row['options'], $row['question_id'], $statementCount);
+                echo '<div class="w-100 page" id="'.$pageID.'">';
+                    $result = ($this->conn)->query($sql);
+                    if ($result) {
+                        $currentSection = null;
+                        $statementCount = 1;
+                        while ($row = $result->fetch_assoc()) {
+                            $type = $row['question_type'];
+        
+                            if ($row['section_id'] >= 1) {
+                                if ($row['section_id'] !== $currentSection) {
+                                    echo '<section class="section" id="' . $row['section_id'] . '">
+                                        <h5>' . $row['section_name'] . '</h5>';
+                                    $currentSection = $row['section_id'];
+                                }
+                                if ($type === 'paragraph') {
+                                    $this->paragraphFieldInput($row['question_text'], $row['question_id']);
+                                } else if ($type == 'choice') {
+                                    $this->choiceFieldInput($row['question_text'], $row['options'], $row['question_id']);
+                                } else if ($type == 'textbox') {
+                                    $this->textboxFieldInput($row['question_text'], $row['question_id']);
+                                } else if ($type == 'dropdown') {
+                                    $this->dropdownFieldInput($row['question_text'], $row['options'], $row['question_id']);
+                                } else if ($type == 'date' || $type == 'time') {
+                                    $this->dateTimeFieldInput($type, $row['question_text'], $row['question_id']);
+                                } else if ($type === 'scale') {
+                                    $this->scaleFieldInput($row['question_text'], $row['options'], $row['question_id'], $statementCount);
+                                }
+    
+    
+                            } else {
+                                if ($type === 'paragraph') {
+                                    $this->paragraphFieldInput($row['question_text'], $row['question_id']);
+                                } else if ($type == 'choice') {
+                                    $this->choiceFieldInput($row['question_text'], $row['options'], $row['question_id']);
+                                } else if ($type == 'textbox') {
+                                    $this->textboxFieldInput($row['question_text'], $row['question_id']);
+                                } else if ($type == 'dropdown') {
+                                    $this->dropdownFieldInput($row['question_text'], $row['options'], $row['question_id']);
+                                } else if ($type == 'date' || $type == 'time') {
+                                    $this->dateTimeFieldInput($type, $row['question_text'], $row['question_id']);
+                                } else if ($type === 'scale') {
+                                    $this->scaleFieldInput($row['question_text'], $row['options'], $row['question_id'], $statementCount);
+                                }
                             }
                         }
+                       
+                        if ($currentSection !== null) {
+                            echo '</section>'; // Close the last section if it's open
+                        }
+        
+                        $result->free();
+                    } else {
+                        // Handle the query error
+                        echo "Error: " . ($this->conn)->error;
                     }
-                    $result->free();
-
-                } else {
-                    // Handle the query error
-                    echo "Error: " . ($this->conn)->error;
-                }
-                // echo '</div>';
+        
+                echo '</div>';
             }
 
             // Close the pageResult loop
@@ -190,6 +196,7 @@ class Form
 
 
     }
+    
 
     function loadFormsGroup($form_id, $access = 'viewForm')
     {
@@ -248,7 +255,7 @@ class Form
     function section($sectionID, $sectionName)
     {
         echo '<section class="form-response-group section" id="' . $sectionID . '">
-        <h5>' . $sectionName . '</h5></section>';
+        <h5>' . $sectionName . '</h5>';
     }
     function page($pageID)
     {

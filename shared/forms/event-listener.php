@@ -10,9 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $actionData['role'];
 
     if($role == 'student'){
-        print_r($formData);
-        // insertResponse($role, $formData);
-        echo "success";
+        if($action === 'insert response'){
+            // print_r($formData);
+            insertResponse($role, $formData);
+        }
+        // echo "success";
     }else if ($role === 'superadmin'){
         if($action === 'create form'){
             createForm($role, $formData);

@@ -52,7 +52,7 @@ $role = $_SESSION['role'];
         $formName = $form->getFormName($formId);
         ?>
         <header class="form-response-body">
-            <h4 class="form-response-group text-center" id="form-response-name">
+            <h4 class="form-response-body text-center" id="form-response-name">
                 <?php
                 if (isset($formName)) {
                     echo $formName;
@@ -71,7 +71,7 @@ $role = $_SESSION['role'];
         $formName = $form->getFormName($formId);
         ?>
             <header class="form-response-body">
-                <h4 class="form-response-group text-center" id="form-response-name">
+                <h4 class="form-response-body text-center" id="form-response-name">
                     <?php
                     if (isset($formName)) {
                         echo $formName;
@@ -86,7 +86,6 @@ $role = $_SESSION['role'];
             <script>
             var formID = <?php echo json_encode($formId); ?>;
             var userID = <?php echo json_encode($userID); ?>;
-            // console.log(formID);
             </script>
         <?php
     } else {
@@ -106,7 +105,7 @@ $role = $_SESSION['role'];
                 $formName = $form->getFormName($formId[0]);
                 ?>
                     <header class="form-response-body">
-                        <h4 class="form-response-group text-center" id="form-response-name">
+                        <h4 class="form-response-body text-center" id="form-response-name">
                             <?php
                             if (isset($formName)) {
                                 echo $formName;
@@ -121,7 +120,8 @@ $role = $_SESSION['role'];
                     <script>
                     var formID = <?php echo json_encode($formId); ?>;
                     var userID = <?php echo json_encode($userID); ?>;
-                    console.log(formID);
+                    var role = <?php echo json_encode($role); ?>;
+                    // console.log(formID);
                     </script>
                 <?php
                 // if user has modification access, then display modify button
@@ -150,7 +150,7 @@ $role = $_SESSION['role'];
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
     <script src="../js/response-form-jquery.js"></script>
-
+    
 </body>
 
 </html>

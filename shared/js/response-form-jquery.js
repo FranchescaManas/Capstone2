@@ -17,71 +17,58 @@ $(document).ready(function(){
         }
         adjustButton();
     })
-
+    
     $('#response-submit').click(function() {
     
         var formData = {
             form_id: formID,
             user_id: userID,
             submission_date: currentDateTime,
-            sections: []
+            response: []
         };
     
-        var currentSectionData = null;
-        // console.log(formID);
-    
         $('.form-response-group').each(function() {
-            var isSection = $(this).hasClass('section');
+            // console.log($(this).attr('class'));
     
-            if (isSection) {
-                if (currentSectionData) {
-                    formData.sections.push(currentSectionData);
-                }
-                currentSectionData = {
-                    section_id: $(this).attr('id'),
-                    question: []
-                };
-            } else {
-                var questionType = $(this).hasClass('choice')
-                    ? 'choice'
-                    : $(this).hasClass('paragraph')
-                    ? 'paragraph'
-                    : $(this).hasClass('dropdown')
-                    ? 'dropdown'
-                    : $(this).hasClass('date')
-                    ? 'date'
-                    : $(this).hasClass('time')
-                    ? 'time'
-                    : $(this).hasClass('textbox')
-                    ? 'textbox'
-                    : $(this).hasClass('scale')
-                    ? 'scale'
-                    : null;
-    
-                if (questionType) {
-                    currentSectionData.question.push({
-                        question_type: questionType,
-                        question_id: $(this).attr('id'),
-                        response: getResponseValue($(this))
-                    });
-                }
+            
+            var questionType = $(this).hasClass('choice')
+                ? 'choice'
+                : $(this).hasClass('paragraph')
+                ? 'paragraph'
+                : $(this).hasClass('dropdown')
+                ? 'dropdown'
+                : $(this).hasClass('date')
+                ? 'date'
+                : $(this).hasClass('time')
+                ? 'time'
+                : $(this).hasClass('textbox')
+                ? 'textbox'
+                : $(this).hasClass('scale')
+                ? 'scale'
+                : null;
+
+            if (questionType) {
+                formData.response.push({
+                    question_type: questionType,
+                    question_id: $(this).attr('id'),
+                    response_value: getResponseValue($(this))
+                });
+                
             }
+            
         });
     
-        if (currentSectionData) {
-            formData.sections.push(currentSectionData);
-        }
-    
-        console.log(JSON.stringify(formData));
+        
+        // console.log(JSON.stringify(formData));
         $.ajax({
             type: 'POST',
             url: './event-listener.php', // URL to your PHP script
             data: { 
                 data: JSON.stringify(formData),
-                action: JSON.stringify({ 'action': 'insert', 'role': 'student' })
+                action: JSON.stringify({ 'action': 'insert response', 'role': role })
             },
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 var cleanedResponse = response.replace(/\s/g, '');
                 console.log(cleanedResponse);
                 // Handle the response from the server if needed

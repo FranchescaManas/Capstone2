@@ -28,51 +28,67 @@ function insertResponse($role, $formData)
 {
     $conn = connection();
 
-    $formID = $formData['form_id'];
+    $formID = $formData['form_id'][0];
     $userID = $formData['user_id'];
+    $responses = $formData['response'];
+    $eval_date = $formData['submission_date'];
+    $targetID = 1;
 
-    foreach ($formData['sections'] as $section) {
-        $sectionID = $section['section_id'];
+    // print_r($formData);
+    foreach ($responses as $response) {
+        $questionType = $response['question_type'];
+        $questionID = $response['question_id'];
+        $responseValue = $response['response_value'];
+        $value = '';
 
-        foreach ($section['question'] as $question) {
-            $questionType = $question['question_type'];
-            $questionID = $question['question_id'];
-            $response = $question['response'];
-
-            $responseValue = '';
-
-            switch ($questionType) {
-                case 'choice':
-                    $responseValue = $response['selected_' . $questionType];
-                    break;
-                case 'dropdown':
-                    $responseValue = $response['selected_option'];
-                    break;
-                case 'date':
-                case 'time':
-                    $responseValue = $response[$questionType . '_response'];
-                    break;
-                case 'paragraph':
-                    $responseValue = $response['text_response'];
-                    break;
-                case 'scale':
-                    $responseValue = json_encode($response['scale_responses']);
-                    break;
-                default:
+        // Handle different question types and their respective response values
+        switch ($questionType) {
+            case 'choice':
+                $value = $responseValue['selected_choice'];
+                break;
+            case 'dropdown':
+                $value = $responseValue['selected_option'];
+                break;
+            case 'date':
+            case 'time':
+            case 'textbox':
+            case 'paragraph':
+                $value = $responseValue[$questionType . '_response'];
+                break;
+            case 'scale':
+                $value = json_encode($responseValue['scale_responses']);
+                break;
+            default:
                 // Handle unknown question types
-            }
+                break;
+        }
 
-            $sql = "INSERT INTO form_response (form_id, user_id, section_id, question_id, response_value, response_type)
-                    VALUES ('$formID', '$userID', '$sectionID', '$questionID', '$responseValue', '$questionType')";
+        // print_r($value);
 
-            if ($conn->query($sql) !== TRUE) {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
+        $sql = "INSERT INTO form_response (`form_id`, `user_id`, `question_id`, `response_value`, `response_type`)
+                VALUES ($formID, '$userID', '$questionID', '$value', '$questionType')";
+        // echo $sql;
+        if ($conn->query($sql) !== TRUE) {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+            return; // Return an error indicator
         }
     }
 
+    $sql = "INSERT INTO evaluation (`evaluator_id`, `target_id`, `form_id`, `eval_date`)
+    VALUES ($userID, $targetID, $formID, '$eval_date')";
+    if ($conn->query($sql) !== TRUE) {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+        return; // Return an error indicator
+    }
+    echo "success"; // Return a success indicator
+
     $conn->close();
 }
+
+
+
+
+
 function createForm($role, $formData)
 {
     $conn = connection();
