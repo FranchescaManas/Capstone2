@@ -19,7 +19,7 @@
 
             <div class="form-schedule-card">
 
-                <div class="d-flex flex-column form-schedule-row">
+                <div class="d-flex flex-column form-schedule-row" id="faculty-table">
                     <div class="row">
                         <div class="col-10">
                             Faculty
@@ -40,8 +40,10 @@
     <summary class="summary-container d-flex flex-column">
         <h2>Evaluation Form</h2>
             <p>Student Evaluation</p>
-            <p>The student-teacher evaluation form is an important tool that helps to improve the quality of education by providing students with a voice and enabling educators to make improvements based on feedback from their students.</p>
-            <form action="#" method="post" class="w-100">
-        </form>
+            <p>The student-teacher evaluation form is an important tool90 that helps to improve the quality of education by providing students with a voice and enabling educators to make improvements based on feedback from their students.</p>
+            <form action="../shared/forms/form.php" method="post" class="start-form w-100">
+                <input type="text" hidden id="targetID" name="target_id" value="">
+                <button type="submit" class='disabled' id="evaluate-btn" name="">Start Evaluate</button>
+            </form>
     </summary>
 </main>

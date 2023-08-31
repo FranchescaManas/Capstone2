@@ -68,6 +68,10 @@ $role = $_SESSION['role'];
 
     } else if (isset($_POST['evaluateForm'])) {
         $formId = $_POST['evaluateForm'];
+        if($role === 'student'){
+            $targetID = $_POST['target_id'];
+            echo $targetID;
+        }
         $formName = $form->getFormName($formId);
         ?>
             <header class="form-response-body">
@@ -86,16 +90,21 @@ $role = $_SESSION['role'];
             <script>
             var formID = <?php echo json_encode($formId); ?>;
             var userID = <?php echo json_encode($userID); ?>;
+            var targetID = <?php echo json_encode($targetID); ?>;
+
             </script>
         <?php
     } else {
         // searches the forms accessible to the current role and id
         $formId = $form->getFormID($userID, $role);
-
+        
 
         // counts how many forms the user has access to
         if ($role === 'superadmin') {
             header('location: ../../' . $role . '/index.php?page=forms');
+        }else if($role === 'student'){
+            $targetID = $_POST['target_id'];
+            
         }
         if (count($formId) === 1) {
             // check the current access that the user has on the form
@@ -121,7 +130,7 @@ $role = $_SESSION['role'];
                     var formID = <?php echo json_encode($formId); ?>;
                     var userID = <?php echo json_encode($userID); ?>;
                     var role = <?php echo json_encode($role); ?>;
-                    // console.log(formID);
+                    var targetID = <?php echo json_encode($targetID); ?>;
                     </script>
                 <?php
                 // if user has modification access, then display modify button

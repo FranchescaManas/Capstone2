@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+    // console.log(targetID);
     function adjustButton(){
         var submit_btn = $('#form').find('#response-submit');
         submit_btn.css('width', '70%');
@@ -23,6 +24,7 @@ $(document).ready(function(){
         var formData = {
             form_id: formID,
             user_id: userID,
+            target_id: targetID,
             submission_date: currentDateTime,
             response: []
         };

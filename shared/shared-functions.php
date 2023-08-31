@@ -32,7 +32,7 @@ function insertResponse($role, $formData)
     $userID = $formData['user_id'];
     $responses = $formData['response'];
     $eval_date = $formData['submission_date'];
-    $targetID = 1;
+    $targetID = $formData['target_id'];
 
     // print_r($formData);
     foreach ($responses as $response) {
