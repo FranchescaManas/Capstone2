@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 31, 2023 at 08:12 PM
+-- Generation Time: Sep 01, 2023 at 02:20 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -72,9 +72,9 @@ CREATE TABLE `evaluation` (
 
 INSERT INTO `evaluation` (`eval_id`, `evaluator_id`, `target_id`, `form_id`, `eval_date`) VALUES
 (1, 4, 1, 119, '2023-08-31 22:51:10'),
-(2, 4, 1, 119, '2023-09-01 01:47:54'),
-(3, 4, 3, 119, '2023-09-01 01:54:35'),
-(4, 4, 2, 119, '2023-09-01 02:06:24');
+(6, 3, 1, 118, '2023-09-01 16:11:35'),
+(7, 3, 1, 118, '2023-09-01 18:16:34'),
+(8, 2, 1, 118, '2023-09-01 18:27:55');
 
 -- --------------------------------------------------------
 
@@ -85,6 +85,7 @@ INSERT INTO `evaluation` (`eval_id`, `evaluator_id`, `target_id`, `form_id`, `ev
 CREATE TABLE `faculty` (
   `user_id` int(11) NOT NULL,
   `faculty_id` int(50) NOT NULL,
+  `employment_status` varchar(150) NOT NULL,
   `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`data`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -92,11 +93,10 @@ CREATE TABLE `faculty` (
 -- Dumping data for table `faculty`
 --
 
-INSERT INTO `faculty` (`user_id`, `faculty_id`, `data`) VALUES
-(4, 1, '{\"courses\": [\n    {\n      \"course_code\": \"MATH101\",\n      \"course_name\": \"Introduction to Mathematics\",\n\"program\": \"BSIT\",\n\"year_level\": \"4\",\n\"section\":\"BSIT4A\",\n      \"schedule\": [\n        {\n          \"day\": \"Monday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        },\n        {\n          \"day\": \"Wednesday\",\n          \"time\": \"10:00 AM - 11:30 AM\"\n        }\n      ]\n    }\n  ]\n}'),
-(5, 2, '{\"courses\":[\r\n    {\r\n      \"course_code\": \"PHYS201\",\r\n      \"course_name\": \"Physics Fundamentals\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Tuesday\",\r\n          \"time\": \"9:00 AM - 10:30 AM\"\r\n        },\r\n        {\r\n          \"day\": \"Thursday\",\r\n          \"time\": \"9:00 AM - 10:30 AM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}'),
-(6, 3, '{\"courses\":[\r\n    {\r\n      \"course_code\": \"CS200\",\r\n      \"course_name\": \"Introduction to Programming\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Monday\",\r\n          \"time\": \"2:00 PM - 3:30 PM\"\r\n        },\r\n        {\r\n          \"day\": \"Wednesday\",\r\n          \"time\": \"2:00 PM - 3:30 PM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}'),
-(7, 4, '{\"courses\":[\r\n    {\r\n      \"course_code\": \"ART110\",\r\n      \"course_name\": \"Introduction to Art\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Tuesday\",\r\n          \"time\": \"3:00 PM - 4:30 PM\"\r\n        },\r\n        {\r\n          \"day\": \"Thursday\",\r\n          \"time\": \"3:00 PM - 4:30 PM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}');
+INSERT INTO `faculty` (`user_id`, `faculty_id`, `employment_status`, `data`) VALUES
+(5, 2, 'full time', '{\"courses\":[\n    {\n      \"course_code\": \"PHYS201\",\n      \"course_name\": \"Physics Fundamentals\",\n      \"program\": \"BSIT\",\n      \"year_level\": \"4\",\n      \"section\": \"BSIT4A\",\n      \"schedule\": [\n        {\n          \"day\": \"Tuesday\",\n          \"time\": \"9:00 AM - 10:30 AM\"\n        },\n        {\n          \"day\": \"Thursday\",\n          \"time\": \"9:00 AM - 10:30 AM\"\n        }\n      ]\n    }\n  ]\n}'),
+(6, 3, 'full time', '{\"courses\":[\n    {\n      \"course_code\": \"CS200\",\n      \"course_name\": \"Introduction to Programming\",\n      \"program\": \"BSIT\",\n      \"year_level\": \"4\",\n      \"section\": \"BSIT4A\",\n      \"schedule\": [\n        {\n          \"day\": \"Monday\",\n          \"time\": \"2:00 PM - 3:30 PM\"\n        },\n        {\n          \"day\": \"Wednesday\",\n          \"time\": \"2:00 PM - 3:30 PM\"\n        }\n      ]\n    }\n  ]\n}'),
+(7, 4, 'full time', '{\"courses\":[\r\n    {\r\n      \"course_code\": \"ART110\",\r\n      \"course_name\": \"Introduction to Art\",\r\n      \"program\": \"BSIT\",\r\n      \"year_level\": \"4\",\r\n      \"section\": \"BSIT4A\",\r\n      \"schedule\": [\r\n        {\r\n          \"day\": \"Tuesday\",\r\n          \"time\": \"3:00 PM - 4:30 PM\"\r\n        },\r\n        {\r\n          \"day\": \"Thursday\",\r\n          \"time\": \"3:00 PM - 4:30 PM\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}');
 
 -- --------------------------------------------------------
 
@@ -164,7 +164,10 @@ CREATE TABLE `form_permission` (
 INSERT INTO `form_permission` (`permission_id`, `user_id`, `role`, `form_id`, `can_access`, `can_modify`) VALUES
 (127, 0, 'superadmin', 118, 1, 1),
 (128, 0, 'superadmin', 119, 1, 1),
-(129, 0, 'student', 119, 1, 0);
+(129, 0, 'student', 119, 1, 0),
+(131, 0, 'faculty', 118, 1, 0),
+(132, 0, 'admin', 118, 1, 0),
+(133, 0, 'admin', 119, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -235,7 +238,61 @@ INSERT INTO `form_response` (`response_id`, `form_id`, `user_id`, `question_id`,
 (232, 119, 4, 489, '1', ''),
 (233, 119, 4, 490, 'dfadf', ''),
 (234, 119, 4, 491, 'adfadf', ''),
-(235, 119, 4, 492, '2023-09-21', 'date');
+(235, 119, 4, 492, '2023-09-21', 'date'),
+(236, 119, 4, 487, 'adfad', ''),
+(237, 119, 4, 488, 'dfadf', ''),
+(238, 119, 4, 489, '2', ''),
+(239, 119, 4, 490, 'fadf', ''),
+(240, 119, 4, 491, 'adfadf', ''),
+(241, 119, 4, 492, '2023-09-20', 'date'),
+(243, 118, 3, 478, 'adfa', ''),
+(244, 118, 3, 479, 'fadf', ''),
+(245, 118, 3, 480, '', ''),
+(246, 118, 3, 481, 'dfadf', ''),
+(247, 118, 3, 483, '2023-09-22', 'date'),
+(248, 118, 3, 484, '15:55', ''),
+(249, 118, 3, 485, '05:52', ''),
+(250, 118, 3, 486, '2023-09-28', 'date'),
+(251, 118, 3, 478, 'adfa', ''),
+(252, 118, 3, 479, 'fadf', ''),
+(253, 118, 3, 480, '', ''),
+(254, 118, 3, 481, 'dfadf', ''),
+(255, 118, 3, 483, '2023-09-22', 'date'),
+(256, 118, 3, 484, '15:55', ''),
+(257, 118, 3, 485, '05:52', ''),
+(258, 118, 3, 486, '2023-09-28', 'date'),
+(259, 118, 3, 478, 'adfa', ''),
+(260, 118, 3, 479, 'fadf', ''),
+(261, 118, 3, 480, '', ''),
+(262, 118, 3, 481, 'dfadf', ''),
+(263, 118, 3, 483, '2023-09-22', 'date'),
+(264, 118, 3, 484, '15:55', ''),
+(265, 118, 3, 485, '05:52', ''),
+(266, 118, 3, 486, '2023-09-28', 'date'),
+(267, 118, 3, 478, '', ''),
+(268, 118, 3, 479, '', ''),
+(269, 118, 3, 480, '', ''),
+(270, 118, 3, 481, '', ''),
+(271, 118, 3, 483, '', 'date'),
+(272, 118, 3, 484, '', ''),
+(273, 118, 3, 485, '', ''),
+(274, 118, 3, 486, '', 'date'),
+(275, 118, 3, 478, 'fadf', ''),
+(276, 118, 3, 479, 'adfa', ''),
+(277, 118, 3, 480, '', ''),
+(278, 118, 3, 481, 'fadf', ''),
+(279, 118, 3, 483, '2023-09-13', 'date'),
+(280, 118, 3, 484, '06:18', ''),
+(281, 118, 3, 485, '18:18', ''),
+(282, 118, 3, 486, '2023-09-21', 'date'),
+(283, 118, 2, 478, 'fadf', ''),
+(284, 118, 2, 479, 'fadf', ''),
+(285, 118, 2, 480, '', ''),
+(286, 118, 2, 481, 'fadf', ''),
+(287, 118, 2, 483, '2023-08-28', 'date'),
+(288, 118, 2, 484, '06:31', ''),
+(289, 118, 2, 485, '09:28', ''),
+(290, 118, 2, 486, '2023-09-07', 'date');
 
 -- --------------------------------------------------------
 
@@ -450,7 +507,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `evaluation`
 --
 ALTER TABLE `evaluation`
-  MODIFY `eval_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `eval_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `faculty`
@@ -474,7 +531,7 @@ ALTER TABLE `form_page`
 -- AUTO_INCREMENT for table `form_permission`
 --
 ALTER TABLE `form_permission`
-  MODIFY `permission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `permission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT for table `form_question`
@@ -486,7 +543,7 @@ ALTER TABLE `form_question`
 -- AUTO_INCREMENT for table `form_response`
 --
 ALTER TABLE `form_response`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
 
 --
 -- AUTO_INCREMENT for table `form_section`
