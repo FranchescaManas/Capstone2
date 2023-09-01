@@ -693,6 +693,19 @@ function studentData(){
     return $result;
 
 }
+function facultyData(){
+    $conn = connection();
+
+    $sql = "SELECT f.faculty_id, f.user_id, f.employment_status, u.email, u.firstname, u.lastname 
+    FROM 
+    faculty f
+    LEFT JOIN
+    users u on u.user_id = f.user_id";
+
+    $result = $conn->query($sql);
+    return $result;
+
+}
 
 
 

@@ -15,36 +15,29 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Name</th>
-                        <th>Department</th>
-                        <th>Employement Status</th>
+                        <th>Name</th> 
+                        <th>Email</th> 
+                        <th>Status</th> 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <?php
+                    $facultyList = facultyData();
+
+                    while($row = $facultyList->fetch_assoc()){
+                        ?>
+                        <tr>
                         <td class="text-end">
                             <img src="../assets/images/user.jpg" alt="" class="user-profile" width="35px">
                         </td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>Full time</td>
+                        <td><?= $row['firstname'] . ' '. $row['lastname']?></td>
+                        <td><?= $row['email']?></td>
+                        <td><?= $row['employment_status']?></td>
+                    
                     </tr>
-                    <tr>
-                        <td class="text-end">
-                            <img src="../assets/images/user.jpg" alt="" class="user-profile" width="35px">
-                        </td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>Full time</td>
-                    </tr>
-                    <tr>
-                        <td class="text-end">
-                            <img src="../assets/images/user.jpg" alt="" class="user-profile" width="35px">
-                        </td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>Full time</td>
-                    </tr>
+                        <?php
+                    }
+                    ?>
                 </tbody>
             </table>
         </section>
