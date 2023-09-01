@@ -32,14 +32,20 @@ function getFaculty($user_id){
         $facultyID = json_decode($row['faculty_id']);
         
         for ($i = 0; $i < count($professorsArray); $i++) {
-            
+            $status = checkStatus($facultyID[$i], $user_id);
+            if($status === 'Submitted'){
+                $color = 'forestgreen'; //pspsps owww pm 
+            }else{
+                $color = 'red';
+
+            }
             echo '
             <div class="faculty-row row ms-2 my-3 ps-2" id='.$facultyID[$i].'>
                         <div class="col-10">
                             '.$professorsArray[$i].'
                         </div>
-                        <div class="col-2 status-col">
-                            '.checkStatus($facultyID[$i], $user_id).'
+                        <div class="col-2 status-col" style="color:'.$color.'">
+                            '.$status.'
                         </div>
                     </div>
             ';
