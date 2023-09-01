@@ -27,9 +27,11 @@
 
                     while($row = $studentList->fetch_assoc()){
                         ?>
-                        <tr>
+                        <tr class="table-row" id="<?= $row['user_id']?>">
                         <td class="text-end">
-                            <img src="../assets/images/user.jpg" alt="" class="user-profile" width="35px">
+                            <a href="./index.php?page=user&id=<?= $row['user_id']?>">
+                                <img src="../assets/images/user.jpg" alt="" class="user-profile" width="35px">
+                            </a>
                         </td>
                         <td><?= $row['firstname'] . ' '. $row['lastname']?></td>
                         <td><?= $row['year_level']?></td>

@@ -683,7 +683,7 @@ function formContent($formId, $form, $formMode = 'view')
 function studentData(){
     $conn = connection();
 
-    $sql = "SELECT s.student_id, s.year_level, s.course, s.section, u.firstname, u.lastname 
+    $sql = "SELECT s.user_id, s.student_id, s.year_level, s.course, s.section, u.firstname, u.lastname 
     FROM 
     student s 
     LEFT JOIN
@@ -703,6 +703,17 @@ function facultyData(){
     users u on u.user_id = f.user_id";
 
     $result = $conn->query($sql);
+    return $result;
+
+}
+
+function userData($userID){
+    $conn = connection();
+
+    $sql = "SELECT * FROM users WHERE `user_id` = $userID";
+
+    $result = $conn->query($sql);
+
     return $result;
 
 }
