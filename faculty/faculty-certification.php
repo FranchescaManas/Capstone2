@@ -2,7 +2,7 @@
     <div class="page-title align-self-start">
         <h2>Certificates - {{#}}</h2>
     </div>
-    <div class="page-container" style="border: 1px solid black">
+    <div class="page-container" >
         <!-- TODO: CHANGE THE MESSAGE DEPENDING ON THE COUNT OF CERTIFICATES -->
         <h4>Congratulations on your most achievement 🎉</h4>
 
