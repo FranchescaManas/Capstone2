@@ -38,7 +38,7 @@ function getFaculty($user_id){
                         <div class="col-10">
                             '.$professorsArray[$i].'
                         </div>
-                        <div class="col-2">
+                        <div class="col-2 status-col">
                             '.checkStatus($facultyID[$i], $user_id).'
                         </div>
                     </div>

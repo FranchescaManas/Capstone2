@@ -1,23 +1,3 @@
-<!-- 
-    This page consists of 2 php files: admin-navmenubar.php and by default - admin-dashboard.php
-    This right side of this page dynamicall changes depending on the option that the user picks.
-
-    Notice that the url holds the value that current page is showing once option in sidemenu is clicked
-    example:
-    http://localhost/Capstone/student/index.php?page=dashboard
-
-    NEXT:
-    admin-navmenubar.php
-    admin-dashboard.php
-    admin-forms.php -> to view the list of forms
-
-    Previous:
-    ../login.php
-
-    INCLUSIONS:
-    ./shared/shared-functions.php -> to access functions
-    ./shared/connection.php -> to access database
- -->
 
 <?php
 

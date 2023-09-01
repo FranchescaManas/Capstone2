@@ -67,7 +67,7 @@ $(document).ready(function(){
             url: './event-listener.php', // URL to your PHP script
             data: { 
                 data: JSON.stringify(formData),
-                action: JSON.stringify({ 'action': 'insert response', 'role': role })
+                action: JSON.stringify({ 'action': 'insert response', 'role': role})
             },
             success: function(response) {
                 // console.log(response);

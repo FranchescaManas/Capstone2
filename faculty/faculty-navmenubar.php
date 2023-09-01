@@ -24,9 +24,21 @@
         <li class="sidebar-item">
             <a href="./index.php?page=certification">Certificates</a>
         </li>
-        <li class="sidebar-item">
-            <a href="../shared/forms/form.php">Forms</a>
-        </li>
+
+        <?php
+        $form = new Form;
+
+        $formcount = $form->getFormID($_SESSION['user_id'], $_SESSION['role']);
+
+        if (count($formcount) >= 1)  {
+            ?>
+            <li class="sidebar-item">
+                <a href="../shared/forms/form.php">Forms</a>
+            </li>
+            <?php
+        }
+            ?>
+        
     </ul>
 
     <div class="account-details d-flex flex-column justify-content-center align-items-center">

@@ -3,15 +3,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/connection.php';
 
 function logout()
 {
-    // session_start(); // Make sure you start the session first
-
-    // Clear session variables
     $_SESSION = array();
-
-    // Destroy the session
     session_destroy();
-
-    // Redirect
     header('location: ../index.php');
     exit;
 }
@@ -27,8 +20,11 @@ function getRole()
 function insertResponse($role, $formData)
 {
     $conn = connection();
-
-    $formID = $formData['form_id'][0];
+    if(is_array($formData['form_id'])){
+        $formID = $formData['form_id'][0];
+    }else{
+        $formID = $formData['form_id'];
+    }
     $userID = $formData['user_id'];
     $responses = $formData['response'];
     $eval_date = $formData['submission_date'];
@@ -84,10 +80,6 @@ function insertResponse($role, $formData)
 
     $conn->close();
 }
-
-
-
-
 
 function createForm($role, $formData)
 {
@@ -211,18 +203,6 @@ function getFormName($formID)
 function loadForm($role, $formID)
 {
     $conn = connection();
-
-    // $sectionQuery = "SELECT
-    //     fs.section_id,
-    //     fs.section_name,
-    //     fs.section_order
-    // FROM
-    //     form_section fs
-    // WHERE
-    //     fs.form_id = $formID
-    // ORDER BY
-    //     fs.section_order ASC;
-    // ";
 
     $pageQuery = "SELECT
         fp.page_id,
@@ -444,26 +424,21 @@ function loadForm($role, $formID)
 
         // Open the new section
 
-
     }
-
 
     // Close the database connection
     $conn->close();
 }
 
-
-
 function updateForm($formData)
 {
     $conn = connection();
-    $sectionID = null; // Initialize with null to represent no section
+    $sectionID = null;
     $section_count = 0;
     $page_count = 0;
 
     $formID = $formData['formid'];
 
-    // print_r($formData);
 
     print_r($formData);
     foreach ($formData['data'] as $item) {
@@ -480,7 +455,6 @@ function updateForm($formData)
             // echo $sql;
         } else if ($item['type'] === 'page') {
             $pageID = isset($item['page']) ? mysqli_real_escape_string($conn, $item['page']) : '';
-            // $pageID = isset($item['questionID']) ? $item['questionID'] : ''; // No need to escape integer
             $page_count++;
             // Check if the section already exists in the database
             $pageExistsQuery = "SELECT * FROM form_page WHERE `page_id` = " . $pageID;
@@ -501,8 +475,6 @@ function updateForm($formData)
                 // Retrieve the existing page_id
                 $pageID = $pageIDRow['page_id'];
             } else {
-                // Page doesn't exist, insert a new page
-                // $page_count++;
 
                 $insertPageSql = "INSERT INTO form_page (`form_id`, `page_sequence`) VALUES
                 ($formID, $page_count)";
@@ -572,7 +544,6 @@ function updateForm($formData)
                 $stmt = $conn->prepare($updateQuestionSql);
                 $stmt->bind_param("sssiiiii", $question, $questionType, $options, $questionOrder, $formID, $sectionID, $pageID, $item['questionID']);
             } else {
-                // echo "insert question";
                 // Question doesn't exist, insert it
                 $stmt = $conn->prepare($insertQuestionSql);
                 $stmt->bind_param("isssiii", $sectionID, $question, $questionType, $options, $questionOrder, $formID, $pageID);
@@ -662,13 +633,33 @@ function updatePermission($permissionData)
     $conn->close();
 }
 
+function formContent($formId, $form, $formMode = 'view')
+{
+    $formName = $form->getFormName($formId);
+    ?>
 
+    <header class="form-response-body">
+        <h4 class="form-response-body text-center" id="form-response-name">
+            <?php
+            if (isset($formName)) {
+                echo $formName;
+            }
+            ?>
+        </h4>
+    </header>
 
+    <main class='form-response-body'>
+        <?php 
+        $form->loadFormData($formId); 
+        
+        if($formMode === 'evaluate'){
+            echo '<button id="response-submit" class="rounded">Submit</button>';
+        }
+        ?>
+    </main>
 
-
-
-
-
+    <?php
+}
 
 
 

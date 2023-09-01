@@ -4,17 +4,23 @@ $(document).ready(function(){
     var targetID = null;
     $(document).on('click', '.faculty-row', function(){
         targetID = $(this).attr('id');
+        
         $('.faculty-row').each(function(){
             $(this).removeClass('selected')
             $('#evaluate-btn').addClass('disabled');
             $(this).removeClass('border border-secondary');
         });
-
-        $(this).addClass('selected');
+        
+        var hasSubmitted = $(this).find('.status-col').text().trim();
+        if(hasSubmitted === 'Not Submitted'){
+            $(this).addClass('selected');
+            $('#evaluate-btn').removeClass('disabled');
+            $('#evaluate-btn').prop('disabled', false);
+            $('#targetID').attr('value',targetID );
+        }
         $(this).addClass('border border-secondary');
-        $('#evaluate-btn').removeClass('disabled');
-        $('#evaluate-btn').prop('disabled', false);
-        $('#targetID').attr('value',targetID );
+
+        
 
     })
 

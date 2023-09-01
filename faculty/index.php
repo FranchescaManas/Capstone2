@@ -1,32 +1,7 @@
-<!-- 
-    This page consists of 2 php files: faculty-navmenubar.php and by default - faculty-dashboard.php
-    This right side of this page dynamicall changes depending on the option that the user picks.
-
-    Notice that the url holds the value that current page is showing once option in sidemenu is clicked
-    example:
-    http://localhost/Capstone/student/index.php?page=dashboard
-
-    NEXT:
-    faculty-navmenubar.php
-    faculty-dashboard.php
-    faculty-forms.php -> (THERE IS A CONDITION IN LOADING THIS PAGE: 
-        this will only be displayed if there are more than one forms assigned to students
-        see forms/form.php for the logic. Else, if there is only 1 form assigned to the user:
-        it will redirect directly to form.php and generate the form contents).
-
-
-    Previous:
-    ../login.php
-
-    INCLUSIONS:
-    ./shared/shared-functions.php -> to access functions
-    ./shared/connection.php -> to access database
- -->
 
 <?php
 session_start();
 
-// include_once '../shared/connection.php';
 include '../shared/shared-functions.php';
 include '../shared/forms/FormClass.php';
 
@@ -64,7 +39,6 @@ include '../shared/forms/FormClass.php';
         <?php include './faculty-navmenubar.php';?>
     </aside>
     <?php 
-    // logic to switch pages
     $page = 'dashboard';
 
     if(isset($_GET['page'])){
@@ -76,12 +50,8 @@ include '../shared/forms/FormClass.php';
         }
     }
     
-    // include './faculty-'.$page.'.php';
     ?>
     
-    
-    
-
     <script src="../shared/js/forms.js"></script>
     <!-- bootstrap js cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>

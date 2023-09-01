@@ -49,44 +49,14 @@ $role = $_SESSION['role'];
 
     if (isset($_POST['viewForm'])) {
         $formId = $_POST['viewForm'];
-        $formName = $form->getFormName($formId);
-        ?>
-        <header class="form-response-body">
-            <h4 class="form-response-body text-center" id="form-response-name">
-                <?php
-                if (isset($formName)) {
-                    echo $formName;
-                }
-                ?>
-            </h4>
-        </header>
-        <main class='form-response-body'>
-            <?php $form->loadFormData($formId); ?>
-            <!-- <button id="modify-sub/mit" class="rounded">Save Changes</button> -->
-        </main>
-        <?php
+        
+        formContent($formId, $form);
 
     } else if (isset($_POST['evaluateForm'])) {
+        // TODO: CHECK IF THIS CONDITION IS BEING USED AND WHEN IS IT BEING USED COMPARED TO THE ELSE CONDITION
         $formId = $_POST['evaluateForm'];
-        if($role === 'student'){
-            $targetID = $_POST['target_id'];
-            echo $targetID;
-        }
-        $formName = $form->getFormName($formId);
+        formContent($formId, $form, 'evaluate');
         ?>
-            <header class="form-response-body">
-                <h4 class="form-response-body text-center" id="form-response-name">
-                    <?php
-                    if (isset($formName)) {
-                        echo $formName;
-                    }
-                    ?>
-                </h4>
-            </header>
-            <main class='form-response-body'>
-            <?php $form->loadFormData($formId); ?>
-                <button id="response-submit" class="rounded">Submit</button>
-            </main>
             <script>
             var formID = <?php echo json_encode($formId); ?>;
             var userID = <?php echo json_encode($userID); ?>;
@@ -98,35 +68,28 @@ $role = $_SESSION['role'];
         // searches the forms accessible to the current role and id
         $formId = $form->getFormID($userID, $role);
         
+        
 
         // counts how many forms the user has access to
         if ($role === 'superadmin') {
             header('location: ../../' . $role . '/index.php?page=forms');
         }else if($role === 'student'){
             $targetID = $_POST['target_id'];
-            
+        }else{
+            // TODO: CHANGE TARGET ID TO BIND WITH DROPDOWN
+            $targetID = 1;
         }
         if (count($formId) === 1) {
             // check the current access that the user has on the form
             $access = $form->checkAccess($formId[0], $role);
+            $formId = $formId[0];
             // if user has access then load/generate the form
             if ($access === 'can access') {
-                $formName = $form->getFormName($formId[0]);
+                $formName = $form->getFormName($formId);
+                formContent($formId, $form, 'evaluate');
                 ?>
-                    <header class="form-response-body">
-                        <h4 class="form-response-body text-center" id="form-response-name">
-                            <?php
-                            if (isset($formName)) {
-                                echo $formName;
-                            }
-                            ?>
-                        </h4>
-                    </header>
-                    <main class='form-response-body'>
-                    <?php $form->loadFormData($formId[0]); ?>
-                        <button id="response-submit" class="rounded">Submit</button>
-                    </main>
                     <script>
+
                     var formID = <?php echo json_encode($formId); ?>;
                     var userID = <?php echo json_encode($userID); ?>;
                     var role = <?php echo json_encode($role); ?>;

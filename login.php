@@ -1,24 +1,3 @@
-<!-- 
-    When the login button is clicked, it executes the login function by providing the needed arguments/parameters.
-    the login function also sets the session variables so that the users username, userID, role, and name
-    is made accessible to other files its connected to as long as session_start() is present before the html tag.
-
-    NEXT:
-    superadmin/index.php
-    admin/index.php     
-    faculty/index.php   
-    student/index.php
-
-    PREVIOUS:
-    index.php
-
-    INCLUSIONS:
-    ./shared/connection.php -> to connect to the database
-
-    All index files depending on user is that first thing that will load. It includes the {{role}}-navmenu.php
-    Thus, the ui won't work properly if the index.php is not loaded first as its a combination of 2 php files.
-
- -->
 
 <?php
 session_start();

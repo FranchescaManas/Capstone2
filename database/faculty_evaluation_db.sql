@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2023 at 08:12 PM
+-- Generation Time: Aug 31, 2023 at 08:12 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -66,6 +66,16 @@ CREATE TABLE `evaluation` (
   `eval_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `evaluation`
+--
+
+INSERT INTO `evaluation` (`eval_id`, `evaluator_id`, `target_id`, `form_id`, `eval_date`) VALUES
+(1, 4, 1, 119, '2023-08-31 22:51:10'),
+(2, 4, 1, 119, '2023-09-01 01:47:54'),
+(3, 4, 3, 119, '2023-09-01 01:54:35'),
+(4, 4, 2, 119, '2023-09-01 02:06:24');
+
 -- --------------------------------------------------------
 
 --
@@ -106,8 +116,8 @@ CREATE TABLE `form` (
 --
 
 INSERT INTO `form` (`form_id`, `form_name`, `form_description`, `form_type`) VALUES
-(1, 'Faculty Evaluation Form', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur sint veniam fuga inventore tempora numquam omnis esse natus cupiditate, id rerum! Vel', NULL),
-(2, 'Observation Sheet', 'observation sheet sample text observation sheet sample text observation sheet sample text observation sheet sample text observation sheet sample text ', NULL);
+(118, 'tst', 'null', NULL),
+(119, 'tset2', 'null', NULL);
 
 -- --------------------------------------------------------
 
@@ -126,7 +136,11 @@ CREATE TABLE `form_page` (
 --
 
 INSERT INTO `form_page` (`page_id`, `form_id`, `page_sequence`) VALUES
-(1, 1, 1);
+(31, 118, 1),
+(32, 118, 2),
+(33, 118, 3),
+(34, 119, 1),
+(35, 119, 2);
 
 -- --------------------------------------------------------
 
@@ -148,11 +162,9 @@ CREATE TABLE `form_permission` (
 --
 
 INSERT INTO `form_permission` (`permission_id`, `user_id`, `role`, `form_id`, `can_access`, `can_modify`) VALUES
-(1, 0, 'student', 1, 1, 0),
-(2, 0, 'stusdent', 2, 1, 0),
-(3, 0, 'faculty', 1, 1, 0),
-(4, 0, 'admin', 1, 1, 0),
-(5, 6, 'admin', 1, 1, 1);
+(127, 0, 'superadmin', 118, 1, 1),
+(128, 0, 'superadmin', 119, 1, 1),
+(129, 0, 'student', 119, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -165,7 +177,7 @@ CREATE TABLE `form_question` (
   `section_id` int(11) DEFAULT NULL,
   `question_text` varchar(150) NOT NULL,
   `question_type` varchar(50) NOT NULL,
-  `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`options`)),
   `question_order` int(11) NOT NULL,
   `form_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL
@@ -176,12 +188,21 @@ CREATE TABLE `form_question` (
 --
 
 INSERT INTO `form_question` (`question_id`, `section_id`, `question_text`, `question_type`, `options`, `question_order`, `form_id`, `page_id`) VALUES
-(1, 1, 'sample paragraph question', 'paragraph', NULL, 3, 1, 1),
-(2, 1, 'Sample question choice', 'choice', '{\"option1\": \"Sample Choice 1\", \"option2\": \"Sample Choice 2\", \"option3\": \"Sample Choice 3\"}', 2, 1, 1),
-(3, 1, 'sample date', 'date', NULL, 1, 1, 1),
-(4, 2, 'time', 'time', NULL, 4, 1, 1),
-(5, 1, 'sample dropdown', 'dropdown', '{\"option1\": \"Sample dropdown 1\", \"option2\": \"Sample dropdown 2\", \"option3\": \"Sample dropdown 3\"}', 5, 1, 1),
-(6, 2, 'Sample scale ', 'scale', '{\n  \"scale-labels\": {\n    \"label1\": \"labeloption1\",\n    \"label2\": \"labeloption2\",\n    \"label3\": \"labeloption3\",\n    \"label4\": \"labeloption4\",\n    \"label5\": \"labeloption5\"\n  },\n  \"scale-statement\": {\n    \"statement1\": \"sample statement1\",\n    \"statement2\": \"sample statement2\",\n    \"sample3\": \"sample statement 3\"\n  }\n}\n', 6, 1, 1);
+(478, 138, 'Student Number', 'textbox', NULL, 1, 118, 31),
+(479, 138, 'Section', 'textbox', NULL, 2, 118, 31),
+(480, 138, 'Professor', 'dropdown', '[]', 3, 118, 31),
+(481, 138, 'Class Schedule', 'textbox', NULL, 4, 118, 31),
+(482, 138, '', 'page', NULL, 5, 118, 31),
+(483, 139, 'test date', 'date', NULL, 7, 118, 32),
+(484, 139, 'test time', 'time', NULL, 8, 118, 32),
+(485, 140, 't3', 'time', NULL, 11, 118, 33),
+(486, 140, 'd3', 'date', NULL, 12, 118, 33),
+(487, 141, 'Student Number', 'textbox', NULL, 1, 119, 34),
+(488, 141, 'Section', 'textbox', NULL, 2, 119, 34),
+(489, 141, 'Professor', 'dropdown', '{\"option1\":\"1\",\"option2\":\"2\",\"option3\":\"3\"}', 3, 119, 34),
+(490, 141, 'Class Schedule', 'textbox', NULL, 4, 119, 34),
+(491, 142, 'a2 p2', 'paragraph', NULL, 7, 119, 35),
+(492, 142, 'd2 p2', 'date', NULL, 8, 119, 35);
 
 -- --------------------------------------------------------
 
@@ -193,7 +214,6 @@ CREATE TABLE `form_response` (
   `response_id` int(11) NOT NULL,
   `form_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `section_id` int(11) DEFAULT NULL,
   `question_id` int(11) DEFAULT NULL,
   `response_value` varchar(255) DEFAULT NULL,
   `response_type` enum('text','choice','date') DEFAULT NULL
@@ -203,13 +223,19 @@ CREATE TABLE `form_response` (
 -- Dumping data for table `form_response`
 --
 
-INSERT INTO `form_response` (`response_id`, `form_id`, `user_id`, `section_id`, `question_id`, `response_value`, `response_type`) VALUES
-(157, 1, 1, 1, 3, '2023-08-25', 'date'),
-(158, 1, 1, 1, 2, 'Sample Choice 2', 'choice'),
-(159, 1, 1, 1, 1, 'fadfa', ''),
-(160, 1, 1, 1, 5, 'Sample dropdown 2', ''),
-(161, 1, 1, 2, 4, '01:08', ''),
-(162, 1, 1, 2, 6, '{\"sample statement1\":\"labeloption1\",\"sample statement2\":\"labeloption1\",\"sample statement 3\":\"labeloption1\"}', '');
+INSERT INTO `form_response` (`response_id`, `form_id`, `user_id`, `question_id`, `response_value`, `response_type`) VALUES
+(224, 119, 4, 487, 'fdadf', ''),
+(225, 119, 4, 488, 'fadf', ''),
+(226, 119, 4, 489, '2', ''),
+(227, 119, 4, 490, 'adfadf', ''),
+(228, 119, 4, 491, 'fadfadf', ''),
+(229, 119, 4, 492, '2023-09-30', 'date'),
+(230, 119, 4, 487, 'test', ''),
+(231, 119, 4, 488, 'stasd', ''),
+(232, 119, 4, 489, '1', ''),
+(233, 119, 4, 490, 'dfadf', ''),
+(234, 119, 4, 491, 'adfadf', ''),
+(235, 119, 4, 492, '2023-09-21', 'date');
 
 -- --------------------------------------------------------
 
@@ -221,16 +247,20 @@ CREATE TABLE `form_section` (
   `section_id` int(11) NOT NULL,
   `form_id` int(11) NOT NULL,
   `section_name` varchar(50) NOT NULL,
-  `section_order` int(11) NOT NULL
+  `section_order` int(11) NOT NULL,
+  `page_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `form_section`
 --
 
-INSERT INTO `form_section` (`section_id`, `form_id`, `section_name`, `section_order`) VALUES
-(1, 1, 'Sample Section 1', 1),
-(2, 1, 'Sample Section 2', 2);
+INSERT INTO `form_section` (`section_id`, `form_id`, `section_name`, `section_order`, `page_id`) VALUES
+(138, 118, 'Faculty Information', 1, 31),
+(139, 118, 'senctino1 p2', 2, 32),
+(140, 118, 's3 p3', 3, 33),
+(141, 119, 'Faculty Information', 1, 34),
+(142, 119, 's2 p2', 2, 35);
 
 -- --------------------------------------------------------
 
@@ -370,15 +400,15 @@ ALTER TABLE `form_response`
   ADD PRIMARY KEY (`response_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `form_id` (`form_id`),
-  ADD KEY `question_id` (`question_id`),
-  ADD KEY `section_id` (`section_id`);
+  ADD KEY `question_id` (`question_id`);
 
 --
 -- Indexes for table `form_section`
 --
 ALTER TABLE `form_section`
   ADD PRIMARY KEY (`section_id`),
-  ADD KEY `form_id` (`form_id`);
+  ADD KEY `form_id` (`form_id`),
+  ADD KEY `page_id` (`page_id`);
 
 --
 -- Indexes for table `student`
@@ -420,7 +450,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `evaluation`
 --
 ALTER TABLE `evaluation`
-  MODIFY `eval_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `eval_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `faculty`
@@ -432,37 +462,37 @@ ALTER TABLE `faculty`
 -- AUTO_INCREMENT for table `form`
 --
 ALTER TABLE `form`
-  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `form_page`
 --
 ALTER TABLE `form_page`
-  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `form_permission`
 --
 ALTER TABLE `form_permission`
-  MODIFY `permission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `permission_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `form_question`
 --
 ALTER TABLE `form_question`
-  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=497;
 
 --
 -- AUTO_INCREMENT for table `form_response`
 --
 ALTER TABLE `form_response`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
 
 --
 -- AUTO_INCREMENT for table `form_section`
 --
 ALTER TABLE `form_section`
-  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `section_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 
 --
 -- AUTO_INCREMENT for table `student`
@@ -527,14 +557,14 @@ ALTER TABLE `form_question`
 ALTER TABLE `form_response`
   ADD CONSTRAINT `form_response_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `form_response_ibfk_2` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`),
-  ADD CONSTRAINT `form_response_ibfk_3` FOREIGN KEY (`question_id`) REFERENCES `form_question` (`question_id`),
-  ADD CONSTRAINT `form_response_ibfk_4` FOREIGN KEY (`section_id`) REFERENCES `form_section` (`section_id`);
+  ADD CONSTRAINT `form_response_ibfk_3` FOREIGN KEY (`question_id`) REFERENCES `form_question` (`question_id`);
 
 --
 -- Constraints for table `form_section`
 --
 ALTER TABLE `form_section`
-  ADD CONSTRAINT `form_section_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`);
+  ADD CONSTRAINT `form_section_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`),
+  ADD CONSTRAINT `form_section_ibfk_2` FOREIGN KEY (`page_id`) REFERENCES `form_page` (`page_id`);
 
 --
 -- Constraints for table `student`
