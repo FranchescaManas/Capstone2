@@ -19,6 +19,7 @@ function getRole()
 }
 function insertResponse($role, $formData)
 {
+    // print_r($formData);
     $conn = connection();
     if(is_array($formData['form_id'])){
         $formID = $formData['form_id'][0];
@@ -81,6 +82,24 @@ function insertResponse($role, $formData)
     $conn->close();
 }
 
+function facultyAutofill(){
+    $conn = connection();
+
+    $autofillData = array();
+
+    $sql = "SELECT f.faculty_id, f.user_id, u.firstname, u.lastname FROM faculty f LEFT JOIN users u ON f.user_id = u.user_id;
+    ";
+
+    $result = $conn->query($sql);
+
+    if($result){
+        while($row = $result->fetch_assoc()){
+            $fullname = $row['firstname'] . ' '. $row['lastname'];
+            $autofillData[$row['faculty_id']] = $fullname;
+        }
+        return $autofillData;
+    }
+}
 function createForm($role, $formData)
 {
     $conn = connection();
@@ -659,6 +678,20 @@ function formContent($formId, $form, $formMode = 'view')
     </main>
 
     <?php
+}
+
+function studentData(){
+    $conn = connection();
+
+    $sql = "SELECT s.student_id, s.year_level, s.course, s.section, u.firstname, u.lastname 
+    FROM 
+    student s 
+    LEFT JOIN
+    users u on u.user_id = s.user_id";
+
+    $result = $conn->query($sql);
+    return $result;
+
 }
 
 

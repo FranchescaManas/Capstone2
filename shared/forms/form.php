@@ -53,14 +53,15 @@ $role = $_SESSION['role'];
         formContent($formId, $form);
 
     } else if (isset($_POST['evaluateForm'])) {
-        // TODO: CHECK IF THIS CONDITION IS BEING USED AND WHEN IS IT BEING USED COMPARED TO THE ELSE CONDITION
         $formId = $_POST['evaluateForm'];
+        $targetID = 1;
         formContent($formId, $form, 'evaluate');
         ?>
             <script>
             var formID = <?php echo json_encode($formId); ?>;
             var userID = <?php echo json_encode($userID); ?>;
             var targetID = <?php echo json_encode($targetID); ?>;
+            var role = <?php echo json_encode($role); ?>;
 
             </script>
         <?php
@@ -76,7 +77,6 @@ $role = $_SESSION['role'];
         }else if($role === 'student'){
             $targetID = $_POST['target_id'];
         }else{
-            // TODO: CHANGE TARGET ID TO BIND WITH DROPDOWN
             $targetID = 1;
         }
         if (count($formId) === 1) {

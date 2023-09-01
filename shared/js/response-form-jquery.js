@@ -20,7 +20,6 @@ $(document).ready(function(){
     })
     
     $('#response-submit').click(function() {
-    
         var formData = {
             form_id: formID,
             user_id: userID,

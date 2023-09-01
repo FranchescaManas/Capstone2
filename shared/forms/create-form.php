@@ -49,6 +49,10 @@ include '../shared-functions.php';
 
 
         <?php
+        $autofill = facultyAutofill();
+
+        // print_r($autofill);
+
         if (isset($_POST['modify'])) {
             ?>
             <form action="javascript:void(0)" id="form" method="post" data-category="<?php echo $_POST['modify']; ?>">
@@ -81,6 +85,9 @@ include '../shared-functions.php';
 
 
         ?>
+        <script>
+            var autofilldata = <?php echo json_encode($autofill); ?>;
+        </script>
                 <aside class="w-100">
                     <div class="form-group-add">
 

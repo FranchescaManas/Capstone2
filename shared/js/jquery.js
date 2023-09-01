@@ -178,7 +178,9 @@ $(document).ready(function () {
         $('#form').append(submit_btn);
     }
     
-    function bindFaculty(){
+    function bindFaculty(data){
+        // console.log(data);
+       
         var result = confirm("Would you like to include a binded Faculty Information Section?");
     
         if(result){
@@ -191,6 +193,10 @@ $(document).ready(function () {
             $('#form').append(generateFormFieldGroup('textbox'));
             $('#form .field-group:last').find('.field-textbox').attr('value', 'Section');
             $('#form').append(generateFormFieldGroup('dropdown'));
+            
+                      // $.each( data, function( key, value ) {
+            //     $('.add-option').trigger();
+            //   });
             $('#form .field-group:last').find('.field-question').attr('value', 'Professor');
             // $('#form .field-group:last').find('a').replaceAll('<small>This field group will be binded with the users list of professors assigned to them.</small>');
     
@@ -219,7 +225,7 @@ $(document).ready(function () {
     
     if ($('[data-category="normal"]').length > 0) {
         // Do something
-        bindFaculty();
+        bindFaculty(autofilldata);
     }else{
         // console.log('modify');
     }
@@ -327,6 +333,7 @@ $(document).ready(function () {
     });
 
     // Uncommented code for adding form options
+    // TODO: WHERE IS THIS BEING USED?? 
     $('#form').on('click', '.form-add-option', function () {
         var fieldGroupId = $(this).closest('.field-group').attr('id');
     

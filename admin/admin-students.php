@@ -16,35 +16,31 @@
                     <tr>
                         <th></th>
                         <th>Name</th>
-                        <th>Department</th>
-                        <th>Employement Status</th>
+                        <th>Year</th>
+                        <th>Section</th>
+                        <th>Course</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <?php
+                    $studentList = studentData();
+
+                    while($row = $studentList->fetch_assoc()){
+                        ?>
+                        <tr>
                         <td class="text-end">
                             <img src="../assets/images/user.jpg" alt="" class="user-profile" width="35px">
                         </td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>Full time</td>
+                        <td><?= $row['firstname'] . ' '. $row['lastname']?></td>
+                        <td><?= $row['year_level']?></td>
+                        <td><?= $row['section']?></td>
+                        <td><?= $row['course']?></td>
                     </tr>
-                    <tr>
-                        <td class="text-end">
-                            <img src="../assets/images/user.jpg" alt="" class="user-profile" width="35px">
-                        </td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>Full time</td>
-                    </tr>
-                    <tr>
-                        <td class="text-end">
-                            <img src="../assets/images/user.jpg" alt="" class="user-profile" width="35px">
-                        </td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>Full time</td>
-                    </tr>
+                        <?php
+                    }
+                    ?>
+                    
+                    
                 </tbody>
             </table>
         </section>
