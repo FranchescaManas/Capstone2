@@ -26,7 +26,7 @@
             <a href="./index.php?page=dashboard">Dashboard</a>
         </li>
         <li class="sidebar-item">
-            <a href="./index.php?page=users">Users</a>
+            <a href="./index.php?page=userstable">Users</a>
         </li>
         <li class="sidebar-item">
             <a href="../shared/forms/form.php">Forms</a>
