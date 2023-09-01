@@ -707,12 +707,12 @@ function facultyData(){
 
 }
 
-function userData($userID = ''){
+function userData($userID='null'){
     $conn = connection();
-    if($userID === ''){
-        $sql = "SELECT * FROM users WHERE `user_id` = $userID";
+    if($userID === 'null'){
+        $sql = "SELECT * FROM users";
     }else{
-        $sql = "SELECT * FROM `users`";
+        $sql = "SELECT * FROM users WHERE `user_id` = $userID";
     }
 
     $result = $conn->query($sql);

@@ -22,9 +22,28 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
                     
-            
-                    
+                        $user = userData();
+
+                        while($row = $user->fetch_array()){
+                            ?>
+                            <tr class="table-row" id="<?= $row['user_id']?>">
+                            <td class="text-end">
+                                <a href="./index.php?page=user&id=<?= $row['user_id']?>">
+                                    <img src="../assets/images/user.jpg" alt="" class="user-profile" width="35px">
+                                </a>
+                            </td>
+                            <td><?= $row['firstname']?></td>
+                            <td><?= $row['lastname']?></td>
+                            <td><?= $row['email']?></td>
+                            <td><?= $row['role']?></td>
+                        </tr>
+                            <?php
+                        }       
+
+                        ?>
+  
                 </tbody>
             </table>
         </section>
