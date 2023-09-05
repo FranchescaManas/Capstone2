@@ -12,9 +12,18 @@ if (isset($_GET['id'])) {
         $password = $row['password'];
         $role = $row['role'];
     }
-
-
+    $action = "update user";
+}else{
+    $firstname = null;
+    $lastname = null;
+    $email = null;
+    $phone = null;
+    $username = null;
+    $password = null;
+    $role = $_GET['action'];
+    $action = "insert user";
 }
+
 
 
 ?>
@@ -54,39 +63,51 @@ if (isset($_GET['id'])) {
 
                     <aside class="user-information-details">
 
-                        <form action="">
+                        <form action="../shared/forms/event-listener.php" method="post">
 
                             <div class="form-group">
                                 <label for="firstname">First Name</label>
-                                <input type="text" placeholder="<?=$firstname?>" class="rounded-pill">
+                                <input type="text" value="<?=$firstname?>" name="firstname" class="rounded-pill">
                             </div>
                             <div class="form-group">
                                 <label for="lastname">Last Name</label>
-                                <input type="text" placeholder="<?=$lastname?>" class="rounded-pill">
+                                <input type="text" value="<?=$lastname?>" name="lastname" class="rounded-pill">
                             </div>
                             <div class="w-100"></div>
                             <div class="form-group">
                                 <label for="email">Email Address</label>
-                                <input type="email" placeholder="<?=$email?>" class="rounded-pill">
+                                <input type="email" value="<?=$email?>" name="email" class="rounded-pill">
                             </div>
                             <div class="w-100"></div>
                             <div class="form-group">
                                 <label for="phone">Phone Number</label>
-                                <input type="tel" placeholder="<?=$phone?>" class="rounded-pill">
+                                <input type="tel" value="<?=$phone?>" name="phone" class="rounded-pill">
                             </div>
                             <div class="w-100"></div>
 
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" placeholder="<?=$username?>" class="rounded-pill">
+                                <input type="text" value="<?=$username?>" name="username" class="rounded-pill">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" value="<?=$password?>" class="rounded-pill">
+                                <input type="password" value="<?=$password?>" name="password" class="rounded-pill">
                             </div>
+                            <input type="hidden" name="submit" value="<?=$action?>">
+                            <input type="hidden" name="role" value="<?=$role?>">
+                            <?php
+                            if(isset($id)){
+                                echo '<input type="hidden" name="userID" value="'.$id.'">';
+                            }
+                            ?>
 
-
+                            <button type="submit">Save</button>
+                            <button>Cancel</button>
                         </form>
+
+                        <?php
+                       
+                        ?>
                     </aside>
                 </div>
 

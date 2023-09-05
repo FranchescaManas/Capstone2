@@ -721,6 +721,37 @@ function userData($userID='null'){
 
 }
 
+function userAddUpdate($request){
+    // print_r($request);
+    $conn = connection();
+    $username = $request['username'];
+    $firstname = $request['firstname'];
+    $lastname = $request['lastname'];
+    $email = $request['email'];
+    $phone = $request['phone'];
+    $pass = $request['password'];
+    $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
+    $role = $request['role'];
+    if(isset($request['userID'])){
+        $userID = $request['userID'];
+    }
+    $action = $request['submit'];
+
+    if($action === 'insert user'){
+
+        $sql = "INSERT INTO users (`username`, `password`, `firstname`, `lastname`, `email`, `phone`, `role`)
+        VALUES 
+        ('$username', '$hashed_password', '$firstname', '$lastname', '$email', $phone, '$role')";
+    }else{
+        $sql = "UPDATE FROM users SET `username` = '$username', `password` = '$hashed_password', `firstname` = '$firstname',
+        `lastname` = $lastname, `email` = '$email', `phone` = '$phone' WHERE `user_id` = $userID";
+    }
+    $result = $conn->query($sql);
+
+
+}
+
+
 
 
 ?>

@@ -7,7 +7,10 @@
         <section class="flex-center flex-wrap w-100">
             <input type="text" placeholder="search" id="txtbx_search" class="searchbox rounded-pill">
             <button class="rounded custom-btn">Filter</button>
-            <button class="rounded custom-btn">Import</button>
+            <a href="./index.php?page=user&action=student">
+                <button class="rounded custom-btn">Add User</button>
+            </a>
+            <button class="rounded custom-btn" data-bs-toggle="modal" data-bs-target="#importstudent">Import</button>
         </section>
 
         <section class="flex-center">
@@ -50,3 +53,7 @@
 
     
 </main>
+
+<?php
+include '../shared/modals.php';
+?>

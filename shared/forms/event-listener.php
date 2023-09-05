@@ -3,29 +3,38 @@ include '../shared-functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the JSON data from the AJAX request
-    $formData = json_decode($_POST['data'], true);
-    $actionData = json_decode($_POST['action'], true);
 
-    $action = $actionData['action'];
-    $role = $actionData['role'];
-
-    if ($role === 'superadmin'){
-        if($action === 'create form'){
-            createForm($role, $formData);
-        }else if($action === 'delete form'){
-            deleteForm($formData);
-        }else if($action === 'modify form'){
-            updateForm($formData);
-            // print_r($formData);
-        }else if($action === 'update permission'){
-            updatePermission($formData);
+    if(isset($_POST['submit'])){
+        $action = $_POST['submit'];
+        if($action === 'insert user' || $action === 'update user'){
+            userAddUpdate($_POST);
         }
-        // TODO: put the success prompt in the ajax if query works
-        echo "success";
     }else{
-        if($action === 'insert response'){
-            insertResponse($role, $formData);
-            // print_r($formData);
+
+        $formData = json_decode($_POST['data'], true);
+        $actionData = json_decode($_POST['action'], true);
+    
+        $action = $actionData['action'];
+        $role = $actionData['role'];
+    
+        if ($role === 'superadmin'){
+            if($action === 'create form'){
+                createForm($role, $formData);
+            }else if($action === 'delete form'){
+                deleteForm($formData);
+            }else if($action === 'modify form'){
+                updateForm($formData);
+                // print_r($formData);
+            }else if($action === 'update permission'){
+                updatePermission($formData);
+            }
+            // TODO: put the success prompt in the ajax if query works
+            echo "success";
+        }else{
+            if($action === 'insert response'){
+                insertResponse($role, $formData);
+                // print_r($formData);
+            }
         }
     }
 
