@@ -38,12 +38,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/shared-functions.php'
         </header>
 
         <section class="flex-center flex-wrap w-100">
-            <input type="text" placeholder="search" id="txtbx_search" class="searchbox rounded-pill">
-            <button class="rounded custom-btn">Filter</button>
+            <input type="text" placeholder="search name" id="txtbx_search"  onkeyup="filterTable()" class="searchbox rounded-pill">
             <a href="./index.php?page=user&action=student">
                 <button class="rounded custom-btn">Add User</button>
             </a>
-            <input type="text" placeholder="search name" id="txtbx_search"  onkeyup="filterTable()" class="searchbox rounded-pill">
             <button class="rounded custom-btn" data-bs-toggle="modal" data-bs-target="#importstudent">Import</button>
         </section>
 
@@ -85,6 +83,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/shared-functions.php'
         </section>
     </section>
 
-    
-</main>
 
+
+<?php
+include '../shared/modals.php';
+?>
