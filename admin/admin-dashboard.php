@@ -26,12 +26,25 @@
             <div class="form-schedule-card">
 
                 <h3>Form Schedule</h3>
+                <?php
                 
+                $formschedules = formSchedules();
+
+                while($row = $formschedules->fetch_assoc()){
+                    if($row['start_date'] === null || $row['end_date'] === null){
+                        $date = "Not Scheduled";
+                    }else{
+                        $date = $row['start_date'] .' ' . $row['end_date'];
+                    }
+                ?>
+                <!-- TODO: FORMAT THE DATE -->
                 <div class="form-schedule-row flex-row-between">
-                    <h6>{{Form Name}}</h6>
-                    <small>{{Date}}</small>
+                    <h6><?= $row['form_name']; ?></h6>
+                    <small><?= $date; ?></small>
                 </div>
-                
+                <?php
+                }
+                ?>
             </div>
             
 

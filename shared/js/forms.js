@@ -104,21 +104,30 @@ $(document).ready(function() {
         // get forms of the checkboxes through the value
 
         const selectedForms = $('.form-check-input:checked');
+        const startDate = $('#start-date').val();
+        const endDate = $('#end-date').val();
 
         // Collect the form IDs into an array
         const formIDs = selectedForms.map(function() {
             return $(this).val();
         }).get();
 
+        const data = {
+            formIDs: formIDs, 
+            startDate: startDate, 
+            endDate: endDate
+        }
         $.ajax({
             type: 'POST',
             url: '../shared/forms/event-listener.php', // URL to your PHP script
             data: {
-                data: JSON.stringify(formIDs),
+                data: JSON.stringify(data),
                 action: JSON.stringify({ 'action': 'update schedule', 'role': userRole})
             },
             success: function(response) {
-                console.log(response);
+                if(response === 'success'){
+                    window.location=document.referrer;
+                }
                 
             },
             error: function(xhr, status, error) {

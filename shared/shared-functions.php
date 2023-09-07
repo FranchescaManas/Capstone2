@@ -125,8 +125,8 @@ function createForm($role, $formData)
         if ($item['type'] === 'form-title') {
             $formTitle = isset($item['question']) ? mysqli_real_escape_string($conn, $item['question']) : '';
 
-            $sql = "INSERT INTO form (`form_name`, `form_description`, `form_type`) 
-            VALUES ('$formTitle', 'null', null)";
+            $sql = "INSERT INTO form (`form_name`, `form_description`, `form_type`, `start_date`, `end_date`, `is_open`) 
+            VALUES ('$formTitle', 'null', null, null, null, 0)";
 
             if ($conn->query($sql)) {
                 $formID = $conn->insert_id;
@@ -768,24 +768,44 @@ function userAddUpdate($request){
 
 function updateSchedule($formData)
 {
+    print_r($formData);
     $conn = connection();
+    $startDate = $formData['startDate'];
+    $endDate = $formData['endDate'];
 
     // Set `is_open` to 0 for all rows in the `form` table
-    $sql = "UPDATE form SET `is_open` = 0";
+    $sql = "UPDATE form SET `is_open` = 0, `start_date` = null, `end_date` = null";
 
     if (!$conn->query($sql)) {
         die('Error updating schedule: ' . $conn->error);
     }
 
     // Loop through the form IDs in $formData and set `is_open` to 1 for each one
-    foreach ($formData as $formID) {
-        $sql = "UPDATE form SET `is_open` = 1 WHERE form_id = $formID";
+    foreach ($formData['formIDs'] as $formID) {
+        // Use prepared statements to safely insert dates
+        $stmt = $conn->prepare("UPDATE form SET `is_open` = 1, `start_date` = ?, `end_date` = ? WHERE form_id = ?");
+        $stmt->bind_param("ssi", $startDate, $endDate, $formID);
 
-        if (!$conn->query($sql)) {
-            die('Error updating schedule: ' . $conn->error);
+        if (!$stmt->execute()) {
+            die('Error updating schedule: ' . $stmt->error);
         }
+
+        $stmt->close();
     }
-    echo "success";
+
+    // Close the database connection
+    $conn->close();
+ 
+}
+
+function formSchedules(){
+    $conn = connection();
+
+    $sql = "SELECT `form_name`, `start_date`, `end_date` FROM form";
+
+    $result = $conn->query($sql);
+
+    return $result;
 }
 
 
