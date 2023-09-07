@@ -21,9 +21,9 @@ function insertResponse($role, $formData)
 {
     // print_r($formData);
     $conn = connection();
-    if(is_array($formData['form_id'])){
+    if (is_array($formData['form_id'])) {
         $formID = $formData['form_id'][0];
-    }else{
+    } else {
         $formID = $formData['form_id'];
     }
     $userID = $formData['user_id'];
@@ -31,11 +31,15 @@ function insertResponse($role, $formData)
     $eval_date = $formData['submission_date'];
     $targetID = $formData['target_id'];
 
-    // print_r($formData);
+    $responseSQL = "INSERT INTO form_response (`form_id`, `user_id`, `question_id`, `response_value`, `response_type`) VALUES ";
+
+    $values = array();
+
     foreach ($responses as $response) {
-        $questionType = $response['question_type'];
         $questionID = $response['question_id'];
         $responseValue = $response['response_value'];
+        $questionType = $response['question_type'];
+
         $value = '';
 
         // Handle different question types and their respective response values
@@ -60,27 +64,38 @@ function insertResponse($role, $formData)
                 break;
         }
 
-        // print_r($value);
-
-        $sql = "INSERT INTO form_response (`form_id`, `user_id`, `question_id`, `response_value`, `response_type`)
-                VALUES ($formID, '$userID', '$questionID', '$value', '$questionType')";
-        // echo $sql;
-        if ($conn->query($sql) !== TRUE) {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-            return; // Return an error indicator
-        }
+        // Prepare the SQL statement
+        $values[] = "($formID, $userID, $questionID, '$value', '$questionType')";
     }
 
+    $responseSQL .= implode(",", $values);
+
+    if ($conn->query($responseSQL)) {
+        // echo "Successfully inserted responses";
+    } else {
+        echo "Error: " . $responseSQL . "<br>" . $conn->error;
+        return; // Return an error indicator
+    }
+
+    // $conn->close();
+    
     $sql = "INSERT INTO evaluation (`evaluator_id`, `target_id`, `form_id`, `eval_date`)
     VALUES ($userID, $targetID, $formID, '$eval_date')";
+
+    // echo $sql;
     if ($conn->query($sql) !== TRUE) {
         echo "Error: " . $sql . "<br>" . $conn->error;
         return; // Return an error indicator
     }
-    echo "success"; // Return a success indicator
 
+    echo "success";
     $conn->close();
+
+
 }
+
+
+
 
 function facultyAutofill(){
     $conn = connection();
