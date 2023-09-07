@@ -19,12 +19,14 @@
                     <section class="flex-start">
                         <div class="form-group">
                             <label for="start-date">Start Date:</label>
-                            <input type="date" name="start-date" id="">
+                            <input type="date" name="start-date" id="start-date" class="w-25">
                         </div>
                         <div class="form-group">
                             <label for="end-date">Start Date:</label>
-                            <input type="date" name="end-date" id="">
+                            <input type="date" name="end-date" id="end-date" class="w-25">
                         </div>
+                        <p>- or -</p>
+                        <button class="rounded w-25">close form</button>
                     </section>
 
                     <section class="d-flex flex-wrap m-3">
@@ -54,7 +56,7 @@
                 </form>
             </div>
             <div class="modal-footer flex-end">
-                <button type="button" class="red-btn small-btn rounded">Save</button>
+                <button type="button" class="red-btn small-btn rounded" id="save-schedule">Save</button>
                 <button type="button" class="red-btn small-btn rounded" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -94,12 +96,12 @@
                                 can access
                             </label>
                         </div>
-                        <div class="form-group d-flex flex-row">
+                        <!-- <div class="form-group d-flex flex-row">
                             <input class="form-check-input" type="checkbox" name="can_view_results" id="canViewResults">
                             <label class="form-check-label mx-2" for="canViewResults">
                                 can view results
                             </label>
-                        </div>
+                        </div> -->
                         <div class="form-group d-flex flex-row">
                             <input class="form-check-input" type="checkbox" name="can_modify" id="canModify">
                             <label class="form-check-label mx-2" for="canModify">

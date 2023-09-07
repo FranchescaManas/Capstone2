@@ -766,6 +766,29 @@ function userAddUpdate($request){
 
 }
 
+function updateSchedule($formData)
+{
+    $conn = connection();
+
+    // Set `is_open` to 0 for all rows in the `form` table
+    $sql = "UPDATE form SET `is_open` = 0";
+
+    if (!$conn->query($sql)) {
+        die('Error updating schedule: ' . $conn->error);
+    }
+
+    // Loop through the form IDs in $formData and set `is_open` to 1 for each one
+    foreach ($formData as $formID) {
+        $sql = "UPDATE form SET `is_open` = 1 WHERE form_id = $formID";
+
+        if (!$conn->query($sql)) {
+            die('Error updating schedule: ' . $conn->error);
+        }
+    }
+    echo "success";
+}
+
+
 
 
 

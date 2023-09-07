@@ -35,6 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 insertResponse($role, $formData);
                 // print_r($formData);
             }
+            else if($action === 'update schedule'){
+                updateSchedule($formData);
+            }
         }
     }
 

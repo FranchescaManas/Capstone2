@@ -39,9 +39,9 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/shared-functions.php'
 
         <section class="flex-center flex-wrap w-100">
             <input type="text" placeholder="search name" id="txtbx_search"  onkeyup="filterTable()" class="searchbox rounded-pill">
-            <a href="./index.php?page=user&action=student">
+            <!-- <a href="./index.php?page=user&action=student">
                 <button class="rounded custom-btn">Add User</button>
-            </a>
+            </a> -->
             <button class="rounded custom-btn" data-bs-toggle="modal" data-bs-target="#importstudent">Import</button>
         </section>
 
