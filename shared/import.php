@@ -150,6 +150,9 @@ function importFaculty($worksheet) {
 
     $faculty = [];
 
+    $department = ""; // Initialize department
+    $employment_date = ""; // Initialize employment_date
+
     for ($row = 2; $row <= $rowcount; $row++) {
         $facultyNo = $sheet->getCellByColumnAndRow(1, $row)->getValue();
         $firstname = $sheet->getCellByColumnAndRow(2, $row)->getValue();
@@ -159,7 +162,8 @@ function importFaculty($worksheet) {
         $phone = $sheet->getCellByColumnAndRow(6, $row)->getValue();
         $email = $sheet->getCellByColumnAndRow(7, $row)->getValue();
         $employment_status = $sheet->getCellByColumnAndRow(8, $row)->getValue();
-
+        $department = $sheet->getCellByColumnAndRow(9, $row)->getValue();
+        $employment_date = $sheet->getCellByColumnAndRow(10, $row)->getValue();
         // Prepare the user insertion statement
         $insertUsersSQL = "INSERT INTO users (`username`, `password`, `firstname`, `lastname`, `email`, `phone`, `role`)
             VALUES (?, ?, ?, ?, ?, ?, 'faculty');";
@@ -196,6 +200,7 @@ function importFaculty($worksheet) {
                 $program = $sheet2->getCellByColumnAndRow(6, $row2)->getValue();
                 $units = $sheet2->getCellByColumnAndRow(7, $row2)->getValue();
                 $sched = $sheet2->getCellByColumnAndRow(8, $row2)->getValue();
+                
 
                 // Add course data to the faculty's courses array
                 $faculty[$facultyNo]['courses'][] = [
@@ -205,6 +210,8 @@ function importFaculty($worksheet) {
                     'year_level' => $year_level,
                     'section' => $section,
                     'schedule' => parseSchedule($sched),
+                    'department' => $department,
+                    'employment_date' => $employment_date
                 ];
             }
         }
@@ -215,14 +222,18 @@ function importFaculty($worksheet) {
         $employment_status = $facultyData['employment_status'];
         $courses = $facultyData['courses'];
         $userID = $facultyData['user_id'];
+        // $department and $employment_date are already defined
+
+        // Encode JSON data
+        $data = json_encode(['courses' => $courses]);
 
         // Prepare the faculty insertion statement
-        $insertFacultySQL = "INSERT INTO faculty (`faculty_id`, `employment_status`, `data`, `user_id`)
-            VALUES (?, ?, ?, ?);";
+        $insertFacultySQL = "INSERT INTO faculty (`faculty_id`, `employment_status`, `data`, `user_id`, `department`, `employment_date`)
+            VALUES (?, ?, ?, ?, ?, ?);";
 
         // Bind parameters and execute the prepared statement
         $stmt = $conn->prepare($insertFacultySQL);
-        $stmt->bind_param('isss', $facultyID, $employment_status, json_encode(['courses' => $courses]), $userID);
+        $stmt->bind_param('isssss', $facultyID, $employment_status, $data, $userID, $department, $employment_date);
         $stmt->execute();
 
         if (!$stmt->affected_rows > 0) {
