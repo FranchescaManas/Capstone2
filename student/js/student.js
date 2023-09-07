@@ -13,9 +13,6 @@ $(document).ready(function(){
         
         var hasSubmitted = $(this).find('.status-col').text().trim();
         if(hasSubmitted === 'Not Submitted'){
-            // search how to change text color of hasSubmitted
-
- 
 
 
             $(this).addClass('selected');

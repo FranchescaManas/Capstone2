@@ -44,76 +44,94 @@ $role = $_SESSION['role'];
     include '../shared-functions.php';
     include './FormClass.php';
 
-    // creating object to access methods from the FormClass.php
+    
     $form = new Form;
 
-    if (isset($_POST['viewForm'])) {
+    if (isset($_POST['viewForm'])) 
+    {
         $formId = $_POST['viewForm'];
-        
         formContent($formId, $form);
-
-    } else if (isset($_POST['evaluateForm'])) {
-        $formId = $_POST['evaluateForm'];
-        $targetID = 1;
-        formContent($formId, $form, 'evaluate');
-        ?>
-            <script>
-            var formID = <?php echo json_encode($formId); ?>;
-            var userID = <?php echo json_encode($userID); ?>;
-            var targetID = <?php echo json_encode($targetID); ?>;
-            var role = <?php echo json_encode($role); ?>;
-
-            </script>
-        <?php
-    } else {
-        // searches the forms accessible to the current role and id
+    } 
+    else 
+    {
         $formId = $form->getFormID($userID, $role);
-        
-        
 
-        // counts how many forms the user has access to
-        if ($role === 'superadmin') {
-            header('location: ../../' . $role . '/index.php?page=forms');
-        }else if($role === 'student'){
+        if (isset($_POST['target_id'])) 
+        {
             $targetID = $_POST['target_id'];
-        }else{
-            $targetID = 1;
-        }
-        if (count($formId) === 1) {
-            // check the current access that the user has on the form
-            $access = $form->checkAccess($formId[0], $role);
-            $formId = $formId[0];
-            // if user has access then load/generate the form
-            if ($access === 'can access') {
-                $formName = $form->getFormName($formId);
-                formContent($formId, $form, 'evaluate');
-                ?>
-                    <script>
 
-                    var formID = <?php echo json_encode($formId); ?>;
-                    var userID = <?php echo json_encode($userID); ?>;
-                    var role = <?php echo json_encode($role); ?>;
-                    var targetID = <?php echo json_encode($targetID); ?>;
-                    </script>
-                <?php
-                // if user has modification access, then display modify button
-            } else if ($access === 'can modify') {
-                header('location: ../../' . $role . '/index.php?page=forms');
+            if (count($formId) === 1) 
+            {
+                $access = $form->checkAccess($formId[0], $role);
+                if(is_array($formId)){
+                    $formId = $formId[0];
+                }
 
-            } else {
-                // design no permission message
-                echo "no permission to forms";
+                if ($access === 'can access') {
+                    $formName = $form->getFormName($formId);
+                    formContent($formId, $form, 'evaluate');
+    
+                } else if ($access === 'can modify') {
+                    header('location: ../../' . $role . '/index.php?page=forms');
+    
+                } else {
+                    echo "no permission to forms";
+                }
             }
-            // if user has access to more than 1 forms then go the page where it will display the list of forms depending on their role
+            else
+            {
+                header('location: ../../' . $role . '/index.php?page=forms');
+            }
         } else {
 
-            header('location: ../../' . $role . '/index.php?page=forms');
+        
+        //    if(count($formId === 1))
+        //    {
+            
+        //    }
+            if (isset($_POST['evaluateForm'])) 
+            {
+                $formId = $_POST['evaluateForm'];
+                $formName = $form->getFormName($formId);
+                $targetID = $_POST['target_id'];
+                
+                header('location: ./targetForm.php?form=' . $formName);
+
+            }
+            else if(isset($_POST['start_eval']))
+            {
+                $targetID = $_POST['target_id'];
+
+            }
+            else
+            {
+                if ($role !== 'student')
+                {
+                    
+                    if(is_array($formId)){
+                        $formId = $formId[0];
+                    }
+                    $formName = $form->getFormName($formId);
+
+                    header('location: ./targetForm.php?form=' . $formName);
+                } else {
+                    $targetID = $_POST['target_id'];
+                }
+            }
         }
+        ?>
+        <script>
+            var formID = <?php echo json_encode($formId); ?>;
+            var userID = <?php echo json_encode($userID); ?>;
+            var role = <?php echo json_encode($role); ?>;
+            var targetID = <?php echo json_encode($targetID); ?>;
+        </script>
+        <?php
     }
-
-
-
+    
     ?>
+    
+
 
 
     <!-- bootstrap js cdn -->
