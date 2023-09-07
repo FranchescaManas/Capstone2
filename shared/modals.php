@@ -28,6 +28,7 @@ if(isset($_GET['page'])){
             </div>
             <div class="modal-body pt-0">
                 <form action="../shared/import.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="role" value="<?= $role?>">
                     <input type="file" name="excel_file" accept=".xls, .xlsx">
                     <button type="submit" name="submit" class="red-btn small-btn rounded">Save</button>
                     <button type="button" class="red-btn small-btn rounded" data-bs-dismiss="modal">Cancel</button>

@@ -85,6 +85,7 @@ include '../shared-functions.php';
 
 
         ?>
+       
         <script>
             // still in progress
             var autofilldata = <?php echo json_encode($autofill); ?>;
