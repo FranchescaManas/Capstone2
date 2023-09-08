@@ -38,9 +38,7 @@ $role = $_SESSION['role'];
 <body>
 
     <?php
-    // include '../connection.php';
     include '../navbar.php';
-    // include_once '../connection.php';
     include '../shared-functions.php';
     include './FormClass.php';
 
@@ -51,7 +49,8 @@ $role = $_SESSION['role'];
     {
         $formId = $_POST['viewForm'];
         formContent($formId, $form);
-    } 
+    }
+ 
     else 
     {
         $formId = $form->getFormID($userID, $role);
@@ -80,44 +79,83 @@ $role = $_SESSION['role'];
             }
             else
             {
-                header('location: ../../' . $role . '/index.php?page=forms');
+                if(isset($_POST['start_eval'])){
+                    echo "hule";
+                    echo $targetID;
+                    print_r($_POST['start_eval']);
+
+                    $formId = $_POST['start_eval'];
+                    $formName = $form->getFormName($formId);
+                    formContent($formId, $form, 'evaluate');
+                }
+                else{
+
+                    header('location: ../../' . $role . '/index.php?page=forms');
+                }
             }
         } else {
 
         
-        //    if(count($formId === 1))
-        //    {
-            
-        //    }
-            if (isset($_POST['evaluateForm'])) 
-            {
-                $formId = $_POST['evaluateForm'];
-                $formName = $form->getFormName($formId);
-                $targetID = $_POST['target_id'];
+            if($role === 'superadmin'){
+                header('location: ../../' . $role . '/index.php?page=forms');
+
+            }else{
                 
-                header('location: ./targetForm.php?form=' . $formName);
-
-            }
-            else if(isset($_POST['start_eval']))
-            {
-                $targetID = $_POST['target_id'];
-
-            }
-            else
-            {
-                if ($role !== 'student')
-                {
-                    
-                    if(is_array($formId)){
-                        $formId = $formId[0];
+                if(count($formId) > 1){
+                    if (isset($_POST['evaluateForm'])) 
+                    {
+                        $formId = $_POST['evaluateForm'];
+                        $formName = $form->getFormName($formId);
+                        
+                        
+                        header('location: ./targetForm.php?form=' . $formId);
+        
                     }
-                    $formName = $form->getFormName($formId);
+                    else
+                    {
+                        header('location: ../../' . $role . '/index.php?page=forms');
+                    }
 
-                    header('location: ./targetForm.php?form=' . $formName);
-                } else {
-                    $targetID = $_POST['target_id'];
+                }else{
+                    if(!isset($_POST['target_id'])){
+                        if(is_array($formId)){
+                            $formId = $formId[0];
+                        }
+                        header('location: ./targetForm.php?form=' . $formId);
+
+                    }                   
                 }
+                // if (isset($_POST['evaluateForm'])) 
+                // {
+                //     $formId = $_POST['evaluateForm'];
+                //     $formName = $form->getFormName($formId);
+                //     $targetID = $_POST['target_id'];
+                    
+                //     header('location: ./targetForm.php?form=' . $formName);
+    
+                // }
+                // else if(isset($_POST['start_eval']))
+                // {
+                //     $targetID = $_POST['target_id'];
+    
+                // }
+                // else
+                // {
+                //     if ($role !== 'student')
+                //     {
+                        
+                //         if(is_array($formId)){
+                //             $formId = $formId[0];
+                //         }
+                //         $formName = $form->getFormName($formId);
+    
+                //         header('location: ./targetForm.php?form=' . $formName);
+                //     } else {
+                //         $targetID = $_POST['target_id'];
+                //     }
+                // }
             }
+            
         }
         ?>
         <script>

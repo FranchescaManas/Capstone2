@@ -1,9 +1,8 @@
 <?
 session_start();
 include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/connection.php';
-
-
-
+$role = $_SESSION['role'];
+$link = "../../' . $role . '/index.php?page=forms";
 
 ?>
 
@@ -24,14 +23,20 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/connection.php';
     <?php
     include $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/navbar.php';
     include $_SERVER['DOCUMENT_ROOT'] .'/capstone/shared/shared-functions.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/forms/FormClass.php';
+
     $faculty = facultyData();
+    $form = new Form;
+
+    $formName = $form->getFormName($_GET['form']);
     ?>
     <!-- LOGIN FORM -->
     <div class="container text-center" id="login-container">
 
         <div class="d-flex justify-content-center mb-3">
 
-            <h4><?= $_GET['form']?></h4>
+            <h4><?= $formName?></h4>
+
 
         </div>
 
@@ -62,7 +67,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/capstone/shared/connection.php';
             
             
                 
-            <button type="submit" class="rounded-pill fw-bold" name="start_eval">Start Evaluation</button>
+            <button type="submit" class="rounded-pill fw-bold" name="start_eval" value="<?= $_GET['form']?>">Start Evaluation</button>
         </form>
 
 
